@@ -1,16 +1,14 @@
 package com.maic.pooprojeto.lista1.q2;
 
 public class Ingresso {
-    private double valor;
+    protected double valor;
 
-    public double getValor() {
-        return valor;
-    }
-
-    public void setValor(double valor) {
+    public Ingresso(double valor) {
         this.valor = valor;
     }
     
-    solt
+    void imprimirValor(){
+        System.out.println("Valor do ingresso: R$" + valor);
+    }
     
 }
