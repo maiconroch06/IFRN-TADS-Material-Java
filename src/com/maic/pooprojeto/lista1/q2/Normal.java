@@ -2,7 +2,7 @@ package com.maic.pooprojeto.lista1.q2;
 
 public class Normal extends Ingresso {
     
-    void imprime(){
-        System.out.println("Ingresso");
+    public void imprimeTipo(){
+        System.out.println("Ingresso Normal");
     }
 }
