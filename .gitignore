@@ -24,3 +24,4 @@ hs_err_pid*
 replay_pid*
 /src/com/maic/aula/JavaApplication3/nbproject/private/
 nbproject/private/private.xml
+/dist/
