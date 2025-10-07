@@ -5,16 +5,18 @@
  */
 package janelas;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author 20251134040027
  */
-public class cadastro extends javax.swing.JFrame {
+public class Cadastro extends javax.swing.JFrame {
 
     /**
      * Creates new form cadastro
      */
-    public cadastro() {
+    public Cadastro() {
         initComponents();
     }
 
@@ -131,7 +133,13 @@ public class cadastro extends javax.swing.JFrame {
     private void butCadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butCadActionPerformed
         String nome = campNome.getText();
         String cpf = campCPF.getText();
-        int idade = integer.campIdade.getText();
+        
+        //String idade = campIdade.getText(); -> Pegando o valor direto em String.
+        int idade = Integer.parseInt(campIdade.getText());
+        
+        String frase = " Olá, "+ nome + "!\n Você tem " + idade + "anos.\n Seu CPF é: " + cpf; 
+        
+        JOptionPane.showMessageDialog(null, frase);
 
     }//GEN-LAST:event_butCadActionPerformed
 
@@ -160,20 +168,21 @@ public class cadastro extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(cadastro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Cadastro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(cadastro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Cadastro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(cadastro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Cadastro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(cadastro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Cadastro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new cadastro().setVisible(true);
+                new Cadastro().setVisible(true);
             }
         });
     }
