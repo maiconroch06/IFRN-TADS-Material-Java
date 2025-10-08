@@ -4,6 +4,11 @@ public class TelaCalculadora extends javax.swing.JFrame {
 
     public TelaCalculadora() {
         initComponents();
+
+        setLocationRelativeTo(null); // Centraliza a janela na tela
+        setResizable(false); // Deixa a janela com tamanho fixo
+
+        
     }
     
     double num1, num2;
@@ -30,12 +35,12 @@ public class TelaCalculadora extends javax.swing.JFrame {
         botaoIgual = new javax.swing.JButton();
         botaoDividir = new javax.swing.JButton();
         botaoLimpar = new javax.swing.JButton();
-        bptaoVirgula = new javax.swing.JButton();
+        botaoVirgula = new javax.swing.JButton();
         botaoDesligar = new javax.swing.JButton();
         jTFvalor1 = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Calculadora");
+        setTitle("Calculadora Simples");
 
         jTFResultado.setEditable(false);
         jTFResultado.addActionListener(new java.awt.event.ActionListener() {
@@ -156,7 +161,7 @@ public class TelaCalculadora extends javax.swing.JFrame {
             }
         });
 
-        bptaoVirgula.setText(",");
+        botaoVirgula.setText(",");
 
         botaoDesligar.setText("ON/OFF");
         botaoDesligar.addActionListener(new java.awt.event.ActionListener() {
@@ -197,7 +202,7 @@ public class TelaCalculadora extends javax.swing.JFrame {
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                         .addComponent(botao9, javax.swing.GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE)
-                                        .addComponent(bptaoVirgula, javax.swing.GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE)
+                                        .addComponent(botaoVirgula, javax.swing.GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE)
                                         .addComponent(botaoDividir, javax.swing.GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE)
                                         .addComponent(botao6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                                 .addGroup(layout.createSequentialGroup()
@@ -249,7 +254,7 @@ public class TelaCalculadora extends javax.swing.JFrame {
                             .addComponent(botao1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(bptaoVirgula, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(botaoVirgula, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(botao0, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addComponent(botaoIgual, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
@@ -321,8 +326,13 @@ public class TelaCalculadora extends javax.swing.JFrame {
                 jTFResultado.setText(String.valueOf(num1 * num2));
                 break;
             case "divisao":
+                if (num2 == 0) {
+                    jTFResultado.setText("Erro");
+                    return;
+                }
                 jTFResultado.setText(String.valueOf(num1 / num2));
                 break;
+
             default:
                 break;
         }
@@ -358,6 +368,10 @@ public class TelaCalculadora extends javax.swing.JFrame {
 
     private void botaoLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoLimparActionPerformed
         jTFResultado.setText("");
+        jTFvalor1.setText("");
+        num1 = 0;
+        num2 = 0;
+        operacao = null;
     }//GEN-LAST:event_botaoLimparActionPerformed
 
     public static void main(String args[]) {
@@ -387,7 +401,7 @@ public class TelaCalculadora extends javax.swing.JFrame {
     private javax.swing.JButton botaoMais;
     private javax.swing.JButton botaoMenos;
     private javax.swing.JButton botaoVezes;
-    private javax.swing.JButton bptaoVirgula;
+    private javax.swing.JButton botaoVirgula;
     private javax.swing.JTextField jTFResultado;
     private javax.swing.JTextField jTFvalor1;
     // End of variables declaration//GEN-END:variables
