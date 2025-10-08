@@ -336,18 +336,21 @@ public class TelaCalculadora extends javax.swing.JFrame {
     }//GEN-LAST:event_botaoMaisActionPerformed
 
     private void botaoMenosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoMenosActionPerformed
+        jTFvalor1.setText(jTFResultado.getText() + " - ");
         num1 = Double.parseDouble(jTFResultado.getText());
         jTFResultado.setText("");
         operacao = "subtracao";
     }//GEN-LAST:event_botaoMenosActionPerformed
 
     private void botaoVezesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoVezesActionPerformed
+        jTFvalor1.setText(jTFResultado.getText() + " * ");
         num1 = Double.parseDouble(jTFResultado.getText());
         jTFResultado.setText("");
         operacao = "multiplicacao";
     }//GEN-LAST:event_botaoVezesActionPerformed
 
     private void botaoDividirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoDividirActionPerformed
+        jTFvalor1.setText(jTFResultado.getText() + " / ");
         num1 = Double.parseDouble(jTFResultado.getText());
         jTFResultado.setText("");
         operacao = "divisao";
