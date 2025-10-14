@@ -1,9 +1,8 @@
 package GUI;
 
-import classes.*;
 import javax.swing.JOptionPane;
 
-public class ContaBancariaGUI extends javax.swing.JDialog {
+public class ContaBancariaGUI extends javax.swing.JFrame {
 
     public ContaBancariaGUI() {
         initComponents();

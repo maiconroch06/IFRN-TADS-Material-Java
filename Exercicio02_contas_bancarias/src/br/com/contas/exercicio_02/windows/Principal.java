@@ -351,6 +351,7 @@ public class Principal extends javax.swing.JFrame {
 
     private void MnCadastroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnCadastroActionPerformed
         Cadastrar guicad = new Cadastrar(new javax.swing.JFrame(), true);
+        guicad.setCadastro(cadastroConta);
         guicad.setModal(true);
         guicad.setVisible(true);
 

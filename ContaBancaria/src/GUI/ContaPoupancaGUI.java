@@ -1,6 +1,6 @@
 package GUI;
 
-public class ContaPoupancaGUI extends javax.swing.JDialog {
+public class ContaPoupancaGUI extends javax.swing.JFrame {
 /*
     public ContaPoupancaGUI(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
