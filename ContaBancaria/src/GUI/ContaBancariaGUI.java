@@ -227,7 +227,7 @@ public class ContaBancariaGUI extends javax.swing.JDialog {
     }//GEN-LAST:event_btnCadastrarContaAncestorAdded
 
     private void btnCadastrarContaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarContaActionPerformed
-        /*if (!txtNomeContabancaria.getText().trim().toUpperCase().isEmpty() && !txtSaldoContaBancaria.getText().trim().isEmpty()) {
+        if (!txtNomeContabancaria.getText().trim().toUpperCase().isEmpty() && !txtSaldoContaBancaria.getText().trim().isEmpty()) {
             double saldo = Double.parseDouble(txtSaldoContaBancaria.getText().trim());
             if (saldo >= 0) {
                 cb = new ContaBancariaGUI();
@@ -242,7 +242,7 @@ public class ContaBancariaGUI extends javax.swing.JDialog {
 
         } else {
             JOptionPane.showMessageDialog(null, "Por favor, preencha o nome e o saldo da conta!");
-        }*/
+        }
     }//GEN-LAST:event_btnCadastrarContaActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -254,10 +254,10 @@ public class ContaBancariaGUI extends javax.swing.JDialog {
     }//GEN-LAST:event_jLabel3AncestorAdded
 
     private void jLabel4AncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_jLabel4AncestorAdded
-        /*if (cb != null) {
+        if (cb != null) {
             txtNomeContabancaria.setText(cb.getNome().toUpperCase());
             txtSaldoContaBancaria.setText(String.valueOf(cb.getSaldo()));
-        }*/
+        }
     }//GEN-LAST:event_jLabel4AncestorAdded
 
     private void txtNomeContabancaria1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNomeContabancaria1ActionPerformed
@@ -273,7 +273,7 @@ public class ContaBancariaGUI extends javax.swing.JDialog {
     }//GEN-LAST:event_btnCadastrarConta1AncestorAdded
 
     private void btnCadastrarConta1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarConta1ActionPerformed
-        /*if (!txtNomeContabancaria.getText().trim().toUpperCase().isEmpty() && !txtSaldoContaBancaria.getText().trim().isEmpty()) {
+        if (!txtNomeContabancaria.getText().trim().toUpperCase().isEmpty() && !txtSaldoContaBancaria.getText().trim().isEmpty()) {
             double saldo = Double.parseDouble(txtSaldoContaBancaria.getText().trim());
             if (saldo >= 0) {
                 cb = new ContaBancariaGUI();
@@ -288,7 +288,7 @@ public class ContaBancariaGUI extends javax.swing.JDialog {
 
         } else {
             JOptionPane.showMessageDialog(null, "Por favor, preencha o nome e o saldo da conta!");
-        }*/
+        }
     }//GEN-LAST:event_btnCadastrarConta1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -296,7 +296,7 @@ public class ContaBancariaGUI extends javax.swing.JDialog {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     public static void main(String args[]) {
-/*
+
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -326,7 +326,7 @@ public class ContaBancariaGUI extends javax.swing.JDialog {
                 dialog.setVisible(true);
             }
         });
-*/
+
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
