@@ -43,6 +43,7 @@ public class ContaPoupancaGUI extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Conta poupança");
 
+        txtSaldoContaPoupaca.setEditable(false);
         txtSaldoContaPoupaca.setText("0");
         txtSaldoContaPoupaca.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -54,10 +55,10 @@ public class ContaPoupancaGUI extends javax.swing.JDialog {
 
         jLabel1.setText("Nome:");
         jLabel1.addAncestorListener(new javax.swing.event.AncestorListener() {
-            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
-            }
             public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
                 jLabel1AncestorAdded(evt);
+            }
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
             }
             public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
             }
@@ -65,12 +66,14 @@ public class ContaPoupancaGUI extends javax.swing.JDialog {
 
         jLabel2.setText("Saldo");
 
+        txtNomeContabancaria.setEditable(false);
         txtNomeContabancaria.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtNomeContabancariaActionPerformed(evt);
             }
         });
 
+        txtSaldoContaBancaria.setEditable(false);
         txtSaldoContaBancaria.setText("0");
         txtSaldoContaBancaria.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

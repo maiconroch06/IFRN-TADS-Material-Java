@@ -43,6 +43,7 @@ public class Principal extends javax.swing.JFrame {
         jMenuItem1 = new javax.swing.JMenuItem();
         MnPoupanca = new javax.swing.JMenuItem();
         MnContaCorrente = new javax.swing.JMenuItem();
+        MnCadastro = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
@@ -70,11 +71,11 @@ public class Principal extends javax.swing.JFrame {
         });
 
         jLabel1.addAncestorListener(new javax.swing.event.AncestorListener() {
-            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
-                jLabel1AncestorMoved(evt);
-            }
             public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
                 jLabel1AncestorAdded(evt);
+            }
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+                jLabel1AncestorMoved(evt);
             }
             public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
             }
@@ -113,6 +114,14 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         jMenu1.add(MnContaCorrente);
+
+        MnCadastro.setText("Cadastro");
+        MnCadastro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MnCadastroActionPerformed(evt);
+            }
+        });
+        jMenu1.add(MnCadastro);
 
         jMenuBar1.add(jMenu1);
 
@@ -364,6 +373,22 @@ public class Principal extends javax.swing.JFrame {
         ImagemFundo();        // TODO add your handling code here:
     }//GEN-LAST:event_jLabel1AncestorAdded
 
+    private void MnCadastroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnCadastroActionPerformed
+        Cadastrar guicad = new Cadastrar(new javax.swing.JFrame(), true);
+        guicad.setModal(true);
+        guicad.setVisible(true);
+
+        Cadastrar novoCadastro = guicad.getCadastrar();
+
+        if (novoCadastro != null) {
+            //System.out.println("Cadastro criado: " + novoCadastro.getnome());
+        }
+
+        
+        
+        
+    }//GEN-LAST:event_MnCadastroActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -402,10 +427,12 @@ public class Principal extends javax.swing.JFrame {
     private ContaBancaria contaBancaria = null;
     private ContaPoupanca contaPoupanca = null;
     private ContaCorrente contaCorrente = null;
+    private Cadastrar cadastroConta = null;
     private OperacoesBancarias operacoesBancarias = new OperacoesBancarias();
     private Image imagemFundo;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem MnCadastro;
     private javax.swing.JMenuItem MnContaCorrente;
     private javax.swing.JMenuItem MnPoupanca;
     private javax.swing.JLabel jLabel1;

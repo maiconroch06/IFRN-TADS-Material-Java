@@ -39,6 +39,11 @@ public class ContaCorrenteGUI extends javax.swing.JDialog {
         BotaoSalvar = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         txtSaldoContaCorrente = new javax.swing.JTextField();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItem3 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Conta Corrente");
@@ -46,10 +51,10 @@ public class ContaCorrenteGUI extends javax.swing.JDialog {
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel1.setText("Nome:");
         jLabel1.addAncestorListener(new javax.swing.event.AncestorListener() {
-            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
-            }
             public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
                 jLabel1AncestorAdded(evt);
+            }
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
             }
             public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
             }
@@ -61,6 +66,7 @@ public class ContaCorrenteGUI extends javax.swing.JDialog {
         jblSaldo.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jblSaldo.setText("Saldo:");
 
+        txtNomeContaCorrente.setEditable(false);
         txtNomeContaCorrente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtNomeContaCorrenteActionPerformed(evt);
@@ -75,7 +81,7 @@ public class ContaCorrenteGUI extends javax.swing.JDialog {
             }
         });
 
-        BotaoSalvar.setText("Cadastrar Conta");
+        BotaoSalvar.setText("Op");
         BotaoSalvar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BotaoSalvarActionPerformed(evt);
@@ -144,6 +150,29 @@ public class ContaCorrenteGUI extends javax.swing.JDialog {
                 .addContainerGap(31, Short.MAX_VALUE))
         );
 
+        jMenu1.setText("Operações Bancarias");
+
+        jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F2, 0));
+        jMenuItem1.setText("Creditar na Conta Corrente");
+        jMenu1.add(jMenuItem1);
+
+        jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F3, 0));
+        jMenuItem2.setText("Debitar ContaCorrente");
+        jMenu1.add(jMenuItem2);
+
+        jMenuItem3.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, 0));
+        jMenuItem3.setText("Tranferência entre Contas correntes");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem3);
+
+        jMenuBar1.add(jMenu1);
+
+        setJMenuBar(jMenuBar1);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -170,21 +199,7 @@ public class ContaCorrenteGUI extends javax.swing.JDialog {
     }//GEN-LAST:event_txtlimiteContaCorrenteActionPerformed
 
     private void BotaoSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotaoSalvarActionPerformed
-        if (!txtNomeContaCorrente.getText().trim().toUpperCase().isEmpty() && !txtSaldoContaCorrente.getText().trim().isEmpty()) {
-            double saldo = Double.parseDouble(txtSaldoContaCorrente.getText().trim());
-            if (saldo >= 0) {
-                cc = new ContaCorrente();
-                cc.setNome(txtNomeContaCorrente.getText().trim().toUpperCase());
-                cc.setSaldo(saldo);
-                JOptionPane.showMessageDialog(this, cc.showSaldo());
-                dispose();
-            } else {
-                JOptionPane.showMessageDialog(null, "Por favor, preencha o saldo com valor a partir de R$ 0 reais!");
-
-            }
-        } else {
-            JOptionPane.showMessageDialog(null, "Por favor, preencha o nome e o saldo da conta!");
-        }
+    
     }//GEN-LAST:event_BotaoSalvarActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -203,6 +218,10 @@ public class ContaCorrenteGUI extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtSaldoContaCorrenteActionPerformed
 
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -211,6 +230,11 @@ public class ContaCorrenteGUI extends javax.swing.JDialog {
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel jblSaldo;
     private javax.swing.JTextField txtNomeContaCorrente;

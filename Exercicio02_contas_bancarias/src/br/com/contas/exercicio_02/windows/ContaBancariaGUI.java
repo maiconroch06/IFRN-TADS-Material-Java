@@ -48,9 +48,9 @@ public class ContaBancariaGUI extends javax.swing.JDialog {
             public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
                 jLabel1AncestorAdded(evt);
             }
-            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
-            }
             public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+            }
+            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
             }
         });
 
@@ -59,18 +59,20 @@ public class ContaBancariaGUI extends javax.swing.JDialog {
             public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
                 jLabel2AncestorAdded(evt);
             }
-            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
-            }
             public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+            }
+            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
             }
         });
 
+        txtNomeContabancaria.setEditable(false);
         txtNomeContabancaria.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtNomeContabancariaActionPerformed(evt);
             }
         });
 
+        txtSaldoContaBancaria.setEditable(false);
         txtSaldoContaBancaria.setText("0");
         txtSaldoContaBancaria.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -88,9 +90,9 @@ public class ContaBancariaGUI extends javax.swing.JDialog {
             public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
                 btnCadastrarContaAncestorAdded(evt);
             }
-            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
-            }
             public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+            }
+            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
             }
         });
         btnCadastrarConta.addActionListener(new java.awt.event.ActionListener() {
