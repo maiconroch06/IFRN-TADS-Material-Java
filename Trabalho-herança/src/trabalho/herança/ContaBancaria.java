@@ -1,8 +1,11 @@
 package trabalho.herança;
 
+import javax.swing.JOptionPane;
+
 
 public class ContaBancaria {
     private String nome;
+    private Integer numConta;
     private double saldo;
 
     public ContaBancaria(String nome, double saldoInicial) {
@@ -20,6 +23,14 @@ public class ContaBancaria {
         this.nome = nome;
     }
 
+    public int getNumConta() {
+        return numConta;
+    }
+
+    public void setNumConta(int numeroConta) {
+        this.numConta = numeroConta;
+    }
+    
     public double getSaldo() {
         return saldo;
     }
@@ -33,14 +44,18 @@ public class ContaBancaria {
     }
 
     public void creditar(double valor) {
-        saldo += valor;
+        if(valor > saldo) {
+            saldo += valor;
+        } else {
+            JOptionPane.showMessageDialog(null, "Deposite um valor acima do numero 0(zero)!");
+        }
     }
 
     public void debitar(double valor) {
         if (valor <= saldo) {
             saldo -= valor;
         } else {
-            System.out.println("Saldo insuficiente!");
+            JOptionPane.showMessageDialog(null, "Saldo insuficiente!");
         }
     }
 }

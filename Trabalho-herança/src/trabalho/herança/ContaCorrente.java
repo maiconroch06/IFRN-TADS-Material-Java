@@ -3,7 +3,7 @@ package trabalho.herança;
 public class ContaCorrente extends ContaBancaria {
     private final double limite = 100.0;
 
-    public ContaCorrente(String nome, double saldoInicial) {
+    public ContaCorrente(Integer numeroConta, String nome, double saldoInicial) {
         super(nome, saldoInicial);
     }
 
