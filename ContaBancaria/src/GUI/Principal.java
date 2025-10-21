@@ -103,9 +103,7 @@ public class Principal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void MnCorrenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnCorrenteActionPerformed
-        ContaCorrenteGUI cc = new ContaCorrenteGUI();
-        cc.setVisible(true);            // Mostrar a janela
-        cc.setLocationRelativeTo(null); // Centralizar tela
+        
 
     }//GEN-LAST:event_MnCorrenteActionPerformed
 

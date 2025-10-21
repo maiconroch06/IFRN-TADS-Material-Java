@@ -131,7 +131,7 @@ public class Cadastrar extends javax.swing.JDialog {
     }//GEN-LAST:event_BtCancelarActionPerformed
 
     private void BtCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtCadastrarActionPerformed
-        if (txtNome.getText().trim().length() >= 3 && txtSenha.getPassword().length > 0) {
+        if (txtNome.getText().trim().length() >= 3 && txtSenha.getPassword().length >= 4) {
             String nome = txtNome.getText().trim();
             String senha = new String(txtSenha.getPassword()); // ainda não serve de algo
 
@@ -163,8 +163,9 @@ public class Cadastrar extends javax.swing.JDialog {
                 
             } 
             
-        } else {
-            JOptionPane.showMessageDialog(null, "Por favor, preencha o nome e senha da conta!");
+         } else if (txtNome.getText().trim().length() == 0 && txtSenha.getPassword().length == 0){
+            JOptionPane.showMessageDialog(this, "Por favor, preencha o nome e senha da conta!");
+            
         }
             
     }//GEN-LAST:event_BtCadastrarActionPerformed
