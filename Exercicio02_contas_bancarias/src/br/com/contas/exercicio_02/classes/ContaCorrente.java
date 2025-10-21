@@ -2,7 +2,7 @@ package br.com.contas.exercicio_02.classes;
 
 public class ContaCorrente extends ContaBancaria {
 
-    private  double LIMITE_CREDITO = 100;
+    private final double LIMITE_CREDITO = getSaldo() * 10;
 
       public double getLimiteCredito() {
         return LIMITE_CREDITO;

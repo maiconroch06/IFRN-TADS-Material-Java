@@ -4,7 +4,6 @@ import classes.ContaBancaria;
 import classes.ContaPoupanca;
 import classes.ContaCorrente;
 import classes.Operacoes;
-import javax.swing.JOptionPane;
 
 public class Principal extends javax.swing.JFrame {
 
@@ -21,6 +20,7 @@ public class Principal extends javax.swing.JFrame {
         MnBancaria = new javax.swing.JMenuItem();
         MnCorrente = new javax.swing.JMenuItem();
         MnPoupanca = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
         jMenu6 = new javax.swing.JMenu();
         MnDebitar = new javax.swing.JMenuItem();
         MnCreditar = new javax.swing.JMenuItem();
@@ -57,6 +57,15 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         jMenu2.add(MnPoupanca);
+
+        jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F5, 0));
+        jMenuItem1.setText("Cadastrar Contas");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem1);
 
         jMenuBar1.add(jMenu2);
 
@@ -103,7 +112,11 @@ public class Principal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void MnCorrenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnCorrenteActionPerformed
+        ContaCorrenteGUI guiContaCorrente = new ContaCorrenteGUI();
+        guiContaCorrente.setVisible(true);            // Mostrar a janela
+        guiContaCorrente.setLocationRelativeTo(null); // Centralizar tela
         
+        // contaCorrente = guiContaCorrente.getContaCorrente; - pegar valor do objeto de outra janela para esta.
 
     }//GEN-LAST:event_MnCorrenteActionPerformed
 
@@ -127,6 +140,10 @@ public class Principal extends javax.swing.JFrame {
         cb.setLocationRelativeTo(null); // Centralizar tela
         
     }//GEN-LAST:event_MnBancariaActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
 
 
     public static void main(String args[]) {
@@ -154,5 +171,6 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu6;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     // End of variables declaration//GEN-END:variables
 }
