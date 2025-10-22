@@ -3,7 +3,7 @@ package trabalho.herança;
 public class ContaPoupanca extends ContaBancaria {
     private double saldoPoupanca;
 
-    public ContaPoupanca(Integer numConta, String nome, double saldoInicial) {
+    public ContaPoupanca(String numConta, String nome, double saldoInicial) {
         this.saldoPoupanca = 0.0;
     }
 

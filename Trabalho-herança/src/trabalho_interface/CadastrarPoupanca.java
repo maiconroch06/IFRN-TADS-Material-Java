@@ -36,18 +36,18 @@ public class CadastrarPoupanca extends javax.swing.JDialog {
         txtNome = new javax.swing.JTextField();
         BtCadastro = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
-        txtNumerConta = new javax.swing.JTextField();
         BtVoltar = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
+        txtNumConta = new javax.swing.JFormattedTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setText("Nome:");
         jLabel1.addAncestorListener(new javax.swing.event.AncestorListener() {
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+            }
             public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
                 jLabel1AncestorAdded(evt);
-            }
-            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
             }
             public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
             }
@@ -68,12 +68,6 @@ public class CadastrarPoupanca extends javax.swing.JDialog {
 
         jLabel3.setText("Numero da Conta:");
 
-        txtNumerConta.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtNumerContaActionPerformed(evt);
-            }
-        });
-
         BtVoltar.setText("Voltar");
         BtVoltar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -84,12 +78,18 @@ public class CadastrarPoupanca extends javax.swing.JDialog {
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel2.setText("Cadastro de Conta");
 
+        try {
+            txtNumConta.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("########-#")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(75, Short.MAX_VALUE)
                 .addComponent(jLabel2)
                 .addGap(71, 71, 71))
             .addGroup(layout.createSequentialGroup()
@@ -105,8 +105,8 @@ public class CadastrarPoupanca extends javax.swing.JDialog {
                             .addComponent(jLabel1))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtNome)
-                            .addComponent(txtNumerConta, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(txtNome, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
+                            .addComponent(txtNumConta))))
                 .addContainerGap(56, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -117,7 +117,7 @@ public class CadastrarPoupanca extends javax.swing.JDialog {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(txtNumerConta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtNumConta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -133,29 +133,20 @@ public class CadastrarPoupanca extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNomeActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_txtNomeActionPerformed
 
     private void BtCadastroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtCadastroActionPerformed
         // Fecha a janela atual
         this.dispose();
 
-        // Obtém o nome e o saldo digitados
+        // Obtém o nome e o numero da conta digitados
         String nome = txtNome.getText().trim();
-        String numConta = txtNumerConta.getText().trim();
-        
+        String numConta = txtNumConta.getText().trim();
+        double saldoInicial = 0.0;
         
         // Verifica se os dois campos de textos estão vazios
         if (nome.isEmpty() || numConta.isEmpty()) {
             javax.swing.JOptionPane.showMessageDialog(this, "Por favor, preencha o nome e o saldo antes de continuar.");
-            return;
-        }
-
-        double saldoInicial = 0.0;
-        try {
-            saldoInicial = Double.parseDouble(numConta);
-        } catch (NumberFormatException e) {
-            javax.swing.JOptionPane.showMessageDialog(this, "Saldo inválido. Digite um número válido.");
             return;
         }
 
@@ -164,8 +155,6 @@ public class CadastrarPoupanca extends javax.swing.JDialog {
 
         // Exemplo: exibe dados no console (ou envia para outra tela)
         JOptionPane.showMessageDialog(this, "Conta poupança criada com sucesso\n Nome: " + contaPoupanca.getNome()+"Saldo: " + contaPoupanca.getSaldo()+"Saldo Poupança: " + contaPoupanca.getSaldoPoupanca());
-
-   
         
     }//GEN-LAST:event_BtCadastroActionPerformed
 
@@ -173,13 +162,10 @@ public class CadastrarPoupanca extends javax.swing.JDialog {
        
         if (contaPoupanca != null){
             txtNome.setText(contaPoupanca.getNome());
-            txtNumerConta.setText(contaPoupanca.getSaldo()+"");
+            txtNumConta.setText(contaPoupanca.getSaldo()+"");
         }
         
     }//GEN-LAST:event_jLabel1AncestorAdded
-
-    private void txtNumerContaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNumerContaActionPerformed
-    }//GEN-LAST:event_txtNumerContaActionPerformed
 
     private void BtVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtVoltarActionPerformed
         ContaPoupancaGUI Ccp = new ContaPoupancaGUI();
@@ -224,7 +210,6 @@ public class CadastrarPoupanca extends javax.swing.JDialog {
     }
 
     private ContaPoupanca contaPoupanca = null;
-    private ContaCorrente contaCorrente = null;
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BtCadastro;
@@ -234,7 +219,7 @@ public class CadastrarPoupanca extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JTextField txtNome;
-    private javax.swing.JTextField txtNumerConta;
+    private javax.swing.JFormattedTextField txtNumConta;
     // End of variables declaration//GEN-END:variables
 
     public ContaPoupanca getContaPoupanca() {
@@ -245,12 +230,4 @@ public class CadastrarPoupanca extends javax.swing.JDialog {
         this.contaPoupanca = contaPoupanca;
     }
 
-    public ContaCorrente getContaCorrente() {
-        return contaCorrente;
-    }
-
-    public void setContaCorrente(ContaCorrente contaCorrente) {
-        this.contaCorrente = contaCorrente;
-    }
-    
 }

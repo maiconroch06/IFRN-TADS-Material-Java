@@ -15,6 +15,8 @@ public class Main extends javax.swing.JFrame {
     private void initComponents() {
 
         jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu3 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
         jMenu1 = new javax.swing.JMenu();
         MnContaPoupanca = new javax.swing.JMenuItem();
         MnContaCorrente = new javax.swing.JMenuItem();
@@ -25,6 +27,24 @@ public class Main extends javax.swing.JFrame {
         jMenuItem6 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+
+        jMenu3.setText("Sair");
+        jMenu3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenu3ActionPerformed(evt);
+            }
+        });
+
+        jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F1, 0));
+        jMenuItem1.setText("Sair do Programa");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItem1);
+
+        jMenuBar1.add(jMenu3);
 
         jMenu1.setText("Contas");
 
@@ -82,17 +102,25 @@ public class Main extends javax.swing.JFrame {
 
     private void MnContaCorrenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnContaCorrenteActionPerformed
         //this.dispose();
-        ContaCorrenteGUI CCgui = new ContaCorrenteGUI();
-        CCgui.setVisible(true);
+        ContaCorrenteGUI guiCC = new ContaCorrenteGUI();
+        guiCC.setVisible(true);
         
         
     }//GEN-LAST:event_MnContaCorrenteActionPerformed
 
     private void MnContaPoupancaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnContaPoupancaActionPerformed
         //this.dispose();
-        ContaPoupancaGUI CPgui = new ContaPoupancaGUI();
-        CPgui.setVisible(true);
+        ContaPoupancaGUI guiCP = new ContaPoupancaGUI();
+        guiCP.setVisible(true);
     }//GEN-LAST:event_MnContaPoupancaActionPerformed
+
+    private void jMenu3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu3ActionPerformed
+        
+    }//GEN-LAST:event_jMenu3ActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        System.exit(EXIT_ON_CLOSE);
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -138,15 +166,17 @@ public class Main extends javax.swing.JFrame {
 
     private ContaCorrente contaCorrente = null;
     private ContaPoupanca contaPoupanca = null;
-    private HashMap<Integer, ContaCorrente> ListaContasCorrente = new HashMap<>();
-    private HashMap<Integer, ContaPoupanca> ListaContasPoupanca = new HashMap<>();
+    private HashMap<String, ContaCorrente> ListaContasCorrente = new HashMap<>();
+    private HashMap<String, ContaPoupanca> ListaContasPoupanca = new HashMap<>();
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem MnContaCorrente;
     private javax.swing.JMenuItem MnContaPoupanca;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;

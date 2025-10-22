@@ -5,16 +5,11 @@ import javax.swing.JOptionPane;
 
 public class ContaBancaria {
     private String nome;
-    private Integer numConta;
+    private String numConta;
     private double saldo;
-
-    public ContaBancaria(String nome, double saldoInicial) {
-        this.nome = nome;
-        this.saldo = saldoInicial;
-    }
     
     public ContaBancaria(){}
-
+ 
     public String getNome() {
         return nome;
     }
@@ -23,19 +18,19 @@ public class ContaBancaria {
         this.nome = nome;
     }
 
-    public int getNumConta() {
+    public String getNumConta() {
         return numConta;
     }
 
-    public void setNumConta(int numeroConta) {
-        this.numConta = numeroConta;
+    public void setNumConta(String numConta) {
+        this.numConta = numConta;
     }
     
     public double getSaldo() {
         return saldo;
     }
 
-    protected void setSaldo(double saldo) {
+    public void setSaldo(double saldo) {
         this.saldo = saldo;
     }
 

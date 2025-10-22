@@ -1,24 +1,21 @@
 package trabalho.herança;
 
 public class ContaCorrente extends ContaBancaria {
-    private final double limite = 100.0;
+    
+    private final double LIMITE_CREDITO = getSaldo() * 10;
 
-    public ContaCorrente(Integer numeroConta, String nome, double saldoInicial) {
-        super(nome, saldoInicial);
-    }
-
-    public double getLimite() {
-        return limite;
+    public double getLimiteCredito() {
+        return LIMITE_CREDITO;
     }
 
     @Override
     public void show() {
         System.out.println("Olá " + getNome() + 
-            ", seu saldo é: " + (getSaldo() + limite) + " reais já incluso os 100 reais de crédito.");
+                ", seu saldo é: " + (getSaldo() + LIMITE_CREDITO) + " reais já incluso os 100 reais de crédito.");
     }
 
     public double mostrarSaldoTotal() {
-        return getSaldo() + limite;
+        return getSaldo() + LIMITE_CREDITO;
     }
 }
 
