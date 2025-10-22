@@ -180,21 +180,17 @@ public class CadastrarCorrente extends javax.swing.JDialog {
     }//GEN-LAST:event_BtCadastroActionPerformed
 
     private void jLabel1AncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_jLabel1AncestorAdded
-       
-        if (CC != null){
+        /*if (CC != null){
             txtNome.setText(CC.getNome());
             txtNumConta.setText(CC.getSaldo()+"");
-        }
+        }*/
     }//GEN-LAST:event_jLabel1AncestorAdded
 
     private void BtVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtVoltarActionPerformed
-        ContaCorrenteGUI Ccc = new ContaCorrenteGUI();
-        Ccc.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_BtVoltarActionPerformed
 
     private void txtNumContaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNumContaActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_txtNumContaActionPerformed
 
     private void jLabel2AncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_jLabel2AncestorAdded

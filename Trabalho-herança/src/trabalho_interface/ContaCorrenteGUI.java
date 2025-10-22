@@ -159,7 +159,7 @@ public class ContaCorrenteGUI extends javax.swing.JDialog {
 
     private void BtTelaCadastroCorrenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtTelaCadastroCorrenteActionPerformed
         // Fecha a janela atual
-        this.dispose();
+        //this.dispose();
         
         CadastrarCorrente C = new CadastrarCorrente();
         C.setModal(true);

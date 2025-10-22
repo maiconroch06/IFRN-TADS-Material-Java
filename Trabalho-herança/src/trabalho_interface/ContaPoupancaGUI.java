@@ -24,7 +24,6 @@ public class ContaPoupancaGUI extends javax.swing.JDialog {
         jLabel5 = new javax.swing.JLabel();
         txtCaixa = new javax.swing.JTextField();
         jButton2 = new javax.swing.JButton();
-        BtTelaCadastroPoupanca = new javax.swing.JToggleButton();
 
         jLabel4.setText("jLabel4");
 
@@ -75,39 +74,29 @@ public class ContaPoupancaGUI extends javax.swing.JDialog {
             }
         });
 
-        BtTelaCadastroPoupanca.setText("Cadastro");
-        BtTelaCadastroPoupanca.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BtTelaCadastroPoupancaActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(52, 52, 52)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel5))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtSaldo, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtCaixa, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap(16, Short.MAX_VALUE)
-                        .addComponent(jButton2)
-                        .addGap(18, 18, 18)
-                        .addComponent(BtVoltar, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(BtTelaCadastroPoupanca)))
-                .addContainerGap())
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(52, 52, 52)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(jLabel3)
+                        .addComponent(jLabel2)
+                        .addComponent(jLabel5))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtSaldo, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtCaixa, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createSequentialGroup()
+                    .addContainerGap(16, Short.MAX_VALUE)
+                    .addComponent(jButton2)
+                    .addGap(18, 18, 18)
+                    .addComponent(BtVoltar, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(105, 105, 105)))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(jLabel1)
@@ -133,8 +122,7 @@ public class ContaPoupancaGUI extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(BtVoltar)
-                    .addComponent(jButton2)
-                    .addComponent(BtTelaCadastroPoupanca))
+                    .addComponent(jButton2))
                 .addContainerGap())
         );
 
@@ -145,13 +133,8 @@ public class ContaPoupancaGUI extends javax.swing.JDialog {
         //Main CP = new Main();
         //CP.setVisible(true);
         this.dispose();
-    }//GEN-LAST:event_BtVoltarActionPerformed
-
-    private void txtNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNomeActionPerformed
-    }//GEN-LAST:event_txtNomeActionPerformed
-
-    private void BtTelaCadastroPoupancaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtTelaCadastroPoupancaActionPerformed
-
+        
+        // comandos de cadastro poupanca
         this.setVisible(false);
       
         CadastrarPoupanca C = new CadastrarPoupanca();
@@ -169,7 +152,10 @@ public class ContaPoupancaGUI extends javax.swing.JDialog {
         }
         
         this.setVisible(true);
-    }//GEN-LAST:event_BtTelaCadastroPoupancaActionPerformed
+    }//GEN-LAST:event_BtVoltarActionPerformed
+
+    private void txtNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNomeActionPerformed
+    }//GEN-LAST:event_txtNomeActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
     }//GEN-LAST:event_jButton2ActionPerformed
@@ -217,7 +203,6 @@ public class ContaPoupancaGUI extends javax.swing.JDialog {
     private ArrayList<ContaPoupanca> lista = new ArrayList<>();
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JToggleButton BtTelaCadastroPoupanca;
     private javax.swing.JButton BtVoltar;
     private javax.swing.JButton jButton2;
     private javax.swing.JDesktopPane jDesktopPane1;

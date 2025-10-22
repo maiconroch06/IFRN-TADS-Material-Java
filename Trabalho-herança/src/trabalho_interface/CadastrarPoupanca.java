@@ -44,10 +44,10 @@ public class CadastrarPoupanca extends javax.swing.JDialog {
 
         jLabel1.setText("Nome:");
         jLabel1.addAncestorListener(new javax.swing.event.AncestorListener() {
-            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
-            }
             public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
                 jLabel1AncestorAdded(evt);
+            }
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
             }
             public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
             }
@@ -168,8 +168,6 @@ public class CadastrarPoupanca extends javax.swing.JDialog {
     }//GEN-LAST:event_jLabel1AncestorAdded
 
     private void BtVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtVoltarActionPerformed
-        ContaPoupancaGUI Ccp = new ContaPoupancaGUI();
-        Ccp.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_BtVoltarActionPerformed
 

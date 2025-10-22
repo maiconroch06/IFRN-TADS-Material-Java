@@ -25,31 +25,60 @@
             </MenuItem>
           </SubComponents>
         </Menu>
+        <Menu class="javax.swing.JMenu" name="MnCadastro">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Cadastro"/>
+          </Properties>
+          <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="MnCadastroCorrente">
+              <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="F2"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Cadastro Corrente"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="MnCadastroCorrenteActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="MnCadastroPoupanca">
+              <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="F3"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Cadastro Poupanca"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="MnCadastroPoupancaActionPerformed"/>
+              </Events>
+            </MenuItem>
+          </SubComponents>
+        </Menu>
         <Menu class="javax.swing.JMenu" name="jMenu1">
           <Properties>
             <Property name="text" type="java.lang.String" value="Contas"/>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="MnContaPoupanca">
-              <Properties>
-                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
-                  <KeyStroke key="F2"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Conta Poupan&#xe7;a"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="MnContaPoupancaActionPerformed"/>
-              </Events>
-            </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="MnContaCorrente">
               <Properties>
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
-                  <KeyStroke key="F3"/>
+                  <KeyStroke key="F5"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Conta Corrente"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="MnContaCorrenteActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="MnContaPoupanca">
+              <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="F4"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Conta Poupan&#xe7;a"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="MnContaPoupancaActionPerformed"/>
               </Events>
             </MenuItem>
           </SubComponents>

@@ -17,9 +17,12 @@ public class Main extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
+        MnCadastro = new javax.swing.JMenu();
+        MnCadastroCorrente = new javax.swing.JMenuItem();
+        MnCadastroPoupanca = new javax.swing.JMenuItem();
         jMenu1 = new javax.swing.JMenu();
-        MnContaPoupanca = new javax.swing.JMenuItem();
         MnContaCorrente = new javax.swing.JMenuItem();
+        MnContaPoupanca = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
@@ -46,18 +49,31 @@ public class Main extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu3);
 
-        jMenu1.setText("Contas");
+        MnCadastro.setText("Cadastro");
 
-        MnContaPoupanca.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F2, 0));
-        MnContaPoupanca.setText("Conta Poupança");
-        MnContaPoupanca.addActionListener(new java.awt.event.ActionListener() {
+        MnCadastroCorrente.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F2, 0));
+        MnCadastroCorrente.setText("Cadastro Corrente");
+        MnCadastroCorrente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                MnContaPoupancaActionPerformed(evt);
+                MnCadastroCorrenteActionPerformed(evt);
             }
         });
-        jMenu1.add(MnContaPoupanca);
+        MnCadastro.add(MnCadastroCorrente);
 
-        MnContaCorrente.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F3, 0));
+        MnCadastroPoupanca.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F3, 0));
+        MnCadastroPoupanca.setText("Cadastro Poupanca");
+        MnCadastroPoupanca.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MnCadastroPoupancaActionPerformed(evt);
+            }
+        });
+        MnCadastro.add(MnCadastroPoupanca);
+
+        jMenuBar1.add(MnCadastro);
+
+        jMenu1.setText("Contas");
+
+        MnContaCorrente.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F5, 0));
         MnContaCorrente.setText("Conta Corrente");
         MnContaCorrente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -65,6 +81,15 @@ public class Main extends javax.swing.JFrame {
             }
         });
         jMenu1.add(MnContaCorrente);
+
+        MnContaPoupanca.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, 0));
+        MnContaPoupanca.setText("Conta Poupança");
+        MnContaPoupanca.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MnContaPoupancaActionPerformed(evt);
+            }
+        });
+        jMenu1.add(MnContaPoupanca);
 
         jMenuBar1.add(jMenu1);
 
@@ -122,6 +147,18 @@ public class Main extends javax.swing.JFrame {
         System.exit(EXIT_ON_CLOSE);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
+    private void MnCadastroCorrenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnCadastroCorrenteActionPerformed
+        CadastrarCorrente Ccc = new CadastrarCorrente();
+        Ccc.setModal(true);
+        Ccc.setVisible(true);
+
+    }//GEN-LAST:event_MnCadastroCorrenteActionPerformed
+
+    private void MnCadastroPoupancaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnCadastroPoupancaActionPerformed
+
+        
+    }//GEN-LAST:event_MnCadastroPoupancaActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -170,6 +207,9 @@ public class Main extends javax.swing.JFrame {
     private HashMap<String, ContaPoupanca> ListaContasPoupanca = new HashMap<>();
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenu MnCadastro;
+    private javax.swing.JMenuItem MnCadastroCorrente;
+    private javax.swing.JMenuItem MnCadastroPoupanca;
     private javax.swing.JMenuItem MnContaCorrente;
     private javax.swing.JMenuItem MnContaPoupanca;
     private javax.swing.JMenu jMenu1;
