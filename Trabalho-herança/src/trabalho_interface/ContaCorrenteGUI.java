@@ -1,6 +1,5 @@
 package trabalho_interface;
 import java.util.HashMap;
-import javax.swing.JOptionPane;
 import trabalho.herança.*;
 
 public class ContaCorrenteGUI extends javax.swing.JDialog {
@@ -28,6 +27,10 @@ public class ContaCorrenteGUI extends javax.swing.JDialog {
         
     }
 
+    private ContaCorrenteGUI() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -41,7 +44,6 @@ public class ContaCorrenteGUI extends javax.swing.JDialog {
         txtNome = new javax.swing.JTextField();
         txtSaldo = new javax.swing.JTextField();
         jButton2 = new javax.swing.JButton();
-        BtTelaCadastroCorrente = new javax.swing.JToggleButton();
         txtNumConta = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
 
@@ -91,14 +93,6 @@ public class ContaCorrenteGUI extends javax.swing.JDialog {
             }
         });
 
-        BtTelaCadastroCorrente.setText("Cadastro");
-        BtTelaCadastroCorrente.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BtTelaCadastroCorrenteActionPerformed(evt);
-            }
-        });
-
-        txtNumConta.setEditable(false);
         txtNumConta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtNumContaActionPerformed(evt);
@@ -111,14 +105,6 @@ public class ContaCorrenteGUI extends javax.swing.JDialog {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap(30, Short.MAX_VALUE)
-                .addComponent(jButton2)
-                .addGap(18, 18, 18)
-                .addComponent(BtVoltar, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(BtTelaCadastroCorrente)
-                .addContainerGap())
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -135,7 +121,13 @@ public class ContaCorrenteGUI extends javax.swing.JDialog {
                         .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtNumConta, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(59, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(63, 63, 63)
+                .addComponent(jButton2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(BtVoltar, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(27, 27, 27))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -154,12 +146,11 @@ public class ContaCorrenteGUI extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(txtSaldo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(BtVoltar)
-                    .addComponent(jButton2)
-                    .addComponent(BtTelaCadastroCorrente))
-                .addContainerGap())
+                    .addComponent(jButton2))
+                .addContainerGap(13, Short.MAX_VALUE))
         );
 
         pack();
@@ -171,27 +162,6 @@ public class ContaCorrenteGUI extends javax.swing.JDialog {
 
     private void txtNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNomeActionPerformed
     }//GEN-LAST:event_txtNomeActionPerformed
-
-    private void BtTelaCadastroCorrenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtTelaCadastroCorrenteActionPerformed
-        CadastrarCorrenteGUI cadastroCorrente = new CadastrarCorrenteGUI(listaContasCorrente);
-        cadastroCorrente.setModal(true);
-        cadastroCorrente.setVisible(true);
-        
-        contaCorrente = cadastroCorrente.getContaCorrente();
-        
-        // Exemplo: exibe dados no console (ou envia para outra tela)
-        
-        this.setVisible(true);
-        
-        if(contaCorrente != null){
-            txtNumConta.setText(contaCorrente.getNumConta());
-            txtNome.setText(contaCorrente.getNome());
-            txtSaldo.setText(contaCorrente.getSaldo()+"");
-        }
-        
-        
-        
-    }//GEN-LAST:event_BtTelaCadastroCorrenteActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
     }//GEN-LAST:event_jButton2ActionPerformed
@@ -233,15 +203,13 @@ public class ContaCorrenteGUI extends javax.swing.JDialog {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                // Apenas para testes fora do Main, cria um HashMap vazio
-                new ContaCorrenteGUI(new HashMap<>()).setVisible(true);
+                new ContaCorrenteGUI().setVisible(true);
             }
         });
     }
 
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JToggleButton BtTelaCadastroCorrente;
     private javax.swing.JButton BtVoltar;
     private javax.swing.JButton jButton2;
     private javax.swing.JDesktopPane jDesktopPane1;

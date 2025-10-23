@@ -1,7 +1,7 @@
 package trabalho_interface;
-import trabalho.herança.*;
-
+import java.util.HashMap;
 import javax.swing.JOptionPane;
+import trabalho.herança.*;
 
 public class CadastrarCorrenteGUI extends javax.swing.JDialog {
 
@@ -10,6 +10,11 @@ public class CadastrarCorrenteGUI extends javax.swing.JDialog {
     public CadastrarCorrenteGUI() {
         initComponents();
         setLocationRelativeTo(null);
+    }
+    
+    // pq importou isso aqui?
+    CadastrarCorrenteGUI(HashMap<String, ContaCorrente> listaContasCorrente) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @SuppressWarnings("unchecked")
@@ -26,13 +31,14 @@ public class CadastrarCorrenteGUI extends javax.swing.JDialog {
         txtNumConta = new javax.swing.JFormattedTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Tela Cadastro Conta Corrente");
 
         jLabel1.setText("Nome:");
         jLabel1.addAncestorListener(new javax.swing.event.AncestorListener() {
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+            }
             public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
                 jLabel1AncestorAdded(evt);
-            }
-            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
             }
             public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
             }
@@ -61,19 +67,19 @@ public class CadastrarCorrenteGUI extends javax.swing.JDialog {
         });
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jLabel2.setText("Cadastro de Conta");
+        jLabel2.setText("Cadastro de Conta Corrente");
         jLabel2.addAncestorListener(new javax.swing.event.AncestorListener() {
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+            }
             public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
                 jLabel2AncestorAdded(evt);
-            }
-            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
             }
             public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
             }
         });
 
         try {
-            txtNumConta.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("########-#")));
+            txtNumConta.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("####-#")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
@@ -87,10 +93,6 @@ public class CadastrarCorrenteGUI extends javax.swing.JDialog {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(75, Short.MAX_VALUE)
-                .addComponent(jLabel2)
-                .addGap(71, 71, 71))
             .addGroup(layout.createSequentialGroup()
                 .addGap(23, 23, 23)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -106,7 +108,11 @@ public class CadastrarCorrenteGUI extends javax.swing.JDialog {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(txtNome, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
                             .addComponent(txtNumConta))))
-                .addContainerGap(56, Short.MAX_VALUE))
+                .addContainerGap(76, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(49, Short.MAX_VALUE)
+                .addComponent(jLabel2)
+                .addGap(32, 32, 32))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -153,19 +159,14 @@ public class CadastrarCorrenteGUI extends javax.swing.JDialog {
             this.dispose();
             
         } else {
-            // Verifica se os dois campos de textos estão vazios
-            javax.swing.JOptionPane.showMessageDialog(this, "Por favor, preencha o nome e o saldo antes de continuar.");
-            return;
+            // Se os dois campos de textos estão vazios
+            JOptionPane.showMessageDialog(this, "Por favor, preencha o nome e o saldo antes de continuar.");
             
         }
 
     }//GEN-LAST:event_BtCadastroActionPerformed
 
     private void jLabel1AncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_jLabel1AncestorAdded
-        /*if (CC != null){
-            txtNome.setText(CC.getNome());
-            txtNumConta.setText(CC.getSaldo()+"");
-        }*/
     }//GEN-LAST:event_jLabel1AncestorAdded
 
     private void BtVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtVoltarActionPerformed
@@ -236,7 +237,7 @@ public class CadastrarCorrenteGUI extends javax.swing.JDialog {
         return CC;
     }
 
-    public void setCC(ContaCorrente CC) {
+    public void setContaCorrente(ContaCorrente CC) {
         this.CC = CC;
     }
     

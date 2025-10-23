@@ -7,8 +7,8 @@ public class Main extends javax.swing.JFrame {
 
     private ContaCorrente contaCorrente = null;
     private ContaPoupanca contaPoupanca = null;
-    private HashMap<String, ContaCorrente> ListaContasCorrente = new HashMap<>();
-    private HashMap<String, ContaPoupanca> ListaContasPoupanca = new HashMap<>();
+    private final HashMap<String, ContaCorrente> ListaContasCorrente = new HashMap<>();
+    private final HashMap<String, ContaPoupanca> ListaContasPoupanca = new HashMap<>();
     
     public Main() {
         initComponents();
@@ -134,18 +134,14 @@ public class Main extends javax.swing.JFrame {
     private void MnContaCorrenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnContaCorrenteActionPerformed
         ContaCorrenteGUI guiCC = new ContaCorrenteGUI(ListaContasCorrente);
         guiCC.setVisible(true);
-        
-        
-        
     }//GEN-LAST:event_MnContaCorrenteActionPerformed
 
     private void MnContaPoupancaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnContaPoupancaActionPerformed
-        ContaPoupancaGUI guiCP = new ContaPoupancaGUI();
+        ContaPoupancaGUI guiCP = new ContaPoupancaGUI(ListaContasPoupanca);
         guiCP.setVisible(true);
     }//GEN-LAST:event_MnContaPoupancaActionPerformed
 
     private void jMenu3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu3ActionPerformed
-        
     }//GEN-LAST:event_jMenu3ActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
@@ -175,7 +171,16 @@ public class Main extends javax.swing.JFrame {
         guiPoupanca.setModal(true);
         guiPoupanca.setVisible(true);
         
+        // Obtém a conta cadastrada
         contaPoupanca = guiPoupanca.getContaPoupanca();
+        
+        if(contaPoupanca != null) {
+            ListaContasPoupanca.put(contaPoupanca.getNumConta(), contaPoupanca);
+            
+            // Exemplo: exibe dados no console (ou envia para outra tela)
+            JOptionPane.showMessageDialog(this, "Conta POUPANÇA criada com sucesso!\n Nome: " + contaPoupanca.getNome()+"Saldo: " + contaPoupanca.getSaldo()+"Saldo Poupança: " + contaPoupanca.getSaldoPoupanca());
+
+        }
         
     }//GEN-LAST:event_MnCadastroPoupancaActionPerformed
 
