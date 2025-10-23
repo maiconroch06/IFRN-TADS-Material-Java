@@ -1,13 +1,31 @@
 package trabalho_interface;
-import java.util.ArrayList;
+import java.util.HashMap;
 import javax.swing.JOptionPane;
 import trabalho.herança.*;
 
 public class ContaCorrenteGUI extends javax.swing.JDialog {
-
-    public ContaCorrenteGUI() {
+    
+    private ContaCorrente contaCorrente = null;
+    private HashMap<String, ContaCorrente> listaContasCorrente;
+    
+    public ContaCorrenteGUI(HashMap<String, ContaCorrente> listaContasCorrente) {
         initComponents();
         setLocationRelativeTo(null);
+        this.listaContasCorrente = listaContasCorrente;
+        
+        if (listaContasCorrente != null && !listaContasCorrente.isEmpty()) {
+            ContaCorrente ultimaConta = null;
+            for (ContaCorrente c : listaContasCorrente.values()) {
+                ultimaConta = c;
+            }
+
+            if (ultimaConta != null) {
+                txtNumConta.setText(ultimaConta.getNumConta());
+                txtNome.setText(ultimaConta.getNome());
+                txtSaldo.setText(String.valueOf(ultimaConta.getSaldo()));
+            }
+        }
+        
     }
 
     @SuppressWarnings("unchecked")
@@ -148,24 +166,20 @@ public class ContaCorrenteGUI extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void BtVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtVoltarActionPerformed
-        //Main CC = new Main();
-        //CC.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_BtVoltarActionPerformed
 
     private void txtNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNomeActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_txtNomeActionPerformed
 
     private void BtTelaCadastroCorrenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtTelaCadastroCorrenteActionPerformed
-        // Fecha a janela atual
-        //this.dispose();
+        CadastrarCorrenteGUI cadastroCorrente = new CadastrarCorrenteGUI(listaContasCorrente);
+        cadastroCorrente.setModal(true);
+        cadastroCorrente.setVisible(true);
         
-        CadastrarCorrente C = new CadastrarCorrente();
-        C.setModal(true);
-        C.setVisible(true);
+        contaCorrente = cadastroCorrente.getContaCorrente();
         
-        contaCorrente = C.getContaCorrente();
+        // Exemplo: exibe dados no console (ou envia para outra tela)
         
         this.setVisible(true);
         
@@ -180,16 +194,11 @@ public class ContaCorrenteGUI extends javax.swing.JDialog {
     }//GEN-LAST:event_BtTelaCadastroCorrenteActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void txtNumContaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNumContaActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_txtNumContaActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -224,13 +233,12 @@ public class ContaCorrenteGUI extends javax.swing.JDialog {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ContaCorrenteGUI().setVisible(true);
+                // Apenas para testes fora do Main, cria um HashMap vazio
+                new ContaCorrenteGUI(new HashMap<>()).setVisible(true);
             }
         });
     }
 
-    private ContaCorrente contaCorrente = null;
-    private ArrayList<ContaPoupanca> lista = new ArrayList<>();
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton BtTelaCadastroCorrente;

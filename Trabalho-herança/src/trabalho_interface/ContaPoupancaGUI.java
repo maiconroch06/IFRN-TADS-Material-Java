@@ -137,7 +137,7 @@ public class ContaPoupancaGUI extends javax.swing.JDialog {
         // comandos de cadastro poupanca
         this.setVisible(false);
       
-        CadastrarPoupanca C = new CadastrarPoupanca();
+        CadastrarPoupancaGUI C = new CadastrarPoupancaGUI();
         C.setContaPoupanca(contaPoupanca);
         C.setModal(true);
         C.setVisible(true);

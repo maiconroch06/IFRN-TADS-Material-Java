@@ -12,12 +12,12 @@ import javax.swing.JOptionPane;
  *
  * @author nuven
  */
-public class CadastrarCorrente extends javax.swing.JDialog {
+public class CadastrarPoupancaGUI extends javax.swing.JDialog {
 
     /**
      * Creates new form Cadastrar
      */
-    public CadastrarCorrente() {
+    public CadastrarPoupancaGUI() {
         initComponents();
         setLocationRelativeTo(null);
     }
@@ -44,10 +44,10 @@ public class CadastrarCorrente extends javax.swing.JDialog {
 
         jLabel1.setText("Nome:");
         jLabel1.addAncestorListener(new javax.swing.event.AncestorListener() {
-            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
-            }
             public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
                 jLabel1AncestorAdded(evt);
+            }
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
             }
             public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
             }
@@ -77,26 +77,12 @@ public class CadastrarCorrente extends javax.swing.JDialog {
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel2.setText("Cadastro de Conta");
-        jLabel2.addAncestorListener(new javax.swing.event.AncestorListener() {
-            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
-            }
-            public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
-                jLabel2AncestorAdded(evt);
-            }
-            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
-            }
-        });
 
         try {
             txtNumConta.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("########-#")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
-        txtNumConta.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtNumContaActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -150,52 +136,40 @@ public class CadastrarCorrente extends javax.swing.JDialog {
     }//GEN-LAST:event_txtNomeActionPerformed
 
     private void BtCadastroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtCadastroActionPerformed
-        // Verificar se os dados faram cadastrados
-        if(!txtNome.getText().trim().isEmpty() && !txtNumConta.getText().trim().isEmpty()){
-            
-            // Obtém o nome e o numero da conta digitados
-            String nome = txtNome.getText().trim();
-            String numConta = txtNumConta.getText().trim();
-            double saldoInicial = 0.0;
-            
-            CC = new ContaCorrente();
-            
-            CC.setNome(nome);
-            CC.setNumConta(numConta);
-            CC.setSaldo(saldoInicial);
-            
-            // Exemplo: exibe dados no console (ou envia para outra tela)
-            JOptionPane.showMessageDialog(this, "Conta CORRENTE criada com sucesso\nNome: " + CC.getNome()+"\nNumero da conta: " + CC.getNumConta()+"\nSaldo: " + CC.getSaldo());
-            
-            // Fecha a janela atual
-            this.dispose();
-            
-        } else {
-            // Verifica se os dois campos de textos estão vazios
+        // Fecha a janela atual
+        this.dispose();
+
+        // Obtém o nome e o numero da conta digitados
+        String nome = txtNome.getText().trim();
+        String numConta = txtNumConta.getText().trim();
+        double saldoInicial = 0.0;
+        
+        // Verifica se os dois campos de textos estão vazios
+        if (nome.isEmpty() || numConta.isEmpty()) {
             javax.swing.JOptionPane.showMessageDialog(this, "Por favor, preencha o nome e o saldo antes de continuar.");
             return;
-            
         }
 
+        // Cria o objeto ContaPoupanca
+        contaPoupanca = new ContaPoupanca(numConta, nome, saldoInicial);
+
+        // Exemplo: exibe dados no console (ou envia para outra tela)
+        JOptionPane.showMessageDialog(this, "Conta poupança criada com sucesso\n Nome: " + contaPoupanca.getNome()+"Saldo: " + contaPoupanca.getSaldo()+"Saldo Poupança: " + contaPoupanca.getSaldoPoupanca());
+        
     }//GEN-LAST:event_BtCadastroActionPerformed
 
     private void jLabel1AncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_jLabel1AncestorAdded
-        /*if (CC != null){
-            txtNome.setText(CC.getNome());
-            txtNumConta.setText(CC.getSaldo()+"");
-        }*/
+       
+        if (contaPoupanca != null){
+            txtNome.setText(contaPoupanca.getNome());
+            txtNumConta.setText(contaPoupanca.getSaldo()+"");
+        }
+        
     }//GEN-LAST:event_jLabel1AncestorAdded
 
     private void BtVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtVoltarActionPerformed
         this.dispose();
     }//GEN-LAST:event_BtVoltarActionPerformed
-
-    private void txtNumContaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNumContaActionPerformed
-    }//GEN-LAST:event_txtNumContaActionPerformed
-
-    private void jLabel2AncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_jLabel2AncestorAdded
-
-    }//GEN-LAST:event_jLabel2AncestorAdded
 
     /**
      * @param args the command line arguments
@@ -214,13 +188,13 @@ public class CadastrarCorrente extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(CadastrarCorrente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CadastrarPoupancaGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(CadastrarCorrente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CadastrarPoupancaGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(CadastrarCorrente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CadastrarPoupancaGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(CadastrarCorrente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CadastrarPoupancaGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>
@@ -230,11 +204,13 @@ public class CadastrarCorrente extends javax.swing.JDialog {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new CadastrarCorrente().setVisible(true);
+                new CadastrarPoupancaGUI().setVisible(true);
             }
         });
     }
 
+    private ContaPoupanca contaPoupanca = null;
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BtCadastro;
     private javax.swing.JButton BtVoltar;
@@ -246,14 +222,12 @@ public class CadastrarCorrente extends javax.swing.JDialog {
     private javax.swing.JFormattedTextField txtNumConta;
     // End of variables declaration//GEN-END:variables
 
-    private ContaCorrente CC = null;
-    
-    public ContaCorrente getContaCorrente() {
-        return CC;
+    public ContaPoupanca getContaPoupanca() {
+        return contaPoupanca;
     }
 
-    public void setCC(ContaCorrente CC) {
-        this.CC = CC;
+    public void setContaPoupanca(ContaPoupanca contaPoupanca) {
+        this.contaPoupanca = contaPoupanca;
     }
-    
+
 }

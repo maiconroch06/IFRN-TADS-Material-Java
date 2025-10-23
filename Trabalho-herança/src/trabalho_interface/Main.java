@@ -1,9 +1,15 @@
 package trabalho_interface;
 import java.util.HashMap;
+import javax.swing.JOptionPane;
 import trabalho.herança.*;
 
 public class Main extends javax.swing.JFrame {
 
+    private ContaCorrente contaCorrente = null;
+    private ContaPoupanca contaPoupanca = null;
+    private HashMap<String, ContaCorrente> ListaContasCorrente = new HashMap<>();
+    private HashMap<String, ContaPoupanca> ListaContasPoupanca = new HashMap<>();
+    
     public Main() {
         initComponents();
         setLocationRelativeTo(null);
@@ -126,15 +132,14 @@ public class Main extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void MnContaCorrenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnContaCorrenteActionPerformed
-        //this.dispose();
-        ContaCorrenteGUI guiCC = new ContaCorrenteGUI();
+        ContaCorrenteGUI guiCC = new ContaCorrenteGUI(ListaContasCorrente);
         guiCC.setVisible(true);
+        
         
         
     }//GEN-LAST:event_MnContaCorrenteActionPerformed
 
     private void MnContaPoupancaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnContaPoupancaActionPerformed
-        //this.dispose();
         ContaPoupancaGUI guiCP = new ContaPoupancaGUI();
         guiCP.setVisible(true);
     }//GEN-LAST:event_MnContaPoupancaActionPerformed
@@ -148,14 +153,29 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void MnCadastroCorrenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnCadastroCorrenteActionPerformed
-        CadastrarCorrente Ccc = new CadastrarCorrente();
-        Ccc.setModal(true);
-        Ccc.setVisible(true);
+        CadastrarCorrenteGUI guiContaCorrente = new CadastrarCorrenteGUI();
+        guiContaCorrente.setModal(true);
+        guiContaCorrente.setVisible(true);
+        
+        // Obtém a conta cadastrada
+        contaCorrente = guiContaCorrente.getContaCorrente();
+        
+        if(contaCorrente != null) {
+            ListaContasCorrente.put(contaCorrente.getNumConta(), contaCorrente);
+            
+            // Exemplo: exibe dados no console (ou envia para outra tela)
+            JOptionPane.showMessageDialog(this, "Conta CORRENTE criada com sucesso!\n- Nome: " + contaCorrente.getNome()+"\n- Numero da conta: " + contaCorrente.getNumConta()+"\n- Saldo: " + contaCorrente.getSaldo());
 
+        }
+        
     }//GEN-LAST:event_MnCadastroCorrenteActionPerformed
 
     private void MnCadastroPoupancaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnCadastroPoupancaActionPerformed
-
+        CadastrarPoupancaGUI guiPoupanca = new CadastrarPoupancaGUI();
+        guiPoupanca.setModal(true);
+        guiPoupanca.setVisible(true);
+        
+        contaPoupanca = guiPoupanca.getContaPoupanca();
         
     }//GEN-LAST:event_MnCadastroPoupancaActionPerformed
 
@@ -201,10 +221,6 @@ public class Main extends javax.swing.JFrame {
         });
     }
 
-    private ContaCorrente contaCorrente = null;
-    private ContaPoupanca contaPoupanca = null;
-    private HashMap<String, ContaCorrente> ListaContasCorrente = new HashMap<>();
-    private HashMap<String, ContaPoupanca> ListaContasPoupanca = new HashMap<>();
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu MnCadastro;
