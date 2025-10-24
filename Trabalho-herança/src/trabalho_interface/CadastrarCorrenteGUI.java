@@ -1,5 +1,4 @@
 package trabalho_interface;
-import java.util.HashMap;
 import javax.swing.JOptionPane;
 import trabalho.herança.*;
 
@@ -10,11 +9,6 @@ public class CadastrarCorrenteGUI extends javax.swing.JDialog {
     public CadastrarCorrenteGUI() {
         initComponents();
         setLocationRelativeTo(null);
-    }
-    
-    // pq importou isso aqui?
-    CadastrarCorrenteGUI(HashMap<String, ContaCorrente> listaContasCorrente) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @SuppressWarnings("unchecked")
@@ -31,7 +25,7 @@ public class CadastrarCorrenteGUI extends javax.swing.JDialog {
         txtNumConta = new javax.swing.JFormattedTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Tela Cadastro Conta Corrente");
+        setTitle("Tela Cadastro - Conta Corrente");
 
         jLabel1.setText("Nome:");
         jLabel1.addAncestorListener(new javax.swing.event.AncestorListener() {

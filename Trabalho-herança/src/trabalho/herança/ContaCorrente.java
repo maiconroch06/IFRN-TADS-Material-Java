@@ -2,7 +2,7 @@ package trabalho.herança;
 
 public class ContaCorrente extends ContaBancaria {
     
-    private final double LIMITE_CREDITO = getSaldo() * 10;
+    private final double LIMITE_CREDITO = 100;
 
     public double getLimiteCredito() {
         return LIMITE_CREDITO;
@@ -15,7 +15,7 @@ public class ContaCorrente extends ContaBancaria {
     }
 
     public double mostrarSaldoTotal() {
-        return getSaldo() + LIMITE_CREDITO;
+        return getLimiteCredito() + (getSaldo() * 0.1);
     }
 }
 

@@ -25,7 +25,7 @@ public class CadastrarPoupancaGUI extends javax.swing.JDialog {
         txtNumConta = new javax.swing.JFormattedTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Tela Cadastro Conta Poupança");
+        setTitle("Tela Cadastro - Conta Poupança");
 
         jLabel1.setText("Nome:");
         jLabel1.addAncestorListener(new javax.swing.event.AncestorListener() {
@@ -128,9 +128,13 @@ public class CadastrarPoupancaGUI extends javax.swing.JDialog {
             String nome = txtNome.getText().trim();
             String numConta = txtNumConta.getText().trim();
             double saldoInicial = 0.0;
-
-            // Cria o objeto ContaPoupanca
-            CP = new ContaPoupanca(numConta, nome, saldoInicial);
+            
+            // Cria/(Atribui) o objeto (a) ContaPoupanca
+            CP = new ContaPoupanca();
+            
+            CP.setNumConta(numConta);
+            CP.setNome(nome);
+            CP.setSaldo(saldoInicial);
             
             this.dispose();
         } else {

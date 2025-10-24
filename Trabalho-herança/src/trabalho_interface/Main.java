@@ -79,7 +79,7 @@ public class Main extends javax.swing.JFrame {
 
         jMenu1.setText("Contas");
 
-        MnContaCorrente.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F5, 0));
+        MnContaCorrente.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F3, 0));
         MnContaCorrente.setText("Conta Corrente");
         MnContaCorrente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -178,7 +178,7 @@ public class Main extends javax.swing.JFrame {
             ListaContasPoupanca.put(contaPoupanca.getNumConta(), contaPoupanca);
             
             // Exemplo: exibe dados no console (ou envia para outra tela)
-            JOptionPane.showMessageDialog(this, "Conta POUPANÇA criada com sucesso!\n Nome: " + contaPoupanca.getNome()+"Saldo: " + contaPoupanca.getSaldo()+"Saldo Poupança: " + contaPoupanca.getSaldoPoupanca());
+            JOptionPane.showMessageDialog(this, "Conta POUPANÇA criada com sucesso!\n- Nome: " + contaPoupanca.getNome()+"\n- Saldo: " + contaPoupanca.getSaldo()+"\n- Saldo Poupança: " + contaPoupanca.getSaldoPoupanca());
 
         }
         
