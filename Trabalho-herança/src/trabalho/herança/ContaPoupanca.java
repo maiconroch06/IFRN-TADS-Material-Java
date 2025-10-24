@@ -1,7 +1,8 @@
 package trabalho.herança;
 
 public class ContaPoupanca extends ContaBancaria {
-    private double saldoPoupanca = getSaldo() * 10;
+    
+    private double saldoPoupanca = 0;
 
     public double getSaldoPoupanca() {
         return saldoPoupanca;

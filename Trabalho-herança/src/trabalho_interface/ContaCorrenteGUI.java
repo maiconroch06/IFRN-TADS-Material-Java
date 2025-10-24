@@ -1,30 +1,16 @@
 package trabalho_interface;
 import java.util.HashMap;
+import javax.swing.JOptionPane;
 import trabalho.herança.*;
 
 public class ContaCorrenteGUI extends javax.swing.JDialog {
     
-    private ContaCorrente contaCorrente = null;
     private HashMap<String, ContaCorrente> listaContasCorrente;
     
     public ContaCorrenteGUI(HashMap<String, ContaCorrente> listaContasCorrente) {
         initComponents();
         setLocationRelativeTo(null);
         this.listaContasCorrente = listaContasCorrente;
-        
-        if(listaContasCorrente != null && !listaContasCorrente.isEmpty()) {
-            ContaCorrente ultimaConta = null;
-            for(ContaCorrente c : listaContasCorrente.values()) {
-                ultimaConta = c;
-            }
-
-            if(ultimaConta != null) {
-                txtNumConta.setText(ultimaConta.getNumConta());
-                txtNome.setText(ultimaConta.getNome());
-                txtSaldo.setText(String.valueOf(ultimaConta.getSaldo()));
-                txtCredito.setText(String.valueOf(ultimaConta.mostrarSaldoTotal()));
-            }
-        }
     }
 
     private ContaCorrenteGUI() {
@@ -60,9 +46,9 @@ public class ContaCorrenteGUI extends javax.swing.JDialog {
         MnVoltar = new javax.swing.JMenu();
         OpcaoMnVoltar = new javax.swing.JMenuItem();
         jMenu8 = new javax.swing.JMenu();
-        jMenuItem3 = new javax.swing.JMenuItem();
-        jMenuItem4 = new javax.swing.JMenuItem();
-        jMenuItem5 = new javax.swing.JMenuItem();
+        MnCreditar = new javax.swing.JMenuItem();
+        MnDebitar = new javax.swing.JMenuItem();
+        MnTransferir = new javax.swing.JMenuItem();
 
         jLabel4.setText("jLabel4");
 
@@ -128,6 +114,11 @@ public class ContaCorrenteGUI extends javax.swing.JDialog {
         });
 
         txtSaldo.setEditable(false);
+        txtSaldo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtSaldoActionPerformed(evt);
+            }
+        });
 
         jLabel5.setText("Numero da Conta:");
 
@@ -136,12 +127,17 @@ public class ContaCorrenteGUI extends javax.swing.JDialog {
         txtCredito.setEditable(false);
 
         try {
-            txtNumConta.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("####-#")));
+            txtNumConta.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("####")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
 
         jButton1.setText("Pesquisa");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         MnVoltar.setText("Voltar");
 
@@ -157,15 +153,25 @@ public class ContaCorrenteGUI extends javax.swing.JDialog {
         jMenuBar2.add(MnVoltar);
 
         jMenu8.setText("Operações Bancarias");
+        jMenu8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenu8ActionPerformed(evt);
+            }
+        });
 
-        jMenuItem3.setText("jMenuItem3");
-        jMenu8.add(jMenuItem3);
+        MnCreditar.setText("Creditar na Conta");
+        MnCreditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MnCreditarActionPerformed(evt);
+            }
+        });
+        jMenu8.add(MnCreditar);
 
-        jMenuItem4.setText("jMenuItem4");
-        jMenu8.add(jMenuItem4);
+        MnDebitar.setText("Debitar na Conta");
+        jMenu8.add(MnDebitar);
 
-        jMenuItem5.setText("jMenuItem5");
-        jMenu8.add(jMenuItem5);
+        MnTransferir.setText("Transferir");
+        jMenu8.add(MnTransferir);
 
         jMenuBar2.add(jMenu8);
 
@@ -190,21 +196,23 @@ public class ContaCorrenteGUI extends javax.swing.JDialog {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jLabel6)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(txtCredito, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(txtCredito, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(jLabel3)
-                                            .addComponent(jLabel2))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(txtSaldo, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(txtNumConta, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                        .addGap(0, 49, Short.MAX_VALUE)))
+                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                                    .addComponent(jLabel3)
+                                                    .addComponent(jLabel2))
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(6, 6, 6)))
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(txtNumConta, javax.swing.GroupLayout.DEFAULT_SIZE, 133, Short.MAX_VALUE)
+                                            .addComponent(txtNome)
+                                            .addComponent(txtSaldo))))))
+                        .addGap(0, 60, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -250,47 +258,37 @@ public class ContaCorrenteGUI extends javax.swing.JDialog {
         dispose();
     }//GEN-LAST:event_OpcaoMnVoltarActionPerformed
 
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ContaCorrenteGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ContaCorrenteGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ContaCorrenteGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ContaCorrenteGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+       // listaContasCorrente.containsKey(txtNumConta.getText()); retorna bool
+       ContaCorrente conta = listaContasCorrente.get(txtNumConta.getText());
+       
+       if (conta!= null){
+            txtNumConta.setText(conta.getNumConta());
+            txtNome.setText(conta.getNome());
+            txtSaldo.setText("R$ " + String.valueOf(conta.getSaldo()));
+            txtCredito.setText("R$ " + String.valueOf(conta.mostrarSaldoTotal()));
+       }else{
+           JOptionPane.showMessageDialog(this, "Conta não encontrada!");
+       }
+    }//GEN-LAST:event_jButton1ActionPerformed
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new ContaCorrenteGUI().setVisible(true);
-            }
-        });
-    }
+    private void txtSaldoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSaldoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtSaldoActionPerformed
 
-    
+    private void MnCreditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnCreditarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_MnCreditarActionPerformed
+
+    private void jMenu8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu8ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenu8ActionPerformed
+
+        
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem MnCreditar;
+    private javax.swing.JMenuItem MnDebitar;
+    private javax.swing.JMenuItem MnTransferir;
     private javax.swing.JMenu MnVoltar;
     private javax.swing.JMenuItem OpcaoMnVoltar;
     private javax.swing.JButton jButton1;
@@ -311,22 +309,14 @@ public class ContaCorrenteGUI extends javax.swing.JDialog {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuBar jMenuBar2;
     private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem3;
-    private javax.swing.JMenuItem jMenuItem4;
-    private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem1;
     private javax.swing.JTextField txtCredito;
     private javax.swing.JTextField txtNome;
     private javax.swing.JFormattedTextField txtNumConta;
     private javax.swing.JTextField txtSaldo;
     // End of variables declaration//GEN-END:variables
-
-    public ContaCorrente getContaCorrente() {
-        return contaCorrente;
+    
+    public void setListaContaCorrente(HashMap<String, ContaCorrente> ListaContasCorrente) {
+       this.listaContasCorrente = ListaContasCorrente;
     }
-
-    public void setContaCorrente(ContaCorrente contaCorrente) {
-        this.contaCorrente = contaCorrente;
-    }
-
 }

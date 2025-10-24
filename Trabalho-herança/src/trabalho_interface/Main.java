@@ -5,8 +5,13 @@ import trabalho.herança.*;
 
 public class Main extends javax.swing.JFrame {
 
+    private static int contadorCorrente = 1;
+    private static int contadorPoupanca = 1;
+
     private ContaCorrente contaCorrente = null;
     private ContaPoupanca contaPoupanca = null;
+    
+    
     private final HashMap<String, ContaCorrente> ListaContasCorrente = new HashMap<>();
     private final HashMap<String, ContaPoupanca> ListaContasPoupanca = new HashMap<>();
     
@@ -15,69 +20,50 @@ public class Main extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         setExtendedState(Main.MAXIMIZED_BOTH); // Maximiza ao abrir
     }
+    
+    // Metodos de contagem de Prtocolo de Numero de Conta
+    public static String gerarNumeroContaCorrente() {
+        String numero = String.format("01%02d", contadorCorrente);
+        contadorCorrente++;
+        return numero;
+    }
+
+    //String.format se a semelha com "prinf" de C
+    public static String gerarNumeroContaPoupanca() {
+        String numero = String.format("02%02d", contadorPoupanca);
+        contadorPoupanca++;
+        return numero;
+    }
+
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu3 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        MnCadastro = new javax.swing.JMenu();
-        MnCadastroCorrente = new javax.swing.JMenuItem();
-        MnCadastroPoupanca = new javax.swing.JMenuItem();
-        jMenu1 = new javax.swing.JMenu();
+        MenuCadastro = new javax.swing.JMenu();
+        MnCadastroContas = new javax.swing.JMenuItem();
+        MenuContas = new javax.swing.JMenu();
         MnContaCorrente = new javax.swing.JMenuItem();
         MnContaPoupanca = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
-        jMenuItem3 = new javax.swing.JMenuItem();
-        jMenuItem4 = new javax.swing.JMenuItem();
-        jMenuItem5 = new javax.swing.JMenuItem();
-        jMenuItem6 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Tela Principal");
 
-        jMenu3.setText("Sair");
-        jMenu3.addActionListener(new java.awt.event.ActionListener() {
+        MenuCadastro.setText("Cadastro");
+
+        MnCadastroContas.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F2, 0));
+        MnCadastroContas.setText("Cadastrar Conta");
+        MnCadastroContas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenu3ActionPerformed(evt);
+                MnCadastroContasActionPerformed(evt);
             }
         });
+        MenuCadastro.add(MnCadastroContas);
 
-        jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F1, 0));
-        jMenuItem1.setText("Sair do Programa");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
-            }
-        });
-        jMenu3.add(jMenuItem1);
+        jMenuBar1.add(MenuCadastro);
 
-        jMenuBar1.add(jMenu3);
-
-        MnCadastro.setText("Cadastro");
-
-        MnCadastroCorrente.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F2, 0));
-        MnCadastroCorrente.setText("Cadastro Corrente");
-        MnCadastroCorrente.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                MnCadastroCorrenteActionPerformed(evt);
-            }
-        });
-        MnCadastro.add(MnCadastroCorrente);
-
-        MnCadastroPoupanca.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F3, 0));
-        MnCadastroPoupanca.setText("Cadastro Poupanca");
-        MnCadastroPoupanca.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                MnCadastroPoupancaActionPerformed(evt);
-            }
-        });
-        MnCadastro.add(MnCadastroPoupanca);
-
-        jMenuBar1.add(MnCadastro);
-
-        jMenu1.setText("Contas");
+        MenuContas.setText("Contas");
 
         MnContaCorrente.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F3, 0));
         MnContaCorrente.setText("Conta Corrente");
@@ -86,7 +72,7 @@ public class Main extends javax.swing.JFrame {
                 MnContaCorrenteActionPerformed(evt);
             }
         });
-        jMenu1.add(MnContaCorrente);
+        MenuContas.add(MnContaCorrente);
 
         MnContaPoupanca.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, 0));
         MnContaPoupanca.setText("Conta Poupança");
@@ -95,25 +81,9 @@ public class Main extends javax.swing.JFrame {
                 MnContaPoupancaActionPerformed(evt);
             }
         });
-        jMenu1.add(MnContaPoupanca);
+        MenuContas.add(MnContaPoupanca);
 
-        jMenuBar1.add(jMenu1);
-
-        jMenu2.setText("Débito/Crédito");
-
-        jMenuItem3.setText("Debitar Poupança");
-        jMenu2.add(jMenuItem3);
-
-        jMenuItem4.setText("Debitar Corrente");
-        jMenu2.add(jMenuItem4);
-
-        jMenuItem5.setText("Creditar Poupança");
-        jMenu2.add(jMenuItem5);
-
-        jMenuItem6.setText("Creditar Corrente");
-        jMenu2.add(jMenuItem6);
-
-        jMenuBar1.add(jMenu2);
+        jMenuBar1.add(MenuContas);
 
         setJMenuBar(jMenuBar1);
 
@@ -133,56 +103,55 @@ public class Main extends javax.swing.JFrame {
 
     private void MnContaCorrenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnContaCorrenteActionPerformed
         ContaCorrenteGUI guiCC = new ContaCorrenteGUI(ListaContasCorrente);
+        guiCC.setListaContaCorrente(ListaContasCorrente);
+        guiCC.setModal(true);
         guiCC.setVisible(true);
     }//GEN-LAST:event_MnContaCorrenteActionPerformed
 
     private void MnContaPoupancaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnContaPoupancaActionPerformed
         ContaPoupancaGUI guiCP = new ContaPoupancaGUI(ListaContasPoupanca);
+        guiCP.setListaContaPoupanca(ListaContasPoupanca);
+        guiCP.setModal(true);
         guiCP.setVisible(true);
     }//GEN-LAST:event_MnContaPoupancaActionPerformed
 
-    private void jMenu3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu3ActionPerformed
-    }//GEN-LAST:event_jMenu3ActionPerformed
-
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        System.exit(EXIT_ON_CLOSE);
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
-
-    private void MnCadastroCorrenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnCadastroCorrenteActionPerformed
-        CadastrarCorrenteGUI guiContaCorrente = new CadastrarCorrenteGUI();
-        guiContaCorrente.setModal(true);
-        guiContaCorrente.setVisible(true);
+    private void MnCadastroContasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnCadastroContasActionPerformed
+        CadastrarContasGUI guiCadastro = new CadastrarContasGUI(this, true);
+        guiCadastro.setModal(true);
+        guiCadastro.setVisible(true);
         
-        // Obtém a conta cadastrada
-        contaCorrente = guiContaCorrente.getContaCorrente();
+        ContaBancaria contaCriada = guiCadastro.getContaCadastrada();
         
-        if(contaCorrente != null) {
-            ListaContasCorrente.put(contaCorrente.getNumConta(), contaCorrente);
-            
-            // Exemplo: exibe dados no console (ou envia para outra tela)
-            JOptionPane.showMessageDialog(this, "Conta CORRENTE criada com sucesso!\n- Nome: " + contaCorrente.getNome()+"\n- Numero da conta: " + contaCorrente.getNumConta()+"\n- Saldo: " + contaCorrente.getSaldo());
+        // Verifica se o objeto que veio da tela CadastroContas não está vazia
+        if(contaCriada != null) {
+            // Verifica se o objeto contaCriada é uma instância de uma determinada ContaCorrente
+            if (contaCriada instanceof ContaCorrente) {
+                ContaCorrente cc = (ContaCorrente) contaCriada;
+                ListaContasCorrente.put(cc.getNumConta(), cc);
+                
+                // Mensagem de confirmação do cadastro
+                JOptionPane.showMessageDialog(this,
+                    "Conta CORRENTE criada com sucesso!\n" +
+                    "Nome: " + cc.getNome() + "\n" +
+                    "Número: " + cc.getNumConta() + "\n" +
+                    "Saldo: " + cc.getSaldo() 
+            );
 
+            // Verifica se o objeto contaCriada é uma instância de uma determinada ContaPoupanca
+            } else if (contaCriada instanceof ContaPoupanca) {
+                ContaPoupanca cp = (ContaPoupanca) contaCriada;
+                ListaContasPoupanca.put(cp.getNumConta(), cp);
+
+                // Mensagem de confirmação do cadastro
+                JOptionPane.showMessageDialog(this,
+                    "Conta POUPANÇA criada com sucesso!\n" +
+                    "Nome: " + cp.getNome() + "\n" +
+                    "Número: " + cp.getNumConta() + "\n" +
+                    "Saldo: " + cp.getSaldo()
+                );
+            }
         }
-        
-    }//GEN-LAST:event_MnCadastroCorrenteActionPerformed
-
-    private void MnCadastroPoupancaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnCadastroPoupancaActionPerformed
-        CadastrarPoupancaGUI guiPoupanca = new CadastrarPoupancaGUI();
-        guiPoupanca.setModal(true);
-        guiPoupanca.setVisible(true);
-        
-        // Obtém a conta cadastrada
-        contaPoupanca = guiPoupanca.getContaPoupanca();
-        
-        if(contaPoupanca != null) {
-            ListaContasPoupanca.put(contaPoupanca.getNumConta(), contaPoupanca);
-            
-            // Exemplo: exibe dados no console (ou envia para outra tela)
-            JOptionPane.showMessageDialog(this, "Conta POUPANÇA criada com sucesso!\n- Nome: " + contaPoupanca.getNome()+"\n- Saldo: " + contaPoupanca.getSaldo()+"\n- Saldo Poupança: " + contaPoupanca.getSaldoPoupanca());
-
-        }
-        
-    }//GEN-LAST:event_MnCadastroPoupancaActionPerformed
+    }//GEN-LAST:event_MnCadastroContasActionPerformed
 
     /**
      * @param args the command line arguments
@@ -228,20 +197,11 @@ public class Main extends javax.swing.JFrame {
 
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenu MnCadastro;
-    private javax.swing.JMenuItem MnCadastroCorrente;
-    private javax.swing.JMenuItem MnCadastroPoupanca;
+    private javax.swing.JMenu MenuCadastro;
+    private javax.swing.JMenu MenuContas;
+    private javax.swing.JMenuItem MnCadastroContas;
     private javax.swing.JMenuItem MnContaCorrente;
     private javax.swing.JMenuItem MnContaPoupanca;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem3;
-    private javax.swing.JMenuItem jMenuItem4;
-    private javax.swing.JMenuItem jMenuItem5;
-    private javax.swing.JMenuItem jMenuItem6;
     // End of variables declaration//GEN-END:variables
-    
 }

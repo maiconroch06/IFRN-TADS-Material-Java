@@ -1,12 +1,53 @@
 package trabalho.herança;
 
-public class OperacoesBancarias {
+import java.util.HashMap;
+import javax.swing.JOptionPane;
 
+public class OperacoesBancarias {
+    
+    private HashMap<String, ContaCorrente> listaContasCorrente;
+    private HashMap<String, ContaPoupanca> listaContasPoupanca;
+
+    public HashMap<String, ContaCorrente> getListaContasCorrente() {
+        return listaContasCorrente;
+    }
+
+    public void setListaContasCorrente(HashMap<String, ContaCorrente> listaContasCorrente) {
+        this.listaContasCorrente = listaContasCorrente;
+    }
+
+    public HashMap<String, ContaPoupanca> getListaContasPoupanca() {
+        return listaContasPoupanca;
+    }
+
+    public void setListaContasPoupanca(HashMap<String, ContaPoupanca> listaContasPoupanca) {
+        this.listaContasPoupanca = listaContasPoupanca;
+    }
+    
+    // Validar a existência da CONTA CORRENTE pela chave
+    public ContaCorrente contaCorrenteValida(String chave) {
+        if(listaContasPoupanca.get(chave) != null) {
+            return listaContasCorrente.get(chave);
+        } else {
+            JOptionPane.showMessageDialog(null, "Conta inexistente!");
+            return null;
+        }
+    }
+    
+    public ContaPoupanca contaPoupancaValida(String chave){ //Retorna null ou oq procuramos, tem a opção de retorn bool
+        if(listaContasCorrente.get(chave) != null) {
+            return listaContasPoupanca.get(chave);
+        } else {
+            JOptionPane.showMessageDialog(null, "Conta inexistente!");
+            return null;
+        }
+    }
+    
     public void creditarContaCorrente(ContaCorrente conta, double valor) {
         conta.creditar(valor);
     }
 
-    public void creditarContaPoupanca(ContaPoupanca conta, double valor) {
+    public void creditarContaPoupanca( ContaPoupanca conta, double valor) {
         conta.creditar(valor);
     }
 
