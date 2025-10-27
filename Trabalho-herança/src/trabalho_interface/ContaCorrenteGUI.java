@@ -168,9 +168,19 @@ public class ContaCorrenteGUI extends javax.swing.JDialog {
         jMenu8.add(MnCreditar);
 
         MnDebitar.setText("Debitar na Conta");
+        MnDebitar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MnDebitarActionPerformed(evt);
+            }
+        });
         jMenu8.add(MnDebitar);
 
         MnTransferir.setText("Transferir");
+        MnTransferir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MnTransferirActionPerformed(evt);
+            }
+        });
         jMenu8.add(MnTransferir);
 
         jMenuBar2.add(jMenu8);
@@ -266,7 +276,7 @@ public class ContaCorrenteGUI extends javax.swing.JDialog {
             txtNumConta.setText(conta.getNumConta());
             txtNome.setText(conta.getNome());
             txtSaldo.setText("R$ " + String.valueOf(conta.getSaldo()));
-            txtCredito.setText("R$ " + String.valueOf(conta.mostrarSaldoTotal()));
+            txtCredito.setText("R$ " + String.valueOf(conta.getLimiteCredito()));
        }else{
            JOptionPane.showMessageDialog(this, "Conta não encontrada!");
        }
@@ -277,12 +287,27 @@ public class ContaCorrenteGUI extends javax.swing.JDialog {
     }//GEN-LAST:event_txtSaldoActionPerformed
 
     private void MnCreditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnCreditarActionPerformed
-        // TODO add your handling code here:
+    CreditarCorrenteGUI credC = new CreditarCorrenteGUI(listaContasCorrente);
+    credC.setModal(true);
+    credC.setVisible(true);
     }//GEN-LAST:event_MnCreditarActionPerformed
 
     private void jMenu8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu8ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenu8ActionPerformed
+
+    private void MnDebitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnDebitarActionPerformed
+        DebitarCorrenteGUI debD = new DebitarCorrenteGUI(listaContasCorrente);
+        debD.setModal(true);
+        debD.setVisible(true);
+    }//GEN-LAST:event_MnDebitarActionPerformed
+
+    private void MnTransferirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnTransferirActionPerformed
+        TransferCorrenteGUI tp = new TransferCorrenteGUI(listaContasCorrente);
+        tp.setModal(true);
+        tp.setVisible(true);
+        
+    }//GEN-LAST:event_MnTransferirActionPerformed
 
         
     // Variables declaration - do not modify//GEN-BEGIN:variables

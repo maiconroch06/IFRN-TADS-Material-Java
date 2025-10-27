@@ -24,31 +24,12 @@ public class OperacoesBancarias {
         this.listaContasPoupanca = listaContasPoupanca;
     }
     
-    // Validar a existência da CONTA CORRENTE pela chave
-    public ContaCorrente contaCorrenteValida(String chave) {
-        if(listaContasPoupanca.get(chave) != null) {
-            return listaContasCorrente.get(chave);
-        } else {
-            JOptionPane.showMessageDialog(null, "Conta inexistente!");
-            return null;
-        }
-    }
-    
-    public ContaPoupanca contaPoupancaValida(String chave){ //Retorna null ou oq procuramos, tem a opção de retorn bool
-        if(listaContasCorrente.get(chave) != null) {
-            return listaContasPoupanca.get(chave);
-        } else {
-            JOptionPane.showMessageDialog(null, "Conta inexistente!");
-            return null;
-        }
-    }
-    
     public void creditarContaCorrente(ContaCorrente conta, double valor) {
         conta.creditar(valor);
     }
 
     public void creditarContaPoupanca( ContaPoupanca conta, double valor) {
-        conta.creditar(valor);
+        conta.setSaldo(conta.getSaldo() + valor);
     }
 
     public void creditarEmPoupanca(ContaPoupanca conta, double valor) {
@@ -75,15 +56,16 @@ public class OperacoesBancarias {
             System.out.println("Saldo insuficiente.");
         }
     }
-
+    // *************************************************
     public void debitarDaPoupanca(ContaPoupanca conta, double valor) {
         if (verificarSaldoPoupancaSuficiente(conta, valor)) {
             conta.setSaldoPoupanca(conta.getSaldoPoupanca() - valor);
-            conta.creditar(valor);
+            conta.setSaldo(conta.getSaldo() + valor);
         } else {
             System.out.println("Saldo insuficiente na poupança.");
         }
     }
+    // *************************************************
 
     public boolean verificarSaldoSuficiente(ContaCorrente conta, double valor) {
         return conta.mostrarSaldoTotal() >= valor;
@@ -101,8 +83,25 @@ public class OperacoesBancarias {
         if (verificarSaldoSuficiente(origem, valor)) {
             origem.debitar(valor);
             destino.creditar(valor);
+            
+            JOptionPane.showMessageDialog(null, "Transferência realizada!\nValor de: R$ " + valor);
+            
         } else {
-            System.out.println("Transferência não realizada. Saldo insuficiente.");
+            JOptionPane.showMessageDialog(null, "Transferência não realizada. SALDO INSUFICIENTE!",
+                    "Erro", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    public void transferenciaBancaria(ContaPoupanca origem, ContaPoupanca destino, double valor) {
+        if (verificarSaldoSuficiente(origem, valor)) {
+            origem.debitar(valor);
+            destino.creditar(valor);
+            
+            JOptionPane.showMessageDialog(null, "Transferência realizada!\nValor de: R$ " + valor);
+            
+        } else {
+            JOptionPane.showMessageDialog(null, "Transferência não realizada. SALDO INSUFICIENTE!",
+                    "Erro", JOptionPane.ERROR_MESSAGE);
         }
     }
 }

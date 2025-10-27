@@ -35,9 +35,9 @@ public class ContaPoupancaGUI extends javax.swing.JDialog {
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
-        jMenuItem2 = new javax.swing.JMenuItem();
-        jMenuItem3 = new javax.swing.JMenuItem();
-        jMenuItem6 = new javax.swing.JMenuItem();
+        pCreditar = new javax.swing.JMenuItem();
+        pDebitar = new javax.swing.JMenuItem();
+        pTransferir = new javax.swing.JMenuItem();
 
         jLabel4.setText("jLabel4");
 
@@ -105,24 +105,29 @@ public class ContaPoupancaGUI extends javax.swing.JDialog {
 
         jMenu2.setText("Operações Bancarias");
 
-        jMenuItem2.setText("Creditar");
-        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+        pCreditar.setText("Creditar");
+        pCreditar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem2ActionPerformed(evt);
+                pCreditarActionPerformed(evt);
             }
         });
-        jMenu2.add(jMenuItem2);
+        jMenu2.add(pCreditar);
 
-        jMenuItem3.setText("Debitar");
-        jMenu2.add(jMenuItem3);
-
-        jMenuItem6.setText("Transferir");
-        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+        pDebitar.setText("Debitar");
+        pDebitar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem6ActionPerformed(evt);
+                pDebitarActionPerformed(evt);
             }
         });
-        jMenu2.add(jMenuItem6);
+        jMenu2.add(pDebitar);
+
+        pTransferir.setText("Transferir");
+        pTransferir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pTransferirActionPerformed(evt);
+            }
+        });
+        jMenu2.add(pTransferir);
 
         jMenuBar1.add(jMenu2);
 
@@ -137,7 +142,7 @@ public class ContaPoupancaGUI extends javax.swing.JDialog {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(4, 4, 4)
                         .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(txtNumConta, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
@@ -210,21 +215,27 @@ public class ContaPoupancaGUI extends javax.swing.JDialog {
         
     }//GEN-LAST:event_BtPesquisaActionPerformed
 
-    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
-        TransferirGUI tp = new TransferirGUI(listaContasPoupanca);
+    private void pTransferirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pTransferirActionPerformed
+        TranferPoupancaGUI tp = new TranferPoupancaGUI(listaContasPoupanca);
         tp.setModal(true);
         tp.setVisible(true);
         
         
-    }//GEN-LAST:event_jMenuItem6ActionPerformed
+    }//GEN-LAST:event_pTransferirActionPerformed
 
-    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+    private void pCreditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pCreditarActionPerformed
         CreditarPoupancaGUI credP = new CreditarPoupancaGUI(listaContasPoupanca);
         credP.setModal(true);
         credP.setVisible(true);
         
         
-    }//GEN-LAST:event_jMenuItem2ActionPerformed
+    }//GEN-LAST:event_pCreditarActionPerformed
+
+    private void pDebitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pDebitarActionPerformed
+        DebitarPoupançaGUI debP = new DebitarPoupançaGUI(listaContasPoupanca);
+        debP.setModal(true);
+        debP.setVisible(true);      
+    }//GEN-LAST:event_pDebitarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BtPesquisa;
@@ -239,9 +250,9 @@ public class ContaPoupancaGUI extends javax.swing.JDialog {
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem3;
-    private javax.swing.JMenuItem jMenuItem6;
+    private javax.swing.JMenuItem pCreditar;
+    private javax.swing.JMenuItem pDebitar;
+    private javax.swing.JMenuItem pTransferir;
     private javax.swing.JTextField txtCaixa;
     private javax.swing.JTextField txtNome;
     private javax.swing.JFormattedTextField txtNumConta;

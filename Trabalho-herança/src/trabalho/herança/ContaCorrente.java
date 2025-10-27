@@ -15,7 +15,11 @@ public class ContaCorrente extends ContaBancaria {
     }
 
     public double mostrarSaldoTotal() {
-        return (getSaldo() + getLimiteCredito()) + (getSaldo() * 0.1);
+        return (getSaldo() + getLimiteCredito());
+    }
+    
+    public double saldoAtual(){
+        return getSaldo();
     }
 }
 

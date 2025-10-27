@@ -136,11 +136,17 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Debitar na Conta"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="MnDebitarActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="MnTransferir">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Transferir"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="MnTransferirActionPerformed"/>
+              </Events>
             </MenuItem>
           </SubComponents>
         </Menu>

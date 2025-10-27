@@ -42,7 +42,7 @@ public class ContaBancaria {
         if(valor > saldo) {
             saldo += valor;
         } else {
-            JOptionPane.showMessageDialog(null, "Deposite um valor acima do numero 0(zero)!");
+            //JOptionPane.showMessageDialog(null, "Deposite um valor acima do numero 0(zero)!");
         }
     }
 
@@ -50,7 +50,7 @@ public class ContaBancaria {
         if (valor <= saldo) {
             saldo -= valor;
         } else {
-            JOptionPane.showMessageDialog(null, "Saldo insuficiente!");
+            //JOptionPane.showMessageDialog(null, "Saldo insuficiente!");
         }
     }
 }
