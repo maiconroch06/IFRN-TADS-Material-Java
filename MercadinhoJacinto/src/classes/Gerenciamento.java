@@ -3,35 +3,27 @@ package classes;
 import java.util.HashMap;
 
 public class Gerenciamento {
-    //obs: Chave do funcionario é o "CPF".
+    //obs: Chave do funcionario e cliente é o "CPF", para produto será "CODIGO".
     private HashMap<String, Funcionario> ListaDeFuncionarios;
-    //obs: Chave do cliente é o "CPF".
     private HashMap<String, Cliente> ListaDeClientes;
-    //obs: Chave do produto é o "CODIGO".
     private HashMap<String, Produto> ListaDeProdutos;
 
     // Funcionário (cadastrar, atualizar, remover e consultar)
     // Cadastro
-    public void cadastrarFuncionario(String CPF, String nome){
-        
+    public void cadastrarFuncionario(String CPF, Funcionario funcionario){
+        ListaDeFuncionarios.put(CPF, funcionario);
     }
     
-    // Cadastro
-    // atualizar
+    // atualizar e consultar, qual a diferença?
+    
     // remover
-    // consultar
+    public void removerFuncionario(String CPF, Funcionario funcionario){
+        ListaDeFuncionarios.remove(CPF, funcionario); 
+    }
     
     // Produto (cadastrar, atualizar, remover e consultar)
-    // Cadastro
-    // atualizar
-    // remover
-    // consultar
     
     // Cliente (cadastrar, atualizar, remover e consultar)
-    // Cadastro
-    // atualizar
-    // remover
-    // consultar
     
     public HashMap<String, Funcionario> getListaDeFuncionarios() {
         return ListaDeFuncionarios;
