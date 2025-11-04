@@ -44,7 +44,7 @@ public class AlunoDAO {
                 "Erro no Banco de Dados DAO1",
                 JOptionPane.ERROR_MESSAGE);
         } finally { //Será que do jeito que está não precissa deste trecho?
-           con.closeConnection();
+           //con.closeConnection();
         }
     }
     

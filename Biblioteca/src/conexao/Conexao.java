@@ -75,7 +75,7 @@ public class Conexao {
         }
     }
     
-// metodo de gpt, qual a diferença???
+/*// metodo de gpt, qual a diferença???
     public static void fecharConexao() {
         try {
             if (conn != null && !conn.isClosed()) {
@@ -87,5 +87,5 @@ public class Conexao {
                 "Erro no Banco de Dados",
                 JOptionPane.ERROR_MESSAGE);
         }
-    }
+    }*/
 }

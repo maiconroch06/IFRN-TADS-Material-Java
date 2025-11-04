@@ -12,6 +12,7 @@ public class BibliotecarioDAO {
     public void cadastrarBibliotecario(Bibliotecario bibli) {
         String sql = "INSERT INTO bibliotecario (nome, CPF, matricula, email, telefone, contratacao) VALUES (?, ?, ?, ?, ?, ?)";
         
+        
         try (Connection conn = Conexao.getConexao();
                 PreparedStatement ps = conn.prepareStatement(sql)) {
             
