@@ -13,9 +13,9 @@ public class Conexao {
     private static final String USER = "root";
     private static final String PASSWORD  = "";
     
-    private static Connection conn;
+    private Connection conn;
     
-    public static Connection getConexao () {
+    public Connection getConexao () {
         try {
             if (conn == null) { // Caso a conexão não tenha sido criada, ele cria.
                 return conn = DriverManager.getConnection(URL, USER, PASSWORD);
@@ -32,7 +32,7 @@ public class Conexao {
         }
     }
     
-    public static void closeConnection(Connection conn) {
+    public void closeConnection(Connection conn) {
         try {
             if (conn != null) {
                 conn.close();
@@ -45,14 +45,13 @@ public class Conexao {
         }
     }
     
-    public static void closeConnection(Connection conn, PreparedStatement ps) {
-        
-        closeConnection(conn);
-        
+    public void closeConnection(Connection conn, PreparedStatement ps) {
         try {
             if (ps != null) {
                 ps.close();
             }
+            closeConnection(conn);
+
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null,
                 "Erro ao fechar a conexão: " + e.getMessage(),
@@ -61,14 +60,13 @@ public class Conexao {
         }
     }
     
-    public static void closeConnection(Connection conn, PreparedStatement ps, ResultSet rs) {
-        
-        closeConnection(conn, ps);
-        
+    public void closeConnection(Connection conn, PreparedStatement ps, ResultSet rs) {
         try {
             if (rs != null) {
                 rs.close();
             }
+            closeConnection(conn, ps);
+
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null,
                 "Erro ao fechar a conexão: " + e.getMessage(),
@@ -78,16 +76,16 @@ public class Conexao {
     }
     
 // metodo de gpt, qual a diferença???
-//    public static void fecharConexao() {
-//        try {
-//            if (conn != null && !conn.isClosed()) {
-//                conn.close();
-//            }
-//        } catch (SQLException e) {
-//            JOptionPane.showMessageDialog(null,
-//                "Erro ao fechar a conexão: " + e.getMessage(),
-//                "Erro no Banco de Dados",
-//                JOptionPane.ERROR_MESSAGE);
-//        }
-//    }
+    public static void fecharConexao() {
+        try {
+            if (conn != null && !conn.isClosed()) {
+                conn.close();
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null,
+                "Erro ao fechar a conexão: " + e.getMessage(),
+                "Erro no Banco de Dados",
+                JOptionPane.ERROR_MESSAGE);
+        }
+    }
 }

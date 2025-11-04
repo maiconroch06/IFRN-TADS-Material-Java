@@ -12,7 +12,7 @@ public class Principal {
 
         if(opcao == 1){
             System.out.println(" -> Ingresso NORMAL");
-            valorIngresso
+            //valorIngresso;
         }else{
             System.out.println(" -> Ingresso VIP");
             
@@ -24,7 +24,7 @@ public class Principal {
             } else {
                 
             }
-            valorIngresso
+            //valorIngresso;
         }
     }
 }

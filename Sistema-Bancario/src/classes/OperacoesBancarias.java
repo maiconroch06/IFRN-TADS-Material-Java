@@ -67,6 +67,8 @@ public class OperacoesBancarias {
     }
     // *************************************************
 
+    
+    // *************** Fazer exeções para verificações *****************
     public boolean verificarSaldoSuficiente(ContaCorrente conta, double valor) {
         return conta.mostrarSaldoTotal() >= valor;
     }

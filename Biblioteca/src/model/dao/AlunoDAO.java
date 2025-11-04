@@ -13,20 +13,25 @@ import javax.swing.JOptionPane;
 public class AlunoDAO {
 
     public void cadastrarAluno(Aluno aluno) {
-        Connection conn = Conexao.getConexao();
+        
+        Conexao con = new Conexao();
         PreparedStatement ps = null;
         
         try {
             String sql = "INSERT INTO aluno (nome, matricula, email, telefone) VALUES (?, ?, ?, ?)";
-            ps = conn.prepareStatement(sql);
+            
+            
+            ps = con.getConexao().prepareStatement(sql);
 
+            
+            
             
             ps.setString(1, aluno.getNome());
             ps.setString(2, aluno.getMatricula());
             ps.setString(3, aluno.getEmail());
             ps.setString(4, aluno.getTelefone());
 
-            ps.executeUpdate();
+            ps.execute();
 
             /*JOptionPane.showMessageDialog(null, 
                 "Aluno cadastrado com sucesso! AlunoDAO",
@@ -39,14 +44,16 @@ public class AlunoDAO {
                 "Erro no Banco de Dados DAO1",
                 JOptionPane.ERROR_MESSAGE);
         } finally { //Será que do jeito que está não precissa deste trecho?
-            //Conexao.closeConnection(conn, ps);
+           con.closeConnection();
         }
     }
     
     
     public ArrayList<Aluno> read() {
 
-        Connection conn = Conexao.getConexao();
+        Connection conn;
+        Conexao con = new Conexao();
+        conn = con.getConexao();
         PreparedStatement ps = null;
         ResultSet rs = null;
         
@@ -61,7 +68,7 @@ public class AlunoDAO {
                 
                 Aluno aluno = new Aluno();
                 
-                aluno.setID_aluno(rs.getInt("ID_aluno"));
+                aluno.setID_aluno(rs.getInt("ID_alunos"));
                 aluno.setMatricula(rs.getString("matricula"));
                 aluno.setNome(rs.getString("nome"));
                 aluno.setEmail(rs.getString("email"));
@@ -72,11 +79,11 @@ public class AlunoDAO {
                     
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, 
-                "Erro ao cadastrar aluno: " + e.getMessage(),
+                "Erro ao selecionar aluno: " + e.getMessage(),
                 "Erro no Banco de Dados",
                 JOptionPane.ERROR_MESSAGE);
         } finally {
-            //Conexao.closeConnection(conn, ps, rs);
+            con.closeConnection(conn, ps, rs);
         }
         
         return alunos;
