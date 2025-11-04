@@ -1,26 +1,8 @@
 package classes;
 
-public class Cliente {
-    private String CPF;
-    private String nome;
+public class Cliente extends Pessoa {
     private String endereço;
     private String telefone;
-
-    public String getCPF() {
-        return CPF;
-    }
-
-    public void setCPF(String CPF) {
-        this.CPF = CPF;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
 
     public String getEndereço() {
         return endereço;
