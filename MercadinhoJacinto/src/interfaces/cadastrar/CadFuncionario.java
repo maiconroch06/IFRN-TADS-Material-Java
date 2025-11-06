@@ -6,7 +6,10 @@ import javax.swing.JOptionPane;
 
 public class CadFuncionario extends javax.swing.JDialog {
 
-    public CadFuncionario() {
+    private Gerenciamento g;
+    
+    public CadFuncionario(Gerenciamento g) {
+        this.g = g;
         initComponents();
         this.setLocationRelativeTo(null);
     }
@@ -122,17 +125,12 @@ public class CadFuncionario extends javax.swing.JDialog {
         Funcionario novoFuncionario = new Funcionario();
         novoFuncionario.setNome(nome);
         novoFuncionario.setCPF(cpf);
-
-        // CADASTRA NO GERENCIAMENTO
-        Gerenciamento g = new Gerenciamento();
-        boolean sucesso = g.cadastrarFuncionario(cpf, novoFuncionario);
-
-        if (sucesso) {
-            JOptionPane.showMessageDialog(this, "Funcionário cadastrado com sucesso!");
+        
+        if(g.cadastrarFuncionario(cpf, novoFuncionario)){
+            g.cadastrarFuncionario(cpf, novoFuncionario);
             txtNome.setText("");
             txtCPF.setText("");
         }
-    
     }//GEN-LAST:event_btCadastrarActionPerformed
 
     private void txtNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNomeActionPerformed

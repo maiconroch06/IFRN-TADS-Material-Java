@@ -3,8 +3,8 @@ package classes;
 public class Produto {
     private String codigoProduto; //pode ser int
     private String descrição;
-    private int quantidade;
-    private double valor_unitario;
+    private double quantidade;
+    private double valorUnitario;
 
     public String getCodigoProduto() {
         return codigoProduto;
@@ -22,20 +22,20 @@ public class Produto {
         this.descrição = descrição;
     }
 
-    public int getQuantidade() {
+    public double getQuantidade() {
         return quantidade;
     }
 
-    public void setQuantidade(int quantidade) {
+    public void setQuantidade(double quantidade) {
         this.quantidade = quantidade;
     }
 
-    public double getValor_unitario() {
-        return valor_unitario;
+    public double getValorUnitario() {
+        return valorUnitario;
     }
 
-    public void setValor_unitario(double valor_unitario) {
-        this.valor_unitario = valor_unitario;
+    public void setValorUnitario(double valorUnitario) {
+        this.valorUnitario = valorUnitario;
     }
     
     

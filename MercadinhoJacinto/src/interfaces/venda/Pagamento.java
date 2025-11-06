@@ -1,4 +1,4 @@
-package interfaces;
+package interfaces.venda;
 
 public class Pagamento extends javax.swing.JDialog {   
     public Pagamento() {

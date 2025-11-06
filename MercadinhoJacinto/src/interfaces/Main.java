@@ -1,16 +1,21 @@
 package interfaces;
 
-import classes.Cliente;
-import classes.Funcionario;
-import classes.Produto;
+import classes.Gerenciamento;
 import interfaces.cadastrar.CadFuncionario;
-import java.util.HashMap;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableRowSorter;
+import interfaces.cadastrar.CadProduto;
+import interfaces.venda.NovaVenda;
 
 public class Main extends javax.swing.JFrame {
     
+    private Gerenciamento g = new Gerenciamento();
+    
     private static int contadorIDVenda = 1;
+
+    // tem que passar por parametro a classe gerenciamento daqui para as janelas - feito!
+    // deixar as telas de cadastro de funcionarios e produtos funcionais - fei
+    // e exibir essas informações nas tabelas do main
+    // passar para a tabela de produtos a lista na interface de NovaVenda
+    // interface de nova venda funcional
     
     public Main() {
         initComponents();
@@ -228,17 +233,17 @@ public class Main extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        NovaVenda vendaGUI = new NovaVenda();
+        NovaVenda vendaGUI = new NovaVenda(g);
         vendaGUI.setModal(true);
         vendaGUI.setVisible(true);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        // TODO add your handling code here:
+        CadProduto cadGUI = new CadProduto(g);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
-        CadFuncionario cadGUI = new CadFuncionario();
+        CadFuncionario cadGUI = new CadFuncionario(g);
         cadGUI.setModal(true);
         cadGUI.setVisible(true);
     }//GEN-LAST:event_jMenuItem4ActionPerformed
