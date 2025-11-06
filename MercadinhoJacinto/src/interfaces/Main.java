@@ -5,19 +5,12 @@ import classes.Funcionario;
 import classes.Produto;
 import interfaces.cadastrar.CadFuncionario;
 import java.util.HashMap;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 
 public class Main extends javax.swing.JFrame {
-    private Cliente cliente = null;
-    private Produto produto = null;
-    private Funcionario funcionario = null;
-    
-    private HashMap<String, Funcionario> listaDeFuncionarios;
-    private HashMap<String, Cliente> listaDeClientes;
-    private HashMap<String, Produto> listaDeProdutos;
     
     private static int contadorIDVenda = 1;
-    private static int contadorIDCliente = 1;
-    private static int contadorIDFuncionario = 1;
     
     public Main() {
         initComponents();
@@ -25,23 +18,11 @@ public class Main extends javax.swing.JFrame {
         setExtendedState(MAXIMIZED_BOTH); // Tela cheia
     }
 
-    // Metodo de contagem de IDs
+    // Metodos de contagem de IDs
     public static String gerarIDVenda() {
         String ID = String.format("%03d", contadorIDVenda);
         contadorIDVenda++;
         return ID;
-    }
-    
-    public static String gerarIDCliente() {
-        String numero = String.format("%03d", contadorIDCliente);
-        contadorIDCliente++;
-        return numero;
-    }
-    
-    public static String gerarIDFuncionario() {
-        String numero = String.format("%03d", contadorIDFuncionario);
-        contadorIDFuncionario++;
-        return numero;
     }
     
     @SuppressWarnings("unchecked")
@@ -68,7 +49,6 @@ public class Main extends javax.swing.JFrame {
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
-        jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
 
         jMenu1.setText("File");
@@ -152,11 +132,11 @@ public class Main extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID_Venda", "ID_Cliente", "ID_Funcionario", "Codigo Produto", "Quantidade", "Valor Unitario (R$)", "Valor Total (R$)"
+                "ID_Venda", "Codigo Produto", "Quantidade", "Valor Unitario (R$)", "Valor Total (R$)"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, true
+                false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -208,11 +188,7 @@ public class Main extends javax.swing.JFrame {
         });
         jMenu4.add(jMenuItem2);
 
-        jMenuItem3.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F3, 0));
-        jMenuItem3.setText("Cliente");
-        jMenu4.add(jMenuItem3);
-
-        jMenuItem4.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, 0));
+        jMenuItem4.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F3, 0));
         jMenuItem4.setText("Funcionario");
         jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -310,7 +286,6 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar2;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;

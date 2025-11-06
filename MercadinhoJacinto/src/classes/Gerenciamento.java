@@ -8,6 +8,7 @@ public class Gerenciamento {
     private HashMap<String, Funcionario> listaDeFuncionarios;
     private HashMap<String, Cliente> listaDeClientes;
     private HashMap<String, Produto> listaDeProdutos;
+    private HashMap<String, Venda> listaDeVendas;
 
     // Funcionário (cadastrar, atualizar, remover e consultar)
     public boolean cadastrarFuncionario(String CPF, Funcionario funcionario){        
