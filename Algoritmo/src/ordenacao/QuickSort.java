@@ -11,21 +11,25 @@ public class QuickSort {
         }
     }
 
-    private static int particiona(int v[], int inicio, int fim) {
+    private static int particiona(int[] v, int ini, int fim) {
+        int Pselecionado = ini;
         int pivo = v[fim];
-        int i = inicio - 1;
-        for (int j = inicio; j < fim; j++) {
-            if (v[j] <= pivo) {
-                i++;
+
+        for (int i = ini; i < fim; i++) {
+            if (v[i] <= pivo) {
                 int temp = v[i];
-                v[i] = v[j];
-                v[j] = temp;
+                v[i] = v[Pselecionado];
+                v[Pselecionado] = temp;
+
+                Pselecionado++;
             }
         }
-        int temp = v[i + 1];
-        v[i + 1] = v[fim];
-        v[fim] = temp;
-        return i + 1;
+
+        int temp = v[fim];
+        v[fim] = v[Pselecionado];
+        v[Pselecionado] = temp;
+
+        return Pselecionado;
     }
 
     public static void showQuickSort() {
