@@ -5,122 +5,94 @@ import javax.swing.JOptionPane;
 
 public class Gerenciamento {
     //obs: Chave do funcionario e cliente é o "CPF", para produto será "CODIGO".
-    private HashMap<String, Funcionario> ListaDeFuncionarios;
-    private HashMap<String, Cliente> ListaDeClientes;
-    private HashMap<String, Produto> ListaDeProdutos;
+    private HashMap<String, Funcionario> listaDeFuncionarios;
+    private HashMap<String, Cliente> listaDeClientes;
+    private HashMap<String, Produto> listaDeProdutos;
 
     // Funcionário (cadastrar, atualizar, remover e consultar)
-    
-    // Cadastro
-    public boolean cadastrarPessoa(String CPF, Funcionario funcionario){        
-        if(ListaDeFuncionarios.containsKey(CPF)){
+    public boolean cadastrarFuncionario(String CPF, Funcionario funcionario){        
+        if(listaDeFuncionarios.containsKey(CPF)){
             JOptionPane.showMessageDialog(null, "Já cadastrado, tente um CPF diferente!");
-            return false; //
+            return false;
         } 
-        
-        ListaDeFuncionarios.put(CPF, funcionario);
+        listaDeFuncionarios.put(CPF, funcionario);
             return true;
     }
     
-    // att
-    public boolean atualizarPessoa(String CPF, Funcionario funcionario){        
-        if(!ListaDeFuncionarios.containsKey(CPF)){
+    public boolean atualizarFuncionario(String CPF, Funcionario funcionario){        
+        if(!listaDeFuncionarios.containsKey(CPF)){
             JOptionPane.showMessageDialog(null, "Não existe cadastro para atualizar! Cadastre primeiro.!");
-            return false; //
+            return false;
         } 
-        
-        ListaDeFuncionarios.put(CPF, funcionario);
+        listaDeFuncionarios.put(CPF, funcionario);
             return true;
     }
     
-    // remover
-    public void removerPessoa(String CPF, Funcionario funcionario){
-        ListaDeFuncionarios.remove(CPF, funcionario); 
+    public void removerFuncionario(String CPF, Funcionario funcionario){
+        listaDeFuncionarios.remove(CPF, funcionario); 
     }
     
-    public void ConsultarPessoa(String CPF){
-        ListaDeFuncionarios.get(CPF);
+    public void consultarFuncionario(String CPF){
+        listaDeFuncionarios.get(CPF);
     }
     
     //TO MEXENDO AQUI (LAEL)
     // Produto (cadastrar, atualizar, remover e consultar)
     
-    public void CadastrarProduto(String codigo, Produto produto){
-        ListaDeProdutos.put(codigo, produto);
+    public void cadastrarProduto(String codigo, Produto produto){
+        listaDeProdutos.put(codigo, produto);
     }
     
     public void AtualizarProduto (String codigo, Produto atualizado){
-        ListaDeProdutos.put(codigo, atualizado);
+        listaDeProdutos.put(codigo, atualizado);
     }
     
     public void RemoverProduto(String codigo){
-        ListaDeProdutos.remove(codigo);
+        listaDeProdutos.remove(codigo);
     }
     
     public void ConsultarProduto(String codigo){
-        ListaDeProdutos.get(codigo);
+        listaDeProdutos.get(codigo);
     }
     
     // Cliente (cadastrar, atualizar, remover e consultar)
-    
-     public boolean cadastrarPessoa(String CPF, Cliente cliente){        
-        if(ListaDeClientes.containsKey(CPF)){
+     public boolean cadastrarCliente(String CPF, Cliente cliente){        
+        if(listaDeClientes.containsKey(CPF)){
             JOptionPane.showMessageDialog(null, "Já cadastrado, tente um CPF diferente!");
-            return false; //
+            return false;
         } 
-        
-        ListaDeClientes.put(CPF, cliente);
+        listaDeClientes.put(CPF, cliente);
             return true;
     }
     
-    // att
-    public boolean atualizarPessoa(String CPF, Cliente cliente){        
-        if(!ListaDeClientes.containsKey(CPF)){
+    public boolean atualizarCliente(String CPF, Cliente cliente){        
+        if(!listaDeClientes.containsKey(CPF)){
             JOptionPane.showMessageDialog(null, "Não existe cadastro para atualizar! Cadastre primeiro.!");
-            return false; //
+            return false;
         } 
-        
-        ListaDeClientes.put(CPF, cliente);
+        listaDeClientes.put(CPF, cliente);
             return true;
     }
     
-    // remover
-    public void removerPessoa(String CPF, Cliente cliente){
-        ListaDeClientes.remove(CPF, cliente); 
+    public void removerCliente(String CPF, Cliente cliente){
+        listaDeClientes.remove(CPF, cliente); 
     }
     
-    // consultar
-    public void ConsultarPessoa(String CPF, Cliente cliente){
-        ListaDeClientes.get(CPF);
+    public void consultarCliente(String CPF, Cliente cliente){
+        listaDeClientes.get(CPF);
     }
     
-    
+    // Getters
     public HashMap<String, Funcionario> getListaDeFuncionarios() {
-        return ListaDeFuncionarios;
-    }
-
-    public void setListaDeFuncionarios(HashMap<String, Funcionario> ListaDeFuncionarios) {
-        this.ListaDeFuncionarios = ListaDeFuncionarios;
+        return listaDeFuncionarios;
     }
 
     public HashMap<String, Cliente> getListaDeClientes() {
-        return ListaDeClientes;
-    }
-
-    public void setListaDeClientes(HashMap<String, Cliente> ListaDeClientes) {
-        this.ListaDeClientes = ListaDeClientes;
+        return listaDeClientes;
     }
 
     public HashMap<String, Produto> getListaDeProdutos() {
-        return ListaDeProdutos;
-    }
-
-    public void setListaDeProdutos(HashMap<String, Produto> ListaDeProdutos) {
-        this.ListaDeProdutos = ListaDeProdutos;
-    }
-
-    private void ListaDeClientes(String cpf, Cliente cliente) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return listaDeProdutos;
     }
     
 }

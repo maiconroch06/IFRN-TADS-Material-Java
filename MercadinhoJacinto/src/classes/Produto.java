@@ -1,17 +1,17 @@
 package classes;
 
 public class Produto {
-    private String codigo; //pode ser int
+    private String codigoProduto; //pode ser int
     private String descrição;
     private int quantidade;
     private double valor_unitario;
 
-    public String getCodigo() {
-        return codigo;
+    public String getCodigoProduto() {
+        return codigoProduto;
     }
 
-    public void setCodigo(String codigo) {
-        this.codigo = codigo;
+    public void setCodigoProduto(String codigoProduto) {
+        this.codigoProduto = codigoProduto;
     }
 
     public String getDescrição() {

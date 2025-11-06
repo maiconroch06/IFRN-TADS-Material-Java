@@ -1,8 +1,17 @@
 package classes;
 
 public class Cliente extends Pessoa {
+    private int ID_Cliente;
     private String endereço;
     private String telefone;
+
+    public int getID_Cliente() {
+        return ID_Cliente;
+    }
+
+    public void setID_Cliente(int ID_Cliente) {
+        this.ID_Cliente = ID_Cliente;
+    }
 
     public String getEndereço() {
         return endereço;
