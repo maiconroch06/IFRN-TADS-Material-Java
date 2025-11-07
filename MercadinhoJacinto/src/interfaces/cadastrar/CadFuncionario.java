@@ -12,6 +12,8 @@ public class CadFuncionario extends javax.swing.JDialog {
         this.g = g;
         initComponents();
         this.setLocationRelativeTo(null);
+        
+        getRootPane().setDefaultButton(btCadastrar);
     }
 
     @SuppressWarnings("unchecked")
@@ -126,7 +128,7 @@ public class CadFuncionario extends javax.swing.JDialog {
         novoFuncionario.setNome(nome);
         novoFuncionario.setCPF(cpf);
         
-        if(g.cadastrarFuncionario(cpf, novoFuncionario)){
+        if(g.verificarFuncionario(cpf, novoFuncionario)){
             g.cadastrarFuncionario(cpf, novoFuncionario);
             txtNome.setText("");
             txtCPF.setText("");

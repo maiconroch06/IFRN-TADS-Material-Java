@@ -1,33 +1,74 @@
 package interfaces;
 
-import classes.Gerenciamento;
+import classes.*;
 import interfaces.cadastrar.CadFuncionario;
 import interfaces.cadastrar.CadProduto;
 import interfaces.venda.NovaVenda;
+import java.awt.event.ActionEvent;
+import javax.swing.AbstractAction;
+import javax.swing.JComponent;
+import javax.swing.KeyStroke;
+import javax.swing.table.DefaultTableModel;
 
 public class Main extends javax.swing.JFrame {
     
     private Gerenciamento g = new Gerenciamento();
-    
-    private static int contadorIDVenda = 1;
 
     // tem que passar por parametro a classe gerenciamento daqui para as janelas - feito!
-    // deixar as telas de cadastro de funcionarios e produtos funcionais - fei
-    // e exibir essas informações nas tabelas do main
-    // passar para a tabela de produtos a lista na interface de NovaVenda
+    // deixar as telas de cadastro de funcionarios e produtos funcionais - feito
+    // exibir produtos e funcionarios nas tabelas do main - feito!
+    // exibir produtos predeterminados na tabela do main - feito!
+    // passar para listaDeProdutos para interface de NovaVenda
     // interface de nova venda funcional
     
     public Main() {
         initComponents();
         setLocationRelativeTo(null);      // Tela main centralizada
         setExtendedState(MAXIMIZED_BOTH); // Tela cheia
-    }
+        
+        // ✅ Atalhos 1 2 3 4 para as abas
+        for (int i = 0; i < 4; i++) {
+            final int index = i;
+            Abas.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+                .put(KeyStroke.getKeyStroke(String.valueOf(i + 1)), "tab" + i);
 
-    // Metodos de contagem de IDs
-    public static String gerarIDVenda() {
-        String ID = String.format("%03d", contadorIDVenda);
-        contadorIDVenda++;
-        return ID;
+            Abas.getActionMap().put("tab" + i, new AbstractAction() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    Abas.setSelectedIndex(index);
+                }
+            });
+        }
+        
+        g.carregarProdutosPadrao();
+        carregarTabelaProdutos();
+        carregarTabelaFuncionarios();
+    }
+    
+    public void carregarTabelaProdutos() {
+        DefaultTableModel modelo = (DefaultTableModel) TableProdutos.getModel();
+        modelo.setRowCount(0); // limpa a tabela antes de preencher
+
+        for (Produto p : g.getListaDeProdutos().values()) {
+            modelo.addRow(new Object[] {
+                p.getCodigoProduto(),
+                p.getDescricao(),
+                p.getQuantidade(),
+                p.getValorUnitario()
+            });
+        }
+    }
+    
+    public void carregarTabelaFuncionarios() {
+        DefaultTableModel modelo = (DefaultTableModel) TableFuncionarios.getModel();
+        modelo.setRowCount(0);
+
+        for (Funcionario f : g.getListaDeFuncionarios().values()) {
+            modelo.addRow(new Object[] {
+                f.getNome(),
+                f.getCPF()
+            });
+        }
     }
     
     @SuppressWarnings("unchecked")
@@ -40,21 +81,21 @@ public class Main extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
-        jTabbedPane1 = new javax.swing.JTabbedPane();
+        Abas = new javax.swing.JTabbedPane();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTable3 = new javax.swing.JTable();
+        TableProdutos = new javax.swing.JTable();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        TableClientes = new javax.swing.JTable();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        TableFuncionarios = new javax.swing.JTable();
         jScrollPane4 = new javax.swing.JScrollPane();
-        jTable4 = new javax.swing.JTable();
+        TableVendas = new javax.swing.JTable();
         jMenuBar2 = new javax.swing.JMenuBar();
         jMenu3 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
+        mnNovaVenda = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
-        jMenuItem2 = new javax.swing.JMenuItem();
-        jMenuItem4 = new javax.swing.JMenuItem();
+        mnCadProduto = new javax.swing.JMenuItem();
+        mnCadFuncionario = new javax.swing.JMenuItem();
 
         jMenu1.setText("File");
         jMenuBar1.add(jMenu1);
@@ -72,12 +113,12 @@ public class Main extends javax.swing.JFrame {
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("Mercadinho do Jacinto");
 
-        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+        TableProdutos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Codigo Produto", "Descrição", "Quantidade", "Valor Unitario"
+                "Codigo Produto", "Descrição", "Quantidade (Un)", "Valor Unitario (R$)"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -88,51 +129,51 @@ public class Main extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane3.setViewportView(jTable3);
+        jScrollPane3.setViewportView(TableProdutos);
 
-        jTabbedPane1.addTab("Tabela de Produtos", jScrollPane3);
+        Abas.addTab("Tabela de Produtos", jScrollPane3);
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        TableClientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "ID_Cliente", "CPF", "Nome", "Email", "Telefone"
+                "CPF", "Nome", "Email", "Telefone"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane2.setViewportView(jTable2);
+        jScrollPane2.setViewportView(TableClientes);
 
-        jTabbedPane1.addTab("Tabela de Clientes", jScrollPane2);
+        Abas.addTab("Tabela de Clientes", jScrollPane2);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        TableFuncionarios.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "ID_Funcionario", "CPF", "Nome"
+                "Nome", "CPF"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(TableFuncionarios);
 
-        jTabbedPane1.addTab("Tabela de Funcionario", jScrollPane1);
+        Abas.addTab("Tabela de Funcionario", jScrollPane1);
 
-        jTable4.setModel(new javax.swing.table.DefaultTableModel(
+        TableVendas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -148,59 +189,59 @@ public class Main extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane4.setViewportView(jTable4);
+        jScrollPane4.setViewportView(TableVendas);
 
-        jTabbedPane1.addTab("Tabela de Vendas", jScrollPane4);
+        Abas.addTab("Tabela de Vendas", jScrollPane4);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(50, Short.MAX_VALUE)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1214, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(38, 38, 38))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(24, 24, 24)
+                .addComponent(Abas, javax.swing.GroupLayout.PREFERRED_SIZE, 1214, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(64, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(31, Short.MAX_VALUE)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 404, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(22, 22, 22)
+                .addComponent(Abas, javax.swing.GroupLayout.PREFERRED_SIZE, 404, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(33, Short.MAX_VALUE))
         );
 
         jMenu3.setText("Menu");
 
-        jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F1, 0));
-        jMenuItem1.setText("N. VENDA");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+        mnNovaVenda.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F1, 0));
+        mnNovaVenda.setText("N. VENDA");
+        mnNovaVenda.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
+                mnNovaVendaActionPerformed(evt);
             }
         });
-        jMenu3.add(jMenuItem1);
+        jMenu3.add(mnNovaVenda);
 
         jMenuBar2.add(jMenu3);
 
         jMenu4.setText("Cadastrar");
 
-        jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F2, 0));
-        jMenuItem2.setText("Produto");
-        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+        mnCadProduto.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F2, 0));
+        mnCadProduto.setText("Produto");
+        mnCadProduto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem2ActionPerformed(evt);
+                mnCadProdutoActionPerformed(evt);
             }
         });
-        jMenu4.add(jMenuItem2);
+        jMenu4.add(mnCadProduto);
 
-        jMenuItem4.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F3, 0));
-        jMenuItem4.setText("Funcionario");
-        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+        mnCadFuncionario.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F3, 0));
+        mnCadFuncionario.setText("Funcionario");
+        mnCadFuncionario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem4ActionPerformed(evt);
+                mnCadFuncionarioActionPerformed(evt);
             }
         });
-        jMenu4.add(jMenuItem4);
+        jMenu4.add(mnCadFuncionario);
 
         jMenuBar2.add(jMenu4);
 
@@ -211,11 +252,11 @@ public class Main extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(60, Short.MAX_VALUE)
+            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1481, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(62, 62, 62)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(119, 119, 119))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -226,27 +267,33 @@ public class Main extends javax.swing.JFrame {
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(76, Short.MAX_VALUE))
+                .addContainerGap(63, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+    private void mnNovaVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnNovaVendaActionPerformed
         NovaVenda vendaGUI = new NovaVenda(g);
         vendaGUI.setModal(true);
         vendaGUI.setVisible(true);
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
+    }//GEN-LAST:event_mnNovaVendaActionPerformed
 
-    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        CadProduto cadGUI = new CadProduto(g);
-    }//GEN-LAST:event_jMenuItem2ActionPerformed
+    private void mnCadProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnCadProdutoActionPerformed
+        CadProduto cadVGUI = new CadProduto(g);
+        cadVGUI.setModal(true);
+        cadVGUI.setVisible(true);
+        
+        carregarTabelaProdutos();
+    }//GEN-LAST:event_mnCadProdutoActionPerformed
 
-    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
-        CadFuncionario cadGUI = new CadFuncionario(g);
-        cadGUI.setModal(true);
-        cadGUI.setVisible(true);
-    }//GEN-LAST:event_jMenuItem4ActionPerformed
+    private void mnCadFuncionarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnCadFuncionarioActionPerformed
+        CadFuncionario cadFGUI = new CadFuncionario(g);
+        cadFGUI.setModal(true);
+        cadFGUI.setVisible(true);
+        
+        carregarTabelaFuncionarios();
+    }//GEN-LAST:event_mnCadFuncionarioActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -281,6 +328,11 @@ public class Main extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTabbedPane Abas;
+    private javax.swing.JTable TableClientes;
+    private javax.swing.JTable TableFuncionarios;
+    private javax.swing.JTable TableProdutos;
+    private javax.swing.JTable TableVendas;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JMenu jMenu1;
@@ -289,18 +341,13 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuBar jMenuBar2;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
-    private javax.swing.JTable jTable3;
-    private javax.swing.JTable jTable4;
+    private javax.swing.JMenuItem mnCadFuncionario;
+    private javax.swing.JMenuItem mnCadProduto;
+    private javax.swing.JMenuItem mnNovaVenda;
     // End of variables declaration//GEN-END:variables
 }

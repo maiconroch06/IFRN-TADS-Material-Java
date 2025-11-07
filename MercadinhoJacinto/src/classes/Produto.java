@@ -2,9 +2,18 @@ package classes;
 
 public class Produto {
     private String codigoProduto; //pode ser int
-    private String descrição;
-    private double quantidade;
+    private String descricao;
+    private int quantidade;
     private double valorUnitario;
+    
+    public Produto() {}
+
+    public Produto(String codigoProduto, String descricao, int quantidade, double valorUnitario) {
+        this.codigoProduto = codigoProduto;
+        this.descricao = descricao;
+        this.quantidade = quantidade;
+        this.valorUnitario = valorUnitario;
+    }
 
     public String getCodigoProduto() {
         return codigoProduto;
@@ -14,19 +23,19 @@ public class Produto {
         this.codigoProduto = codigoProduto;
     }
 
-    public String getDescrição() {
-        return descrição;
+    public String getDescricao() {
+        return descricao;
     }
 
-    public void setDescrição(String descrição) {
-        this.descrição = descrição;
+    public void setDescricao(String descrição) {
+        this.descricao = descrição;
     }
 
-    public double getQuantidade() {
+    public int getQuantidade() {
         return quantidade;
     }
 
-    public void setQuantidade(double quantidade) {
+    public void setQuantidade(int quantidade) {
         this.quantidade = quantidade;
     }
 
