@@ -29,25 +29,24 @@ public class Main extends javax.swing.JFrame {
         setExtendedState(MAXIMIZED_BOTH); // Tela cheia
         
             JPanel centralizador = new JPanel(new java.awt.GridBagLayout());
-            centralizador.setOpaque(false); // deixa o fundo transparente
-            centralizador.add(jPanel1);
-            jPanel1.setOpaque(false);
-            Abas.setOpaque(false);
-
-
-            setContentPane(new javax.swing.JPanel() {
-            @Override
-            protected void paintComponent(java.awt.Graphics g) {
-            super.paintComponent(g);
-            java.awt.Image img = new javax.swing.ImageIcon(
-                getClass().getResource("/imagens/fundo.jpg")
-            ).getImage();
-            g.drawImage(img, 0, 0, getWidth(), getHeight(), this);
-        }
-    });
+            centralizador.setOpaque(false);
+            centralizador.add(painelImagem);
             setLayout(new java.awt.BorderLayout());
             add(centralizador, java.awt.BorderLayout.CENTER);
-        
+            
+            painelImagem.setLayout(new javax.swing.GroupLayout(painelImagem));
+            painelImagem.add(jLabel1);
+            painelImagem.add(jLabel2);
+            
+            // Atualiza o painel no JFrame
+            getContentPane().removeAll();
+            getContentPane().add(painelImagem);
+            getContentPane().revalidate();
+            getContentPane().repaint();
+
+            
+    
+            
         // ✅ Atalhos 1 2 3 4 para as abas
         for (int i = 0; i < 4; i++) {
             final int index = i;
@@ -130,7 +129,7 @@ public class Main extends javax.swing.JFrame {
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
         jMenu5 = new javax.swing.JMenu();
-        jPanel1 = new javax.swing.JPanel();
+        painelImagem = new javax.swing.JPanel();
         Abas = new javax.swing.JTabbedPane();
         jScrollPane3 = new javax.swing.JScrollPane();
         TableProdutos = new javax.swing.JTable();
@@ -151,6 +150,9 @@ public class Main extends javax.swing.JFrame {
         mnCliente = new javax.swing.JMenuItem();
         btnMnMais = new javax.swing.JMenu();
         mnAtualizar = new javax.swing.JMenuItem();
+        jMenu6 = new javax.swing.JMenu();
+        jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
 
         jMenu1.setText("File");
         jMenuBar1.add(jMenu1);
@@ -161,6 +163,17 @@ public class Main extends javax.swing.JFrame {
         jMenu5.setText("jMenu5");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        painelImagem = new javax.swing.JPanel() {
+            @Override
+            protected void paintComponent(java.awt.Graphics g) {
+                super.paintComponent(g);
+                java.awt.Image img = new javax.swing.ImageIcon(
+                    getClass().getResource("/interfaces/fundinhoAR.jpg")
+                ).getImage();
+                g.drawImage(img, 0, 0, getWidth(), getHeight(), this);
+            }
+        };
 
         TableProdutos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -247,38 +260,43 @@ public class Main extends javax.swing.JFrame {
 
         Abas.addTab("Tabela de Vendas", jScrollPane4);
 
+        jLabel2.setBackground(new java.awt.Color(255, 255, 255));
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("Mercadinho do Jacinto");
+        jLabel2.setText("Mercadinho Jacinto Fome");
 
+        jLabel1.setBackground(new java.awt.Color(255, 255, 255));
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Controle de Estoque");
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(24, 24, 24)
-                .addComponent(Abas, javax.swing.GroupLayout.PREFERRED_SIZE, 1214, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(160, Short.MAX_VALUE))
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        javax.swing.GroupLayout painelImagemLayout = new javax.swing.GroupLayout(painelImagem);
+        painelImagem.setLayout(painelImagemLayout);
+        painelImagemLayout.setHorizontalGroup(
+            painelImagemLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(painelImagemLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(painelImagemLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1506, Short.MAX_VALUE))
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, painelImagemLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(Abas, javax.swing.GroupLayout.PREFERRED_SIZE, 1005, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(235, 235, 235))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        painelImagemLayout.setVerticalGroup(
+            painelImagemLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(painelImagemLayout.createSequentialGroup()
+                .addGap(96, 96, 96)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(Abas, javax.swing.GroupLayout.PREFERRED_SIZE, 404, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(56, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(Abas, javax.swing.GroupLayout.PREFERRED_SIZE, 476, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(75, Short.MAX_VALUE))
         );
 
         jMenu3.setText("Menu");
@@ -341,6 +359,16 @@ public class Main extends javax.swing.JFrame {
         });
         btnMnMais.add(mnAtualizar);
 
+        jMenu6.setText("jMenu6");
+
+        jMenuItem2.setText("jMenuItem2");
+        jMenu6.add(jMenuItem2);
+
+        jMenuItem1.setText("jMenuItem1");
+        jMenu6.add(jMenuItem1);
+
+        btnMnMais.add(jMenu6);
+
         jMenuBar2.add(btnMnMais);
 
         setJMenuBar(jMenuBar2);
@@ -349,17 +377,11 @@ public class Main extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(201, 201, 201)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(painelImagem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(210, 210, 210)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(painelImagem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -458,9 +480,11 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenu jMenu5;
+    private javax.swing.JMenu jMenu6;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuBar jMenuBar2;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
@@ -470,5 +494,6 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JMenuItem mnCadProduto;
     private javax.swing.JMenuItem mnCliente;
     private javax.swing.JMenuItem mnNovaVenda;
+    private javax.swing.JPanel painelImagem;
     // End of variables declaration//GEN-END:variables
 }

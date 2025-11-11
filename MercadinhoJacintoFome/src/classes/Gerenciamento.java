@@ -1,5 +1,7 @@
 package classes;
 
+import java.awt.List;
+import java.util.ArrayList;
 import java.util.HashMap;
 import javax.swing.JOptionPane;
 
@@ -79,13 +81,39 @@ public class Gerenciamento {
     
     // salva cada item do carrinho como uma "linha de venda"
     public void salvarVendasDoCarrinho(String idVenda, java.util.List<Venda> itens) { // //
-    for (int i = 0; i < itens.size(); i++) {                                        // //
-        Venda v = itens.get(i);                                                     // //
-        v.setID_Venda(Integer.parseInt(idVenda));                                   // //
-        String chave = idVenda + "-" + i;                                           // //
-        listaDeVendas.put(chave, v);                                                // //
-    }                                                                               // //
-} 
+        for (int i = 0; i < itens.size(); i++) {                                        // //
+            Venda v = itens.get(i);                                                     // //
+            v.setID_Venda(Integer.parseInt(idVenda));                                   // //
+            String chave = idVenda + "-" + i;                                           // //
+            listaDeVendas.put(chave, v);                                                // //
+        }                                                                               // //
+    } 
+    
+    public void atualizarEstoque(String idVenda, java.util.List<Venda> itens) { // //
+        for (Venda v : itens) {
+        // A chave do produto é o ID ou nome do produto, não o id da venda
+        String chave =  v.getCodigoProduto() + ""; // ou v.getNomeProduto(), dependendo da sua classe Venda
+
+        // Busca o produto real no HashMap do estoque
+        Produto produto = listaDeProdutos.get(chave);
+
+        if (produto != null) {
+            // Calcula a nova quantidade
+            int novaQuantidade = produto.getQuantidade() - v.getQuantidade();
+
+            // Garante que não fique negativo
+            if (novaQuantidade < 0) {
+                novaQuantidade = 0;
+            }
+
+            // Atualiza a quantidade no objeto
+            produto.setQuantidade(novaQuantidade);
+
+            // Atualiza o HashMap (opcional, pois o objeto já foi alterado)
+            listaDeProdutos.put(chave, produto);
+        }                                                                              // //
+    }
+    }
     
     // 3.Metodos para remover
     public void removerFuncionario(String CPF, Funcionario funcionario){

@@ -235,6 +235,7 @@ public class Pagamento extends javax.swing.JDialog {
             if (onFinalizarCompra != null) onFinalizarCompra.run();
             finalizada = true;
             dispose();
+            
         } else {
             Object[] options = {"Cadastrar", "Tentar Novamente"};
             int escolha = JOptionPane.showOptionDialog(

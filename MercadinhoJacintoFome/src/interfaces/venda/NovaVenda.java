@@ -370,6 +370,7 @@ public class NovaVenda extends javax.swing.JDialog {
 
         // opcional: reduzir o estoque exibido na tabela de produtos (visualmente)
         modeloProdutos.setValueAt(estoque - quantidadeDesejada, linhaSelecionada, 2);
+       
 
         // limpa campo de código e reseta spinner para 0
         txtCodigo.setText("");
@@ -397,6 +398,7 @@ public class NovaVenda extends javax.swing.JDialog {
             String id = gerenciamento.gerarIDVenda();                       // //
             java.util.List<classes.Venda> itens = montarVendasDoCarrinho(); // //
             gerenciamento.salvarVendasDoCarrinho(id, itens);                // //
+            gerenciamento.atualizarEstoque(id, itens);
             limparCarrinho();                                    // //
         }
     }//GEN-LAST:event_btPagamentoActionPerformed
@@ -497,21 +499,22 @@ public class NovaVenda extends javax.swing.JDialog {
         jLabelTotalDaCompra.setText("0.00"); // reinicia o total da compra;
     }
     private java.util.List<classes.Venda> montarVendasDoCarrinho() {
-    javax.swing.table.DefaultTableModel m = (javax.swing.table.DefaultTableModel) jTable2.getModel();
-    java.util.List<classes.Venda> lista = new java.util.ArrayList<>();
-    for (int i = 0; i < m.getRowCount(); i++) {
-        String codigo = String.valueOf(m.getValueAt(i, 0)); // coluna: Código
-        int qtd = Integer.parseInt(String.valueOf(m.getValueAt(i, 2))); // coluna: Quantidade
-        double vu = Double.parseDouble(String.valueOf(m.getValueAt(i, 3))); // coluna: Valor Unitário
+        javax.swing.table.DefaultTableModel m = (javax.swing.table.DefaultTableModel) jTable2.getModel();
+        java.util.List<classes.Venda> lista = new java.util.ArrayList<>();
+        
+        for (int i = 0; i < m.getRowCount(); i++) {
+            String codigo = String.valueOf(m.getValueAt(i, 0)); // coluna: Código
+            int qtd = Integer.parseInt(String.valueOf(m.getValueAt(i, 2))); // coluna: Quantidade
+            double vu = Double.parseDouble(String.valueOf(m.getValueAt(i, 3))); // coluna: Valor Unitário
 
-        classes.Venda v = new classes.Venda();
-        v.setCodigoProduto(codigo);
-        v.setQuantidade(qtd);
-        v.setValorUnitario(vu);
-        lista.add(v);
+            classes.Venda v = new classes.Venda();
+            v.setCodigoProduto(codigo);
+            v.setQuantidade(qtd);
+            v.setValorUnitario(vu);
+            lista.add(v);
+        }
+        return lista;
     }
-    return lista;
-}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btAdicionar;
