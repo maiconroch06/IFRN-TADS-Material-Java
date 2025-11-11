@@ -1,18 +1,17 @@
 package classes;
 
 public class Cliente extends Pessoa {
-    private int ID_Cliente;
     private String endereco;
     private String telefone;
 
-    public int getID_Cliente() {
-        return ID_Cliente;
-    }
-
-    public void setID_Cliente(int ID_Cliente) {
-        this.ID_Cliente = ID_Cliente;
-    }
-
+    public Cliente() { super("", ""); } // chama Pessoa(nome, cpf) com valores vazios
+    
+    public Cliente(String nome, String CPF, String endereco, String telefone) {
+        super(nome, CPF);
+        this.endereco = endereco;
+        this.telefone = telefone;
+}
+    
     public String getEndereco() {
         return endereco;
     }

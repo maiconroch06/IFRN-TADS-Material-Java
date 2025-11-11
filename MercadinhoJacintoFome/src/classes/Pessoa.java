@@ -4,6 +4,11 @@ public class Pessoa {
     private String CPF;
     private String nome;
 
+    public Pessoa(String CPF, String nome) {
+        this.CPF = CPF;
+        this.nome = nome;
+    }
+    
     public String getCPF() {
         return CPF;
     }

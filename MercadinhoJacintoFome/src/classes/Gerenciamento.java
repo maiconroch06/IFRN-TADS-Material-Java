@@ -1,18 +1,23 @@
 package classes;
 
-import java.awt.List;
-import java.util.ArrayList;
 import java.util.HashMap;
 import javax.swing.JOptionPane;
 
 /* Sumario:
+Funcionalidades
     1.Metodos de verificar
     1.Metodos de cadastro
     2.Metodos de remover
     3.Metodos de consultar
     4.Metodos de atualizar
+Interface    
+    5.Metodos das tabelas
+Extras
     
-Extra: Lista de´produtos
+    Lista de produtos
+    96.Predefinição dos Clientes
+    97.Predefinição dos Funcionarios
+    98.Predefinição dos produtos
     99.Metodos Getters
 */
 
@@ -30,8 +35,8 @@ public class Gerenciamento {
     
     public Gerenciamento() {}
     
-    public String gerarIDVenda() {                    // //
-        return String.valueOf(seqVenda++);            // //
+    public String gerarIDVenda() {                                              // //
+        return String.valueOf(seqVenda++);                                      // //
     }
     
     // 1.Metodos para verificar
@@ -81,38 +86,38 @@ public class Gerenciamento {
     
     // salva cada item do carrinho como uma "linha de venda"
     public void salvarVendasDoCarrinho(String idVenda, java.util.List<Venda> itens) { // //
-        for (int i = 0; i < itens.size(); i++) {                                        // //
-            Venda v = itens.get(i);                                                     // //
-            v.setID_Venda(Integer.parseInt(idVenda));                                   // //
-            String chave = idVenda + "-" + i;                                           // //
-            listaDeVendas.put(chave, v);                                                // //
-        }                                                                               // //
+        for (int i = 0; i < itens.size(); i++) {                                      // //
+            Venda v = itens.get(i);                                              // //
+            v.setID_Venda(Integer.parseInt(idVenda));                        // //
+            String chave = idVenda + "-" + i;                                         // //
+            listaDeVendas.put(chave, v);                                      // //
+        }                                                                             // //
     } 
     
-    public void atualizarEstoque(String idVenda, java.util.List<Venda> itens) { // //
+    public void atualizarEstoque(String idVenda, java.util.List<Venda> itens) {       // //
         for (Venda v : itens) {
-        // A chave do produto é o ID ou nome do produto, não o id da venda
-        String chave =  v.getCodigoProduto() + ""; // ou v.getNomeProduto(), dependendo da sua classe Venda
+            // A chave do produto é o codigo do produto
+            String chave =  v.getCodigoProduto() + ""; // Converte int em String
 
-        // Busca o produto real no HashMap do estoque
-        Produto produto = listaDeProdutos.get(chave);
+            // Busca o produto real no HashMap do estoque
+            Produto produto = listaDeProdutos.get(chave);
 
-        if (produto != null) {
-            // Calcula a nova quantidade
-            int novaQuantidade = produto.getQuantidade() - v.getQuantidade();
+            if (produto != null) {
+                // Calcula a nova quantidade
+                int novaQuantidade = produto.getQuantidade() - v.getQuantidade();
 
-            // Garante que não fique negativo
-            if (novaQuantidade < 0) {
-                novaQuantidade = 0;
-            }
+                // Garante que não fique negativo
+                if (novaQuantidade < 0) {
+                    novaQuantidade = 0;
+                }
 
-            // Atualiza a quantidade no objeto
-            produto.setQuantidade(novaQuantidade);
+                // Atualiza a quantidade no objeto
+                produto.setQuantidade(novaQuantidade);
 
-            // Atualiza o HashMap (opcional, pois o objeto já foi alterado)
-            listaDeProdutos.put(chave, produto);
-        }                                                                              // //
-    }
+                /*// Atualiza o HashMap (opcional, pois o objeto já foi alterado)
+                listaDeProdutos.put(chave, produto);*/
+            }                                                                         // //
+        }
     }
     
     // 3.Metodos para remover
@@ -180,6 +185,32 @@ public class Gerenciamento {
         return codigo;
     }
     
+    public double obterTotalDaCompra(String s) {
+        s = s.replace("R$", "").trim().replace(".", "").replace(",", ".");
+        try { return Double.parseDouble(s); } catch (Exception e) { return 0.0; }
+    }
+    
+    // 98.Predefinição dos Clientes
+    public void carregarClientesPadrao() {
+        cadastrarCliente("111.111.111-11", new Cliente("Danilo", "111.111.111-11", "Rua das Palmeiras, 101", "(11) 91111-1111"));
+        cadastrarCliente("222.222.222-22", new Cliente("Gabriel", "222.222.222-22", "Av. Central, 202", "(22) 92222-2222"));
+        cadastrarCliente("333.333.333-33", new Cliente("Jackon", "333.333.333-33", "Travessa do Sol, 303", "(33) 93333-3333"));
+        cadastrarCliente("444.444.444-44", new Cliente("Laelson", "444.444.444-44", "Rua das Flores, 404", "(44) 94444-4444"));
+        cadastrarCliente("555.555.555-55", new Cliente("Maicon", "555.555.555-55", "Rua Java, 505", "(55) 95555-5555"));
+        cadastrarCliente("666.666.666-66", new Cliente("Ryan", "666.666.666-66", "Av. Spring, 606", "(66) 96666-6666"));
+    }
+
+// 97. Predefinição dos Funcionários
+    public void carregarFuncionariosPadrao() {
+        cadastrarFuncionario("111.111.111-11", new Funcionario("Danilo", "111.111.111-11"));
+        cadastrarFuncionario("222.222.222-22", new Funcionario("Gabriel", "222.222.222-22"));
+        cadastrarFuncionario("333.333.333-33", new Funcionario("Jackon", "333.333.333-33"));
+        cadastrarFuncionario("444.444.444-44", new Funcionario("Laelson", "444.444.444-44"));
+        cadastrarFuncionario("555.555.555-55", new Funcionario("Maicon", "555.555.555-55"));
+        cadastrarFuncionario("666.666.666-66", new Funcionario("Ryan", "666.666.666-66"));
+    }
+
+    // 98.Predefinição dos produtos
     public void carregarProdutosPadrao() {
         String cod1 = gerarCodigoProduto();
         cadastrarProduto(cod1, new Produto(cod1, "Arroz", 10, 5.99));
@@ -235,13 +266,7 @@ public class Gerenciamento {
         String cod18 = gerarCodigoProduto();
         cadastrarProduto(cod18, new Produto(cod18, "Shampoo", 19, 10.99));
     }
-    
-    public double obterTotalDaCompra(String s) {
-    s = s.replace("R$", "").trim().replace(".", "").replace(",", ".");
-    try { return Double.parseDouble(s); } catch (Exception e) { return 0.0; }
-}
-    
-    
+
     
     // 99.Getters
     public HashMap<String, Cliente> getListaDeClientes() {
