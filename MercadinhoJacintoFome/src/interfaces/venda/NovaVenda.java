@@ -6,8 +6,11 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.KeyStroke;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 
 public class NovaVenda extends javax.swing.JDialog {
@@ -19,9 +22,11 @@ public class NovaVenda extends javax.swing.JDialog {
         initComponents();
         carregarTabelaProdutos(g);
         this.setLocationRelativeTo(this);
+        
+        ativarOrdenacaoNaTabela(TableProdutos);
 
         // (opcional) permitir duplo-clique para adicionar ao carrinho
-        TableProduto.addMouseListener(new java.awt.event.MouseAdapter() {
+        TableProdutos.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 if (evt.getClickCount() == 2) {
@@ -40,8 +45,15 @@ public class NovaVenda extends javax.swing.JDialog {
         });
     }
     
+    // Ativar onrdenação na primeira coluna
+    private void ativarOrdenacaoNaTabela(JTable tabela) {
+        TableRowSorter<TableModel> sorter = new TableRowSorter<>(tabela.getModel());
+        tabela.setRowSorter(sorter);
+        sorter.toggleSortOrder(0); // ordena pela 1ª coluna
+    }
+    
     private void carregarTabelaProdutos(Gerenciamento g) {
-        DefaultTableModel modelo = (DefaultTableModel) TableProduto.getModel();
+        DefaultTableModel modelo = (DefaultTableModel) TableProdutos.getModel();
         modelo.setRowCount(0); // limpa
 
         if (g == null) return;
@@ -80,7 +92,7 @@ public class NovaVenda extends javax.swing.JDialog {
         txtCodigo = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        TableProduto = new javax.swing.JTable();
+        TableProdutos = new javax.swing.JTable();
         btPesquisar = new javax.swing.JButton();
         btAdicionar = new javax.swing.JButton();
         jSpinner1 = new javax.swing.JSpinner();
@@ -109,7 +121,7 @@ public class NovaVenda extends javax.swing.JDialog {
 
         jLabel1.setText("Código do produto: ");
 
-        TableProduto.setModel(new javax.swing.table.DefaultTableModel(
+        TableProdutos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -125,7 +137,7 @@ public class NovaVenda extends javax.swing.JDialog {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(TableProduto);
+        jScrollPane1.setViewportView(TableProdutos);
 
         btPesquisar.setText("Pesquisar");
         btPesquisar.addActionListener(new java.awt.event.ActionListener() {
@@ -157,26 +169,30 @@ public class NovaVenda extends javax.swing.JDialog {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel7)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btPesquisar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btAdicionar))
-                    .addComponent(jScrollPane1))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel7)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btPesquisar)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btAdicionar)))
+                        .addGap(0, 19, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(5, 5, 5)
                 .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -187,8 +203,8 @@ public class NovaVenda extends javax.swing.JDialog {
                     .addComponent(btPesquisar)
                     .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
@@ -271,7 +287,7 @@ public class NovaVenda extends javax.swing.JDialog {
                                 .addComponent(btPagamento)
                                 .addGap(33, 33, 33)
                                 .addComponent(btVoltar)))))
-                .addContainerGap(25, Short.MAX_VALUE))
+                .addContainerGap(17, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -301,19 +317,16 @@ public class NovaVenda extends javax.swing.JDialog {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(8, 8, 8)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(31, 31, 31))
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 363, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(0, 13, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -324,11 +337,14 @@ public class NovaVenda extends javax.swing.JDialog {
     }//GEN-LAST:event_txtCodigoActionPerformed
 
     private void btAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAdicionarActionPerformed
-        int linhaSelecionada = TableProduto.getSelectedRow();
+        int linhaSelecionada = TableProdutos.getSelectedRow();
         if (linhaSelecionada == -1) {
             JOptionPane.showMessageDialog(this, "Selecione um produto da lista!");
             return;
         }
+
+        // Converter índice visual para índice real do modelo da tabela ordenada
+        linhaSelecionada = TableProdutos.convertRowIndexToModel(linhaSelecionada);
 
         // quantidade desejada
         int quantidadeDesejada;
@@ -346,7 +362,7 @@ public class NovaVenda extends javax.swing.JDialog {
             return;
         }
 
-        DefaultTableModel modeloProdutos = (DefaultTableModel) TableProduto.getModel();
+        DefaultTableModel modeloProdutos = (DefaultTableModel) TableProdutos.getModel();
         DefaultTableModel modeloCarrinho = (DefaultTableModel) TableCarrinho.getModel();
 
         // pega dados da linha selecionada
@@ -365,10 +381,10 @@ public class NovaVenda extends javax.swing.JDialog {
         // adicionar ao carrinho
         modeloCarrinho.addRow(new Object[]{codigo, descricao, quantidadeDesejada, valorUnitario, valorTotal});
 
-        // opcional: reduzir o estoque exibido na tabela de produtos (visualmente)
+        // reduzir o estoque visualmente
         modeloProdutos.setValueAt(estoque - quantidadeDesejada, linhaSelecionada, 2);
 
-        // limpa campo de código e reseta spinner para 0
+        // limpa campos
         txtCodigo.setText("");
         jSpinner1.setValue(0);
 
@@ -395,7 +411,8 @@ public class NovaVenda extends javax.swing.JDialog {
             java.util.List<classes.Venda> itens = montarVendasDoCarrinho(); // //
             g.salvarVendasDoCarrinho(id, itens);          // //
             g.atualizarEstoque(id, itens);
-            limparCarrinho();                                               // //
+            limparCarrinho();                                              // //
+            carregarTabelaProdutos(g);
         }
     }//GEN-LAST:event_btPagamentoActionPerformed
 
@@ -411,7 +428,7 @@ public class NovaVenda extends javax.swing.JDialog {
             return;
         }
 
-        DefaultTableModel modelo = (DefaultTableModel) TableProduto.getModel();
+        DefaultTableModel modelo = (DefaultTableModel) TableProdutos.getModel();
         modelo.setRowCount(0);
 
         Produto p = g.getListaDeProdutos().get(codigo);
@@ -437,6 +454,9 @@ public class NovaVenda extends javax.swing.JDialog {
             jSpinner2.setValue(0);
             return;
         }
+        
+        // Converter índice visual para índice real do modelo da tabela ordenada
+        //linha = TableCarrinho.convertRowIndexToModel(linha); // Somente se tabela do carrinho estiver ordernada
 
         int quantidadeRemover;
         try {
@@ -456,7 +476,7 @@ public class NovaVenda extends javax.swing.JDialog {
         }
 
         DefaultTableModel modeloCarrinho = (DefaultTableModel) TableCarrinho.getModel();
-        DefaultTableModel modeloProdutos = (DefaultTableModel) TableProduto.getModel();
+        DefaultTableModel modeloProdutos = (DefaultTableModel) TableProdutos.getModel();
 
         // Dados do item selecionado no carrinho
         String codigoCarrinho = modeloCarrinho.getValueAt(linha, 0).toString();
@@ -515,7 +535,7 @@ public class NovaVenda extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable TableCarrinho;
-    private javax.swing.JTable TableProduto;
+    private javax.swing.JTable TableProdutos;
     private javax.swing.JButton btAdicionar;
     private javax.swing.JButton btPagamento;
     private javax.swing.JButton btPesquisar;

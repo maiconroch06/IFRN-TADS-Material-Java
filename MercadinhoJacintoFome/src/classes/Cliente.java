@@ -10,7 +10,7 @@ public class Cliente extends Pessoa {
         super(nome, CPF);
         this.endereco = endereco;
         this.telefone = telefone;
-}
+    }
     
     public String getEndereco() {
         return endereco;

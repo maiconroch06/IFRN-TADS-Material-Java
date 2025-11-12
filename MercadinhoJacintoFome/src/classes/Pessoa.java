@@ -4,9 +4,9 @@ public class Pessoa {
     private String CPF;
     private String nome;
 
-    public Pessoa(String CPF, String nome) {
-        this.CPF = CPF;
+    public Pessoa(String nome, String CPF) {
         this.nome = nome;
+        this.CPF = CPF;
     }
     
     public String getCPF() {

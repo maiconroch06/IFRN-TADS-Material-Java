@@ -192,19 +192,19 @@ public class Gerenciamento {
     
     // 98.Predefinição dos Clientes
     public void carregarClientesPadrao() {
-        cadastrarCliente("111.111.111-11", new Cliente("Danilo", "111.111.111-11", "Rua das Palmeiras, 101", "(11) 91111-1111"));
-        cadastrarCliente("222.222.222-22", new Cliente("Gabriel", "222.222.222-22", "Av. Central, 202", "(22) 92222-2222"));
-        cadastrarCliente("333.333.333-33", new Cliente("Jackon", "333.333.333-33", "Travessa do Sol, 303", "(33) 93333-3333"));
-        cadastrarCliente("444.444.444-44", new Cliente("Laelson", "444.444.444-44", "Rua das Flores, 404", "(44) 94444-4444"));
-        cadastrarCliente("555.555.555-55", new Cliente("Maicon", "555.555.555-55", "Rua Java, 505", "(55) 95555-5555"));
-        cadastrarCliente("666.666.666-66", new Cliente("Ryan", "666.666.666-66", "Av. Spring, 606", "(66) 96666-6666"));
+        cadastrarCliente("111.111.111-11", new Cliente("Danilo", "111.111.111-11", "Rua A", "(11) 91111-1111"));
+        cadastrarCliente("222.222.222-22", new Cliente("Gabriel", "222.222.222-22", "Rua B", "(22) 92222-2222"));
+        cadastrarCliente("333.333.333-33", new Cliente("Jackson", "333.333.333-33", "Rua C", "(33) 93333-3333"));
+        cadastrarCliente("444.444.444-44", new Cliente("Laelson", "444.444.444-44", "Rua D", "(44) 94444-4444"));
+        cadastrarCliente("555.555.555-55", new Cliente("Maicon", "555.555.555-55", "Rua E", "(55) 95555-5555"));
+        cadastrarCliente("666.666.666-66", new Cliente("Ryan", "666.666.666-66", "Rua F", "(66) 96666-6666"));
     }
 
 // 97. Predefinição dos Funcionários
     public void carregarFuncionariosPadrao() {
         cadastrarFuncionario("111.111.111-11", new Funcionario("Danilo", "111.111.111-11"));
         cadastrarFuncionario("222.222.222-22", new Funcionario("Gabriel", "222.222.222-22"));
-        cadastrarFuncionario("333.333.333-33", new Funcionario("Jackon", "333.333.333-33"));
+        cadastrarFuncionario("333.333.333-33", new Funcionario("Jackson", "333.333.333-33"));
         cadastrarFuncionario("444.444.444-44", new Funcionario("Laelson", "444.444.444-44"));
         cadastrarFuncionario("555.555.555-55", new Funcionario("Maicon", "555.555.555-55"));
         cadastrarFuncionario("666.666.666-66", new Funcionario("Ryan", "666.666.666-66"));

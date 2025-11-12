@@ -104,6 +104,11 @@ public class Pagamento extends javax.swing.JDialog {
                 txtCpfFocusLost(evt);
             }
         });
+        txtCpf.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCpfActionPerformed(evt);
+            }
+        });
 
         btnVoltar.setText("Voltar");
         btnVoltar.addActionListener(new java.awt.event.ActionListener() {
@@ -221,11 +226,11 @@ public class Pagamento extends javax.swing.JDialog {
         }
         
         // Pega todo o texto de cpf e deixa só os números/String;
-        String cpf = txtCpf.getText();
-        
-        // Verifica se cpf tá vazio ou com menos dígitos;
-        if (txtCpf.getText().replaceAll("\\D", "").isEmpty() || cpf.length() != 11) {
-            JOptionPane.showMessageDialog(this, "CPF inválido.");
+        String cpf = txtCpf.getText().trim();
+
+        // Verifica se a máscara está completa (sem espaços "_")
+        if (cpf.contains("_")) {
+            JOptionPane.showMessageDialog(this, "CPF inválido. Preencha o CPF corretamente!");
             return;
         }
         
@@ -269,7 +274,7 @@ public class Pagamento extends javax.swing.JDialog {
 
     private void txtCpfFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCpfFocusLost
         try {
-            Cliente cl = g.consultarCliente(txtCpf.getText().trim().replaceAll("\\D", ""));
+            Cliente cl = g.consultarCliente(txtCpf.getText().trim());
             txtNomeCliente.setText(cl.getNome());
         } catch (Exception e) {
         }
@@ -277,6 +282,9 @@ public class Pagamento extends javax.swing.JDialog {
 
     private void txtNomeClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNomeClienteActionPerformed
     }//GEN-LAST:event_txtNomeClienteActionPerformed
+
+    private void txtCpfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCpfActionPerformed
+    }//GEN-LAST:event_txtCpfActionPerformed
 
     //Métodos
     public boolean isFinalizada() {

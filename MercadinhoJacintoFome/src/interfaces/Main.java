@@ -21,14 +21,10 @@ public class Main extends javax.swing.JFrame {
     
     public Main() {
         initComponents();
-        setLocationRelativeTo(null);         // Tela main centralizada
+        setLocationRelativeTo(null);      // Tela main centralizada
         setExtendedState(MAXIMIZED_BOTH); // Tela cheia
-        
-            JPanel centralizador = new JPanel(new java.awt.GridBagLayout());
-            centralizador.setOpaque(false);
-            centralizador.add(painelImagem);
-            setLayout(new java.awt.BorderLayout());
-            add(centralizador, java.awt.BorderLayout.CENTER);
+        jPanel1.setOpaque(false);         // jPanel que ajuda a centralizar tabelas, deixa ele transparente
+        getRootPane().setDefaultButton(btPesquisar); // Ao está na tela main, o ENTER vai fazer evento do "btPesquisar"
 
             painelImagem.setLayout(new javax.swing.GroupLayout(painelImagem));
             painelImagem.add(jLabel1);
@@ -58,11 +54,13 @@ public class Main extends javax.swing.JFrame {
         g.carregarProdutosPadrao();
         g.carregarClientesPadrao();
         g.carregarFuncionariosPadrao();
+        
         // Sempre ao executar o main, atualizar as tabelas
         carregarTabelaProdutos();
         carregarTabelaFuncionarios();
         carregarTabelaClientes();
         carregarTabelaVendas();
+        
         // Sempre ao executar o main, ativar ordernação em todas as tabelas
         ativarOrdenacaoNaTabela(TableProdutos);
         ativarOrdenacaoNaTabela(TableFuncionarios);
@@ -111,8 +109,8 @@ public class Main extends javax.swing.JFrame {
 
         for (Cliente C : g.getListaDeClientes().values()) {
             modelo.addRow(new Object[] {
-                C.getCPF(),
                 C.getNome(),
+                C.getCPF(),
                 C.getEndereco(),
                 C.getTelefone()
             });
@@ -143,6 +141,7 @@ public class Main extends javax.swing.JFrame {
         jMenu2 = new javax.swing.JMenu();
         jMenu5 = new javax.swing.JMenu();
         painelImagem = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
         Abas = new javax.swing.JTabbedPane();
         jScrollPane3 = new javax.swing.JScrollPane();
         TableProdutos = new javax.swing.JTable();
@@ -152,20 +151,22 @@ public class Main extends javax.swing.JFrame {
         TableFuncionarios = new javax.swing.JTable();
         jScrollPane4 = new javax.swing.JScrollPane();
         TableVendas = new javax.swing.JTable();
+        btPesquisar = new javax.swing.JButton();
+        txtPesquisar = new javax.swing.JTextField();
+        btExcluir = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jMenuBar2 = new javax.swing.JMenuBar();
-        jMenu3 = new javax.swing.JMenu();
+        jMenu7 = new javax.swing.JMenu();
         mnNovaVenda = new javax.swing.JMenuItem();
-        jMenu4 = new javax.swing.JMenu();
+        jMenu8 = new javax.swing.JMenu();
         mnCadProduto = new javax.swing.JMenuItem();
-        mnCadFuncionario = new javax.swing.JMenuItem();
         mnCliente = new javax.swing.JMenuItem();
-        btnMnMais = new javax.swing.JMenu();
-        mnAtualizar = new javax.swing.JMenuItem();
-        jMenu6 = new javax.swing.JMenu();
-        jMenuItem2 = new javax.swing.JMenuItem();
-        jMenuItem1 = new javax.swing.JMenuItem();
+        mnCadFuncionario = new javax.swing.JMenuItem();
+        jMenu9 = new javax.swing.JMenu();
+        mnPescProduto = new javax.swing.JMenuItem();
+        mnPescCliente = new javax.swing.JMenuItem();
+        mnPescFuncionario = new javax.swing.JMenuItem();
 
         jMenu1.setText("File");
         jMenuBar1.add(jMenu1);
@@ -187,6 +188,8 @@ public class Main extends javax.swing.JFrame {
                 g.drawImage(img, 0, 0, getWidth(), getHeight(), this);
             }
         };
+
+        jPanel1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         TableProdutos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -213,7 +216,7 @@ public class Main extends javax.swing.JFrame {
 
             },
             new String [] {
-                "CPF", "Nome", "Endereço", "Telefone"
+                "Nome", "CPF", "Endereço", "Telefone"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -238,7 +241,7 @@ public class Main extends javax.swing.JFrame {
 
             },
             new String [] {
-                "CPF", "Nome"
+                "Nome", "CPF"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -273,15 +276,49 @@ public class Main extends javax.swing.JFrame {
 
         Abas.addTab("Tabela de Vendas", jScrollPane4);
 
+        btPesquisar.setText("Pesquisar");
+
+        btExcluir.setText("Excluir");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap(256, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(txtPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btPesquisar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btExcluir, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(141, 141, 141))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(Abas, javax.swing.GroupLayout.PREFERRED_SIZE, 1119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(120, 120, 120))))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btPesquisar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btExcluir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(txtPesquisar))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(Abas, javax.swing.GroupLayout.PREFERRED_SIZE, 398, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(62, 62, 62))
+        );
+
         jLabel2.setBackground(new java.awt.Color(255, 255, 255));
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("Mercadinho Jacinto Fome");
 
         jLabel1.setBackground(new java.awt.Color(255, 255, 255));
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Controle de Estoque");
 
@@ -289,39 +326,34 @@ public class Main extends javax.swing.JFrame {
         painelImagem.setLayout(painelImagemLayout);
         painelImagemLayout.setHorizontalGroup(
             painelImagemLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, painelImagemLayout.createSequentialGroup()
-                .addContainerGap(290, Short.MAX_VALUE)
-                .addComponent(Abas, javax.swing.GroupLayout.PREFERRED_SIZE, 1005, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(235, 235, 235))
-            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         painelImagemLayout.setVerticalGroup(
             painelImagemLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(painelImagemLayout.createSequentialGroup()
-                .addGap(96, 96, 96)
+                .addGap(47, 47, 47)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2)
                 .addGap(18, 18, 18)
-                .addComponent(Abas, javax.swing.GroupLayout.PREFERRED_SIZE, 476, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(75, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(232, Short.MAX_VALUE))
         );
 
-        jMenu3.setText("Menu");
+        jMenu7.setText("Operações");
 
         mnNovaVenda.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F1, 0));
-        mnNovaVenda.setText("N. VENDA");
+        mnNovaVenda.setText("Nova Venda");
         mnNovaVenda.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mnNovaVendaActionPerformed(evt);
             }
         });
-        jMenu3.add(mnNovaVenda);
+        jMenu7.add(mnNovaVenda);
 
-        jMenuBar2.add(jMenu3);
-
-        jMenu4.setText("Cadastrar");
+        jMenu8.setText("Cadastrar");
 
         mnCadProduto.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F2, 0));
         mnCadProduto.setText("Produto");
@@ -330,55 +362,45 @@ public class Main extends javax.swing.JFrame {
                 mnCadProdutoActionPerformed(evt);
             }
         });
-        jMenu4.add(mnCadProduto);
+        jMenu8.add(mnCadProduto);
 
-        mnCadFuncionario.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F3, 0));
-        mnCadFuncionario.setText("Funcionario");
-        mnCadFuncionario.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mnCadFuncionarioActionPerformed(evt);
-            }
-        });
-        jMenu4.add(mnCadFuncionario);
-
-        mnCliente.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, 0));
+        mnCliente.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F3, 0));
         mnCliente.setText("Cliente");
         mnCliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mnClienteActionPerformed(evt);
             }
         });
-        jMenu4.add(mnCliente);
+        jMenu8.add(mnCliente);
 
-        jMenuBar2.add(jMenu4);
-
-        btnMnMais.setText("Mais");
-        btnMnMais.addActionListener(new java.awt.event.ActionListener() {
+        mnCadFuncionario.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, 0));
+        mnCadFuncionario.setText("Funcionario");
+        mnCadFuncionario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnMnMaisActionPerformed(evt);
+                mnCadFuncionarioActionPerformed(evt);
             }
         });
+        jMenu8.add(mnCadFuncionario);
 
-        mnAtualizar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F5, 0));
-        mnAtualizar.setText("Atualizar");
-        mnAtualizar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mnAtualizarActionPerformed(evt);
-            }
-        });
-        btnMnMais.add(mnAtualizar);
+        jMenu7.add(jMenu8);
 
-        jMenu6.setText("jMenu6");
+        jMenu9.setText("Atualizar");
 
-        jMenuItem2.setText("jMenuItem2");
-        jMenu6.add(jMenuItem2);
+        mnPescProduto.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F5, 0));
+        mnPescProduto.setText("Produto");
+        jMenu9.add(mnPescProduto);
 
-        jMenuItem1.setText("jMenuItem1");
-        jMenu6.add(jMenuItem1);
+        mnPescCliente.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F6, 0));
+        mnPescCliente.setText("Cliente");
+        jMenu9.add(mnPescCliente);
 
-        btnMnMais.add(jMenu6);
+        mnPescFuncionario.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F7, 0));
+        mnPescFuncionario.setText("Funcionario");
+        jMenu9.add(mnPescFuncionario);
 
-        jMenuBar2.add(btnMnMais);
+        jMenu7.add(jMenu9);
+
+        jMenuBar2.add(jMenu7);
 
         setJMenuBar(jMenuBar2);
 
@@ -386,9 +408,7 @@ public class Main extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(painelImagem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addComponent(painelImagem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -402,6 +422,7 @@ public class Main extends javax.swing.JFrame {
         NovaVenda vendaGUI = new NovaVenda(g);
         vendaGUI.setModal(true);
         vendaGUI.setVisible(true);
+        
         carregarTabelaVendas();
     }//GEN-LAST:event_mnNovaVendaActionPerformed
 
@@ -429,21 +450,9 @@ public class Main extends javax.swing.JFrame {
         carregarTabelaClientes();
     }//GEN-LAST:event_mnClienteActionPerformed
 
-    private void btnMnMaisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMnMaisActionPerformed
-        carregarTabelaProdutos();
-        carregarTabelaFuncionarios();
-        carregarTabelaClientes();
-    }//GEN-LAST:event_btnMnMaisActionPerformed
-
     private void TableClientesFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_TableClientesFocusGained
 
     }//GEN-LAST:event_TableClientesFocusGained
-
-    private void mnAtualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnAtualizarActionPerformed
-        carregarTabelaProdutos();
-        carregarTabelaFuncionarios();
-        carregarTabelaClientes();
-    }//GEN-LAST:event_mnAtualizarActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -483,28 +492,31 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JTable TableFuncionarios;
     private javax.swing.JTable TableProdutos;
     private javax.swing.JTable TableVendas;
-    private javax.swing.JMenu btnMnMais;
+    private javax.swing.JButton btExcluir;
+    private javax.swing.JButton btPesquisar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenu jMenu3;
-    private javax.swing.JMenu jMenu4;
     private javax.swing.JMenu jMenu5;
-    private javax.swing.JMenu jMenu6;
+    private javax.swing.JMenu jMenu7;
+    private javax.swing.JMenu jMenu8;
+    private javax.swing.JMenu jMenu9;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuBar jMenuBar2;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JMenuItem mnAtualizar;
     private javax.swing.JMenuItem mnCadFuncionario;
     private javax.swing.JMenuItem mnCadProduto;
     private javax.swing.JMenuItem mnCliente;
     private javax.swing.JMenuItem mnNovaVenda;
+    private javax.swing.JMenuItem mnPescCliente;
+    private javax.swing.JMenuItem mnPescFuncionario;
+    private javax.swing.JMenuItem mnPescProduto;
     private javax.swing.JPanel painelImagem;
+    private javax.swing.JTextField txtPesquisar;
     // End of variables declaration//GEN-END:variables
 }
