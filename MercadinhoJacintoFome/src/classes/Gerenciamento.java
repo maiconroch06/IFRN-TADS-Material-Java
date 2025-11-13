@@ -1,6 +1,7 @@
 package classes;
 
 import java.util.HashMap;
+import java.util.List;
 import javax.swing.JOptionPane;
 
 /* Sumario:
@@ -33,11 +34,6 @@ public class Gerenciamento {
    
     
     public Gerenciamento() {}
-    
-    private int seqVenda = 1;
-    public String gerarIDVenda() {                                              // //
-        return String.valueOf(seqVenda++);                                      // //
-    }
     
     // 1.Metodos para verificar
     public boolean verificarFuncionario(String CPF) {
@@ -85,7 +81,7 @@ public class Gerenciamento {
     }
     
     // salva cada item do carrinho como uma "linha de venda"
-    public void salvarVendasDoCarrinho(String idVenda, java.util.List<Venda> itens) { // //
+    public void salvarVendasDoCarrinho(String idVenda, List<Venda> itens) { // //
         for (int i = 0; i < itens.size(); i++) {                                      // //
             Venda v = itens.get(i);                                              // //
             v.setID_Venda(Integer.parseInt(idVenda));                        // //
@@ -94,7 +90,7 @@ public class Gerenciamento {
         }                                                                             // //
     } 
     
-    public void atualizarEstoque(String idVenda, java.util.List<Venda> itens) {       // //
+    public void atualizarEstoque(java.util.List<Venda> itens) {       // //
         for (Venda v : itens) {
             // A chave do produto é o codigo do produto
             String chave =  v.getCodigoProduto() + ""; // Converte int em String
@@ -174,9 +170,10 @@ public class Gerenciamento {
         return true;
     }
     
-    // EXTRA
-    // AUTO INCREMENTO para produtos
+    // EXTRAS
+    // AUTO-INCREMENTO para produtos e venda
     private int contadorProduto = 1;
+    private int seqVenda = 1;
 
     // Gera código automático 001, 002, 003 ...
     public String gerarCodigoProduto() {
@@ -185,9 +182,17 @@ public class Gerenciamento {
         return codigo;
     }
     
+    public String gerarIDVenda() {                                              // //
+        return String.valueOf(seqVenda++);                                      // //
+    }
+    
     public double obterTotalDaCompra(String s) {
         s = s.replace("R$", "").trim().replace(".", "").replace(",", ".");
-        try { return Double.parseDouble(s); } catch (Exception e) { return 0.0; }
+        try {
+            return Double.parseDouble(s);
+        } catch (Exception e) {
+            return 0.0;
+        }
     }
     
     // 98.Predefinição dos Clientes
@@ -265,6 +270,27 @@ public class Gerenciamento {
 
         String cod18 = gerarCodigoProduto();
         cadastrarProduto(cod18, new Produto(cod18, "Shampoo", 19, 10.99));
+        
+        String cod19 = gerarCodigoProduto();
+        cadastrarProduto(cod19, new Produto(cod18, "Shampoo", 19, 10.99));
+        
+        String cod20 = gerarCodigoProduto();
+        cadastrarProduto(cod20, new Produto(cod18, "Shampoo", 19, 10.99));
+        
+        String cod21 = gerarCodigoProduto();
+        cadastrarProduto(cod21, new Produto(cod18, "Shampoo", 19, 10.99));
+        
+        String cod22 = gerarCodigoProduto();
+        cadastrarProduto(cod22, new Produto(cod18, "Shampoo", 19, 10.99));
+        
+        String cod23 = gerarCodigoProduto();
+        cadastrarProduto(cod23, new Produto(cod18, "Shampoo", 19, 10.99));
+        
+        String cod24 = gerarCodigoProduto();
+        cadastrarProduto(cod24, new Produto(cod18, "Shampoo", 19, 10.99));
+        
+        String cod25 = gerarCodigoProduto();
+        cadastrarProduto(cod25, new Produto(cod18, "Shampoo", 19, 10.99));
     }
 
     

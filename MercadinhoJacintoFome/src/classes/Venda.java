@@ -5,10 +5,31 @@ public class Venda{
     private String codigoProduto;
     private int quantidade;
     private double valorUnitario;
+    private String nomeCliente;
+    private String nomeFuncionario;
+    private double valorTotal;
 
+    public String getNomeCliente() {
+        return nomeCliente;
+    }
+
+    public void setNomeCliente(String nomeCliente) {
+        this.nomeCliente = nomeCliente;
+    }
+
+    public String getNomeFuncionario() {
+        return nomeFuncionario;
+    }
+
+    public void setNomeFuncionario(String nomeFuncionario) {
+        this.nomeFuncionario = nomeFuncionario;
+    }
+    
+    
     public int getID_Venda() { 
         return ID_Venda;
     }
+
     public void setID_Venda(int ID_Venda) { 
         this.ID_Venda = ID_Venda;
     }

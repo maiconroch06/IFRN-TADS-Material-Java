@@ -8,7 +8,6 @@ import javax.swing.JOptionPane;
 
 public class Pagamento extends javax.swing.JDialog {
     private Gerenciamento g;
-    private double total;
     private Runnable onFinalizarCompra;
     private boolean finalizada = false;
 
@@ -21,7 +20,6 @@ public class Pagamento extends javax.swing.JDialog {
         super(parent, ModalityType.APPLICATION_MODAL);
         initComponents();
         this.g = g;
-        this.total = total;
         this.onFinalizarCompra = onFinalizarCompra;
         this.setLocationRelativeTo(parent);
         txtTotal.setText(String.format("R$ %.2f", total));
@@ -234,7 +232,7 @@ public class Pagamento extends javax.swing.JDialog {
             return;
         }
         
-        // Se esse CPF existir na lista finaliza a compra, caso não, Abre a tela de erro;
+        // Se esse CPF existir na lista, finaliza a compra. Se não, abre a tela de erro;
         if(g.verificarCliente(cpf)) {
             JOptionPane.showMessageDialog(null, "Compra Finalizada comm Sucesso!!");
             if (onFinalizarCompra != null) onFinalizarCompra.run();
@@ -247,15 +245,15 @@ public class Pagamento extends javax.swing.JDialog {
                 this,
                 "Cliente Não Cadastrado ou CPF incorreto." + cpf,
                 "Cliente",
-                JOptionPane.YES_NO_OPTION,         
+                JOptionPane.YES_NO_OPTION,
                 JOptionPane.WARNING_MESSAGE,
-                null,                              
-                options,                           
-                options[0]                         
+                null,
+                options,                         
+                options[0]
             );
             
             if (escolha == 0) {
-                CadCliente cad = new CadCliente(this, true, g, cpf, txtNomeCliente.getText().trim());
+                CadCliente cad = new CadCliente(g, cpf, txtNomeCliente.getText().trim());
                 cad.setVisible(true);
             } else {
                 return;
@@ -268,7 +266,7 @@ public class Pagamento extends javax.swing.JDialog {
     }//GEN-LAST:event_btnVoltarActionPerformed
 
     private void btnCadNClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadNClienteActionPerformed
-        CadCliente cad = new CadCliente(this, true, g, txtCpf.getText().trim(), txtNomeCliente.getText().trim());
+        CadCliente cad = new CadCliente(g, txtCpf.getText().trim(), txtNomeCliente.getText().trim());
         cad.setVisible(true);
     }//GEN-LAST:event_btnCadNClienteActionPerformed
 

@@ -1,9 +1,9 @@
 package interfaces;
 
+import interfaces.atualizar.VerMais;
 import classes.*;
-import interfaces.cadastrar.CadFuncionario;
-import interfaces.cadastrar.CadProduto;
-import interfaces.cadastrar.CadCliente;
+import interfaces.atualizar.*;
+import interfaces.cadastrar.*;
 import interfaces.venda.NovaVenda;
 import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
@@ -22,7 +22,6 @@ public class Main extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);      // Tela main centralizada
         setExtendedState(MAXIMIZED_BOTH); // Tela cheia
-        jPanel1.setOpaque(false);         // jPanel que ajuda a centralizar tabelas, deixa ele transparente
         getRootPane().setDefaultButton(btPesquisar); // Ao está na tela main, o ENTER vai fazer evento do "btPesquisar"
 
             painelImagem.setLayout(new javax.swing.GroupLayout(painelImagem));
@@ -48,23 +47,16 @@ public class Main extends javax.swing.JFrame {
                 }
             });
         }
-        
-        TableVendas.addMouseListener(new java.awt.event.MouseAdapter() {
-            @Override
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                if (evt.getClickCount() == 2) {
-                    VerMais vmGUI = new VerMais();
-                    vmGUI.setModal(true);
-                    vmGUI.setVisible(true);
-                }
-            }
-        });
-        
 
         // Sempre ao executar o main, adicionar valores pre definidos às tabelas
         g.carregarProdutosPadrao();
         g.carregarClientesPadrao();
         g.carregarFuncionariosPadrao();
+        
+        verMais(TableClientes);
+        verMais(TableFuncionarios);
+        verMais(TableProdutos);
+        verMais(TableVendas);
         
         // Sempre ao executar o main, atualizar as tabelas
         carregarTabelaProdutos();
@@ -75,10 +67,55 @@ public class Main extends javax.swing.JFrame {
         // Sempre ao executar o main, ativar ordernação em todas as tabelas
         ativarOrdenacaoNaTabela(TableProdutos);
         ativarOrdenacaoNaTabela(TableFuncionarios);
-        ativarOrdenacaoNaTabela(TableVendas);
         ativarOrdenacaoNaTabela(TableClientes);
-
+        ativarOrdenacaoNaTabela(TableVendas);
     }
+    
+    public void verMais(JTable tabela) {
+    tabela.addMouseListener(new java.awt.event.MouseAdapter() {
+        @Override
+        public void mouseClicked(java.awt.event.MouseEvent evt) {
+                if (evt.getClickCount() == 2) {
+
+                    // AQUI IDENTIFICA QUAL TABELA É
+                    if (tabela == TableProdutos) {
+                        AtuProduto AtualizarProd = new AtuProduto(g);
+                        
+                        //Pegar informações da linha selecionada e passar para a janela. Evento acestor?
+                        
+                        AtualizarProd.setModal(true);
+                        AtualizarProd.setVisible(true);
+                    }
+
+                    else if (tabela == TableFuncionarios) {
+                        AtuFuncionario AtualizarFun = new AtuFuncionario(g);
+                        
+                        //Pegar informações da linha selecionada e passar para a janela. Evento acestor?
+                        
+                        AtualizarFun.setModal(true);
+                        AtualizarFun.setVisible(true);
+                    }
+                    
+                    else if (tabela == TableClientes) {
+                        AtuCliente AtualizarCli = new AtuCliente(g);
+                        
+                        //Pegar informações da linha selecionada e passar para a janela. Evento acestor?
+                        
+                        AtualizarCli.setModal(true);
+                        AtualizarCli.setVisible(true);
+                    }
+
+                    else if (tabela == TableVendas) {
+                        VerMais vm = new VerMais(g);
+                        
+                        vm.setModal(true);
+                        vm.setVisible(true);
+                    }
+                }
+            }
+        });
+    }
+
     
     // Ativar onrdenação na primeira coluna
     private void ativarOrdenacaoNaTabela(JTable tabela) {
@@ -175,9 +212,9 @@ public class Main extends javax.swing.JFrame {
         mnCliente = new javax.swing.JMenuItem();
         mnCadFuncionario = new javax.swing.JMenuItem();
         jMenu9 = new javax.swing.JMenu();
-        mnPescProduto = new javax.swing.JMenuItem();
-        mnPescCliente = new javax.swing.JMenuItem();
-        mnPescFuncionario = new javax.swing.JMenuItem();
+        mnAtuProduto = new javax.swing.JMenuItem();
+        mnAtuCliente = new javax.swing.JMenuItem();
+        mnAtuFuncionario = new javax.swing.JMenuItem();
 
         jMenu1.setText("File");
         jMenuBar1.add(jMenu1);
@@ -201,6 +238,7 @@ public class Main extends javax.swing.JFrame {
         };
 
         jPanel1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jPanel1.setOpaque(false);
 
         TableProdutos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -407,17 +445,32 @@ public class Main extends javax.swing.JFrame {
 
         jMenu9.setText("Atualizar");
 
-        mnPescProduto.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F5, 0));
-        mnPescProduto.setText("Produto");
-        jMenu9.add(mnPescProduto);
+        mnAtuProduto.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F5, 0));
+        mnAtuProduto.setText("Produto");
+        mnAtuProduto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnAtuProdutoActionPerformed(evt);
+            }
+        });
+        jMenu9.add(mnAtuProduto);
 
-        mnPescCliente.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F6, 0));
-        mnPescCliente.setText("Cliente");
-        jMenu9.add(mnPescCliente);
+        mnAtuCliente.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F6, 0));
+        mnAtuCliente.setText("Cliente");
+        mnAtuCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnAtuClienteActionPerformed(evt);
+            }
+        });
+        jMenu9.add(mnAtuCliente);
 
-        mnPescFuncionario.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F7, 0));
-        mnPescFuncionario.setText("Funcionario");
-        jMenu9.add(mnPescFuncionario);
+        mnAtuFuncionario.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F7, 0));
+        mnAtuFuncionario.setText("Funcionario");
+        mnAtuFuncionario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnAtuFuncionarioActionPerformed(evt);
+            }
+        });
+        jMenu9.add(mnAtuFuncionario);
 
         jMenu7.add(jMenu9);
 
@@ -475,6 +528,30 @@ public class Main extends javax.swing.JFrame {
 
     }//GEN-LAST:event_TableClientesFocusGained
 
+    private void mnAtuProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnAtuProdutoActionPerformed
+        AtuProduto AtualizarProd = new AtuProduto(g);
+        AtualizarProd.setModal(true);
+        AtualizarProd.setVisible(true);
+        
+        carregarTabelaProdutos();
+    }//GEN-LAST:event_mnAtuProdutoActionPerformed
+
+    private void mnAtuFuncionarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnAtuFuncionarioActionPerformed
+        AtuFuncionario AtualizarFun = new AtuFuncionario(g);
+        AtualizarFun.setModal(true);
+        AtualizarFun.setVisible(true);
+
+        carregarTabelaFuncionarios();
+    }//GEN-LAST:event_mnAtuFuncionarioActionPerformed
+
+    private void mnAtuClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnAtuClienteActionPerformed
+        AtuCliente AtualizarCli = new AtuCliente(g);
+        AtualizarCli.setModal(true);
+        AtualizarCli.setVisible(true);
+        
+        carregarTabelaClientes();
+    }//GEN-LAST:event_mnAtuClienteActionPerformed
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -530,13 +607,13 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JMenuItem mnAtuCliente;
+    private javax.swing.JMenuItem mnAtuFuncionario;
+    private javax.swing.JMenuItem mnAtuProduto;
     private javax.swing.JMenuItem mnCadFuncionario;
     private javax.swing.JMenuItem mnCadProduto;
     private javax.swing.JMenuItem mnCliente;
     private javax.swing.JMenuItem mnNovaVenda;
-    private javax.swing.JMenuItem mnPescCliente;
-    private javax.swing.JMenuItem mnPescFuncionario;
-    private javax.swing.JMenuItem mnPescProduto;
     private javax.swing.JPanel painelImagem;
     private javax.swing.JTextField txtPesquisar;
     // End of variables declaration//GEN-END:variables
