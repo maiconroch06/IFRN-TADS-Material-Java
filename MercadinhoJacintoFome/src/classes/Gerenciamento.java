@@ -31,10 +31,10 @@ public class Gerenciamento {
     private final HashMap<String, Cliente> listaDeClientes = new HashMap<>();
     private final HashMap<String, Produto> listaDeProdutos = new HashMap<>();
    
-    private int seqVenda = 1;
     
     public Gerenciamento() {}
     
+    private int seqVenda = 1;
     public String gerarIDVenda() {                                              // //
         return String.valueOf(seqVenda++);                                      // //
     }
@@ -179,7 +179,7 @@ public class Gerenciamento {
     private int contadorProduto = 1;
 
     // Gera código automático 001, 002, 003 ...
-    private String gerarCodigoProduto() {
+    public String gerarCodigoProduto() {
         String codigo = String.format("%03d", contadorProduto);
         contadorProduto++;
         return codigo;

@@ -137,6 +137,7 @@ public class NovaVenda extends javax.swing.JDialog {
                 return canEdit [columnIndex];
             }
         });
+        TableProdutos.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(TableProdutos);
 
         btPesquisar.setText("Pesquisar");
@@ -254,6 +255,7 @@ public class NovaVenda extends javax.swing.JDialog {
                 return canEdit [columnIndex];
             }
         });
+        TableCarrinho.getTableHeader().setReorderingAllowed(false);
         jScrollPane3.setViewportView(TableCarrinho);
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N

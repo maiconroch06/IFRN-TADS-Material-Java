@@ -8,7 +8,6 @@ import interfaces.venda.NovaVenda;
 import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import javax.swing.JComponent;
-import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.KeyStroke;
 import javax.swing.table.DefaultTableModel;
@@ -49,6 +48,18 @@ public class Main extends javax.swing.JFrame {
                 }
             });
         }
+        
+        TableVendas.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                if (evt.getClickCount() == 2) {
+                    VerMais vmGUI = new VerMais();
+                    vmGUI.setModal(true);
+                    vmGUI.setVisible(true);
+                }
+            }
+        });
+        
 
         // Sempre ao executar o main, adicionar valores pre definidos às tabelas
         g.carregarProdutosPadrao();
@@ -207,7 +218,14 @@ public class Main extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        TableProdutos.getTableHeader().setReorderingAllowed(false);
         jScrollPane3.setViewportView(TableProdutos);
+        if (TableProdutos.getColumnModel().getColumnCount() > 0) {
+            TableProdutos.getColumnModel().getColumn(0).setResizable(false);
+            TableProdutos.getColumnModel().getColumn(1).setResizable(false);
+            TableProdutos.getColumnModel().getColumn(2).setResizable(false);
+            TableProdutos.getColumnModel().getColumn(3).setResizable(false);
+        }
 
         Abas.addTab("Tabela de Produtos", jScrollPane3);
 
@@ -227,6 +245,7 @@ public class Main extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        TableClientes.getTableHeader().setReorderingAllowed(false);
         TableClientes.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 TableClientesFocusGained(evt);
@@ -252,6 +271,7 @@ public class Main extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        TableFuncionarios.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(TableFuncionarios);
 
         Abas.addTab("Tabela de Funcionario", jScrollPane1);
@@ -272,6 +292,7 @@ public class Main extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        TableVendas.getTableHeader().setReorderingAllowed(false);
         jScrollPane4.setViewportView(TableVendas);
 
         Abas.addTab("Tabela de Vendas", jScrollPane4);
