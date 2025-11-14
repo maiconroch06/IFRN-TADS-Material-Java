@@ -253,7 +253,7 @@ public class Pagamento extends javax.swing.JDialog {
             );
             
             if (escolha == 0) {
-                CadCliente cad = new CadCliente(g, cpf, txtNomeCliente.getText().trim());
+                CadCliente cad = new CadCliente(this, true, g, cpf, txtNomeCliente.getText().trim());
                 cad.setVisible(true);
             } else {
                 return;
@@ -266,7 +266,7 @@ public class Pagamento extends javax.swing.JDialog {
     }//GEN-LAST:event_btnVoltarActionPerformed
 
     private void btnCadNClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadNClienteActionPerformed
-        CadCliente cad = new CadCliente(g, txtCpf.getText().trim(), txtNomeCliente.getText().trim());
+        CadCliente cad = new CadCliente(this, true, g, txtCpf.getText().trim(), txtNomeCliente.getText().trim());
         cad.setVisible(true);
     }//GEN-LAST:event_btnCadNClienteActionPerformed
 

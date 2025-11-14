@@ -25,7 +25,6 @@ public class Main extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);      // Tela main centralizada
         setExtendedState(MAXIMIZED_BOTH); // Tela cheia
-        getRootPane().setDefaultButton(btPesquisar); // Ao está na tela main, o ENTER vai fazer evento do "btPesquisar"
 
             painelImagem.setLayout(new javax.swing.GroupLayout(painelImagem));
             painelImagem.add(jLabel1);
@@ -37,20 +36,26 @@ public class Main extends javax.swing.JFrame {
             getContentPane().revalidate();
             getContentPane().repaint();
 
-//        // Atalhos 1 2 3 4 para navegação das abas
-//        for (int i = 0; i < 4; i++) {
-//            final int index = i;
-//            Abas.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
-//                .put(KeyStroke.getKeyStroke(String.valueOf(i + 1)), "tab" + i);
-//
-//            Abas.getActionMap().put("tab" + i, new AbstractAction() {
-//                @Override
-//                public void actionPerformed(ActionEvent e) {
-//                    Abas.setSelectedIndex(index);
-//                }
-//            });
-//        }
-
+        // Sempre ao executar o main, adicionar valores pre definidos às tabelas
+        g.carregarProdutosPadrao();
+        g.carregarClientesPadrao();
+        g.carregarFuncionariosPadrao();
+        
+        verMais(TableClientes);
+        verMais(TableFuncionarios);
+        verMais(TableProdutos);
+        verMais(TableVendas);
+        
+        // Sempre ao executar o main, atualiza a tabela
+        carregarTabelaProdutos();
+        
+        // Sempre ao executar o main, ativar ordernação em todas as tabelas
+        ativarOrdenacaoNaTabela(TableProdutos);
+        ativarOrdenacaoNaTabela(TableFuncionarios);
+        ativarOrdenacaoNaTabela(TableClientes);
+        ativarOrdenacaoNaTabela(TableVendas);
+        
+        // Habilida a função de sempre mostrar lista inteira, mesmo depois de ter feito uma pesquisa anteriomente.
         Abas.addChangeListener(e -> {
             int index = Abas.getSelectedIndex();
 
@@ -72,41 +77,18 @@ public class Main extends javax.swing.JFrame {
                     break;
             }
         });
-
-
-        // Sempre ao executar o main, adicionar valores pre definidos às tabelas
-        g.carregarProdutosPadrao();
-        g.carregarClientesPadrao();
-        g.carregarFuncionariosPadrao();
-        
-        verMais(TableClientes);
-        verMais(TableFuncionarios);
-        verMais(TableProdutos);
-        verMais(TableVendas);
-        
-        // Sempre ao executar o main, atualizar as tabelas
-        carregarTabelaProdutos();
-        carregarTabelaFuncionarios();
-        carregarTabelaClientes();
-        carregarTabelaVendas();
-        
-        // Sempre ao executar o main, ativar ordernação em todas as tabelas
-        ativarOrdenacaoNaTabela(TableProdutos);
-        ativarOrdenacaoNaTabela(TableFuncionarios);
-        ativarOrdenacaoNaTabela(TableClientes);
-        ativarOrdenacaoNaTabela(TableVendas);
     }
     
     public void verMais(JTable tabela) {
-    tabela.addMouseListener(new java.awt.event.MouseAdapter() {
-        @Override
-        public void mouseClicked(java.awt.event.MouseEvent evt) {
+        tabela.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
                 if (evt.getClickCount() == 2) {
 
                     // AQUI IDENTIFICA QUAL TABELA É
                     if (tabela == TableProdutos) {
-                        int row = tabela.getSelectedRow();
-                        Main.codigoSelecionado = tabela.getValueAt(row, 0).toString();
+                        int linha = tabela.getSelectedRow();
+                        codigoSelecionado = tabela.getValueAt(linha, 0).toString();
 
                         AtuProduto AtualizarProd = new AtuProduto(g);
 
@@ -115,8 +97,8 @@ public class Main extends javax.swing.JFrame {
                     }
 
                     else if (tabela == TableFuncionarios) {
-                        int row = tabela.getSelectedRow();
-                        Main.codigoSelecionado = tabela.getValueAt(row, 1).toString();
+                        int linha = tabela.getSelectedRow();
+                        codigoSelecionado = tabela.getValueAt(linha, 1).toString();
                         
                         AtuFuncionario AtualizarFun = new AtuFuncionario(g);
 
@@ -125,8 +107,8 @@ public class Main extends javax.swing.JFrame {
                     }
                     
                     else if (tabela == TableClientes) {
-                        int row = tabela.getSelectedRow();
-                        Main.codigoSelecionado = tabela.getValueAt(row, 1).toString();
+                        int linha = tabela.getSelectedRow();
+                        codigoSelecionado = tabela.getValueAt(linha, 1).toString();
                         
                         AtuCliente AtualizarCli = new AtuCliente(g);
 
@@ -458,7 +440,7 @@ public class Main extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(256, Short.MAX_VALUE)
+                .addContainerGap(284, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(txtReferencia, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -596,7 +578,9 @@ public class Main extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(painelImagem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(painelImagem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

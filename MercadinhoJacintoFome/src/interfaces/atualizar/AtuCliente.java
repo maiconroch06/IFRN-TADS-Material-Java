@@ -158,11 +158,9 @@ public class AtuCliente extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtEnderecoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEnderecoActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_txtEnderecoActionPerformed
 
     private void txtTelefoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTelefoneActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_txtTelefoneActionPerformed
 
     private void btAtualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAtualizarActionPerformed

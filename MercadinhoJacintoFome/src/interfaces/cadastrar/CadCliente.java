@@ -8,7 +8,7 @@ public class CadCliente extends javax.swing.JDialog {
 
     private Gerenciamento g;
     
-    public CadCliente(Gerenciamento g, String cpfIni, String nomeIni) {
+    public CadCliente(java.awt.Window parent, boolean modal, Gerenciamento g, String cpfIni, String nomeIni) {
         this.g = g;
         initComponents();
         setLocationRelativeTo(null);

@@ -7,12 +7,12 @@ import javax.swing.JOptionPane;
 /* Sumario:
 Funcionalidades
     1.Metodos de verificar
-    1.Metodos de cadastro
-    2.Metodos de remover
-    3.Metodos de consultar
-    4.Metodos de atualizar
+    2.Metodos de cadastro
+    3.Metodos de remover
+    4.Metodos de consultar
+    5.Metodos de atualizar
 Interface    
-    5.Metodos das tabelas
+    6.Metodos das tabelas
 Extras
     
     Lista de produtos
@@ -129,7 +129,7 @@ public class Gerenciamento {
         listaDeProdutos.remove(codigo);
     }
     
-    // 3.Metodos para consultar
+    // 4.Metodos para consultar
     public Cliente consultarCliente(String CPF){
         return listaDeClientes.get(CPF);
     }
@@ -142,7 +142,7 @@ public class Gerenciamento {
         listaDeFuncionarios.get(CPF);
     }
     
-    // 4.Metodos para atualizar
+    // 5.Metodos para atualizar
     public boolean atualizarFuncionario(String CPF, Funcionario funcionario){        
         if(!listaDeFuncionarios.containsKey(CPF)){
             JOptionPane.showMessageDialog(null, "Dados não encontrado!");
@@ -194,6 +194,8 @@ public class Gerenciamento {
             return 0.0;
         }
     }
+    
+    
     
     // 98.Predefinição dos Clientes
     public void carregarClientesPadrao() {
