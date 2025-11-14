@@ -234,7 +234,7 @@ public class Pagamento extends javax.swing.JDialog {
         
         // Se esse CPF existir na lista, finaliza a compra. Se não, abre a tela de erro;
         if(g.verificarCliente(cpf)) {
-            JOptionPane.showMessageDialog(null, "Compra Finalizada comm Sucesso!!");
+            JOptionPane.showMessageDialog(null, "Compra Finalizada com Sucesso!!!");
             if (onFinalizarCompra != null) onFinalizarCompra.run();
             finalizada = true;
             dispose();

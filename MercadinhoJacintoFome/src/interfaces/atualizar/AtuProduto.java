@@ -2,6 +2,7 @@ package interfaces.atualizar;
 
 import classes.Gerenciamento;
 import classes.Produto;
+import interfaces.Main;
 import javax.swing.JOptionPane;
 
 public class AtuProduto extends javax.swing.JDialog {
@@ -22,7 +23,7 @@ public class AtuProduto extends javax.swing.JDialog {
         jLabel5 = new javax.swing.JLabel();
         txtCodigo = new javax.swing.JFormattedTextField();
         jLabel1 = new javax.swing.JLabel();
-        txtValorUnitario = new javax.swing.JTextField();
+        txtValor = new javax.swing.JTextField();
         btAtualizar = new javax.swing.JButton();
         btCancelar = new javax.swing.JButton();
         txtDescricao = new javax.swing.JTextField();
@@ -45,10 +46,19 @@ public class AtuProduto extends javax.swing.JDialog {
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Atualizar Produto");
+        jLabel1.addAncestorListener(new javax.swing.event.AncestorListener() {
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+            }
+            public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
+                jLabel1AncestorAdded(evt);
+            }
+            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
+            }
+        });
 
-        txtValorUnitario.addActionListener(new java.awt.event.ActionListener() {
+        txtValor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtValorUnitarioActionPerformed(evt);
+                txtValorActionPerformed(evt);
             }
         });
 
@@ -98,7 +108,7 @@ public class AtuProduto extends javax.swing.JDialog {
                             .addComponent(jLabel5))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtValorUnitario)
+                            .addComponent(txtValor)
                             .addComponent(txtQuantidade)
                             .addComponent(txtCodigo)
                             .addComponent(txtDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -129,7 +139,7 @@ public class AtuProduto extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(txtValorUnitario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtValor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(26, 26, 26)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btAtualizar)
@@ -144,15 +154,15 @@ public class AtuProduto extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtCodigoActionPerformed
 
-    private void txtValorUnitarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtValorUnitarioActionPerformed
+    private void txtValorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtValorActionPerformed
 
-    }//GEN-LAST:event_txtValorUnitarioActionPerformed
+    }//GEN-LAST:event_txtValorActionPerformed
 
     private void btAtualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAtualizarActionPerformed
         String descricao = txtDescricao.getText().trim();
         String codigo = txtCodigo.getText().trim();
         String quantidadeS = txtQuantidade.getText().trim();
-        String valorUnitarioS = txtValorUnitario.getText().trim();
+        String valorUnitarioS = txtValor.getText().trim();
 
         // Verifica se campos estão vazios
         if (descricao.isEmpty() || /*codigo.replace(".", "").replace("-", "").trim().isEmpty()
@@ -179,7 +189,7 @@ public class AtuProduto extends javax.swing.JDialog {
             if (valorUnitario < 0) throw new NumberFormatException();
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(null, "Valor unitário deve ser um número válido!");
-            txtValorUnitario.requestFocus();
+            txtValor.requestFocus();
             return;
         }
 
@@ -197,7 +207,7 @@ public class AtuProduto extends javax.swing.JDialog {
             txtDescricao.setText("");
             txtCodigo.setText("");
             txtQuantidade.setText("");
-            txtValorUnitario.setText("");
+            txtValor.setText("");
         }
     }//GEN-LAST:event_btAtualizarActionPerformed
 
@@ -213,6 +223,29 @@ public class AtuProduto extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtQuantidadeActionPerformed
 
+    private void jLabel1AncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_jLabel1AncestorAdded
+        try {
+            if (Main.codigoSelecionado == null)
+                return;
+
+            // buscando produto no gerenciamento
+            Produto p = g.getListaDeProdutos().get(Main.codigoSelecionado);
+
+            if (p != null) {
+                txtCodigo.setText(p.getCodigoProduto());
+                txtDescricao.setText(p.getDescricao());
+                txtQuantidade.setText(String.valueOf(p.getQuantidade()));
+                txtValor.setText(String.valueOf(p.getValorUnitario()));
+            }
+
+            // limpa a referência para evitar reutilização errada
+            Main.codigoSelecionado = null;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_jLabel1AncestorAdded
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btAtualizar;
     private javax.swing.JButton btCancelar;
@@ -224,6 +257,6 @@ public class AtuProduto extends javax.swing.JDialog {
     private javax.swing.JFormattedTextField txtCodigo;
     private javax.swing.JTextField txtDescricao;
     private javax.swing.JTextField txtQuantidade;
-    private javax.swing.JTextField txtValorUnitario;
+    private javax.swing.JTextField txtValor;
     // End of variables declaration//GEN-END:variables
 }

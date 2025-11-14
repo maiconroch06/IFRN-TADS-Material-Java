@@ -2,6 +2,7 @@ package interfaces.atualizar;
 
 import classes.Cliente;
 import classes.Gerenciamento;
+import interfaces.Main;
 import javax.swing.JOptionPane;
 
 public class AtuCliente extends javax.swing.JDialog {
@@ -66,6 +67,15 @@ public class AtuCliente extends javax.swing.JDialog {
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Atualizar Cliente");
+        jLabel1.addAncestorListener(new javax.swing.event.AncestorListener() {
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+            }
+            public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
+                jLabel1AncestorAdded(evt);
+            }
+            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
+            }
+        });
 
         btAtualizar.setText("Atualizar");
         btAtualizar.addActionListener(new java.awt.event.ActionListener() {
@@ -194,8 +204,30 @@ public class AtuCliente extends javax.swing.JDialog {
     }//GEN-LAST:event_btCancelarActionPerformed
 
     private void txtNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNomeActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_txtNomeActionPerformed
+
+    private void jLabel1AncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_jLabel1AncestorAdded
+        try {
+            if (Main.codigoSelecionado == null)
+                return;
+
+            // buscando produto no gerenciamento
+            Cliente c = g.getListaDeClientes().get(Main.codigoSelecionado);
+
+            if (c != null) {
+                txtNome.setText(c.getNome());
+                txtCpf.setText(c.getCPF());
+                txtEndereco.setText(c.getEndereco());
+                txtTelefone.setText(c.getTelefone());
+            }
+
+            // limpa a referência para evitar reutilização errada
+            Main.codigoSelecionado = null;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_jLabel1AncestorAdded
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btAtualizar;

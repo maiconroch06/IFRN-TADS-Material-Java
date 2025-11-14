@@ -8,6 +8,7 @@ import interfaces.venda.NovaVenda;
 import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import javax.swing.JComponent;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.KeyStroke;
 import javax.swing.table.DefaultTableModel;
@@ -17,6 +18,8 @@ import javax.swing.table.TableRowSorter;
 public class Main extends javax.swing.JFrame {
     
     private Gerenciamento g = new Gerenciamento();
+    public static String codigoSelecionado = null;
+
     
     public Main() {
         initComponents();
@@ -34,19 +37,42 @@ public class Main extends javax.swing.JFrame {
             getContentPane().revalidate();
             getContentPane().repaint();
 
-        // Atalhos 1 2 3 4 para as abas
-        for (int i = 0; i < 4; i++) {
-            final int index = i;
-            Abas.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
-                .put(KeyStroke.getKeyStroke(String.valueOf(i + 1)), "tab" + i);
+//        // Atalhos 1 2 3 4 para navegação das abas
+//        for (int i = 0; i < 4; i++) {
+//            final int index = i;
+//            Abas.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+//                .put(KeyStroke.getKeyStroke(String.valueOf(i + 1)), "tab" + i);
+//
+//            Abas.getActionMap().put("tab" + i, new AbstractAction() {
+//                @Override
+//                public void actionPerformed(ActionEvent e) {
+//                    Abas.setSelectedIndex(index);
+//                }
+//            });
+//        }
 
-            Abas.getActionMap().put("tab" + i, new AbstractAction() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    Abas.setSelectedIndex(index);
-                }
-            });
-        }
+        Abas.addChangeListener(e -> {
+            int index = Abas.getSelectedIndex();
+
+            switch (index) {
+                case 0: // Produtos
+                    carregarTabelaProdutos();
+                    break;
+
+                case 1: // Clientes
+                    carregarTabelaClientes();
+                    break;
+
+                case 2: // Funcionários
+                    carregarTabelaFuncionarios();
+                    break;
+
+                case 3: // Vendas
+                    carregarTabelaVendas();
+                    break;
+            }
+        });
+
 
         // Sempre ao executar o main, adicionar valores pre definidos às tabelas
         g.carregarProdutosPadrao();
@@ -79,28 +105,31 @@ public class Main extends javax.swing.JFrame {
 
                     // AQUI IDENTIFICA QUAL TABELA É
                     if (tabela == TableProdutos) {
+                        int row = tabela.getSelectedRow();
+                        Main.codigoSelecionado = tabela.getValueAt(row, 0).toString();
+
                         AtuProduto AtualizarProd = new AtuProduto(g);
-                        
-                        //Pegar informações da linha selecionada e passar para a janela. Evento acestor?
-                        
+
                         AtualizarProd.setModal(true);
                         AtualizarProd.setVisible(true);
                     }
 
                     else if (tabela == TableFuncionarios) {
+                        int row = tabela.getSelectedRow();
+                        Main.codigoSelecionado = tabela.getValueAt(row, 1).toString();
+                        
                         AtuFuncionario AtualizarFun = new AtuFuncionario(g);
-                        
-                        //Pegar informações da linha selecionada e passar para a janela. Evento acestor?
-                        
+
                         AtualizarFun.setModal(true);
                         AtualizarFun.setVisible(true);
                     }
                     
                     else if (tabela == TableClientes) {
+                        int row = tabela.getSelectedRow();
+                        Main.codigoSelecionado = tabela.getValueAt(row, 1).toString();
+                        
                         AtuCliente AtualizarCli = new AtuCliente(g);
-                        
-                        //Pegar informações da linha selecionada e passar para a janela. Evento acestor?
-                        
+
                         AtualizarCli.setModal(true);
                         AtualizarCli.setVisible(true);
                     }
@@ -180,6 +209,81 @@ public class Main extends javax.swing.JFrame {
         }
     }
     
+    private void pesquisarProduto(String codigo) {
+        DefaultTableModel modelo = (DefaultTableModel) TableProdutos.getModel();
+        modelo.setRowCount(0);
+
+        Produto p = g.getListaDeProdutos().get(codigo);
+
+        if (p != null) {
+            modelo.addRow(new Object[]{
+                p.getCodigoProduto(),
+                p.getDescricao(),
+                p.getQuantidade(),
+                p.getValorUnitario()
+            });
+        } else {
+            carregarTabelaProdutos();
+            JOptionPane.showMessageDialog(this, "Produto não encontrado");
+        }
+    }
+
+    private void pesquisarCliente(String cpf) {
+        DefaultTableModel modelo = (DefaultTableModel) TableClientes.getModel();
+        modelo.setRowCount(0);
+
+        Cliente c = g.getListaDeClientes().get(cpf);
+
+        if (c != null) {
+            modelo.addRow(new Object[]{
+                c.getNome(),
+                c.getCPF(),
+                c.getEndereco(),
+                c.getTelefone()
+            });
+        } else {
+            carregarTabelaClientes();
+            JOptionPane.showMessageDialog(this, "Cliente não encontrado");
+        }
+    }
+
+    private void pesquisarFuncionario(String cpf) {
+        DefaultTableModel modelo = (DefaultTableModel) TableFuncionarios.getModel();
+        modelo.setRowCount(0);
+
+        Funcionario f = g.getListaDeFuncionarios().get(cpf);
+
+        if (f != null) {
+            modelo.addRow(new Object[]{
+                f.getNome(),
+                f.getCPF()
+            });
+        } else {
+            carregarTabelaFuncionarios();
+            JOptionPane.showMessageDialog(this, "Funcionário não encontrado");
+        }
+    }
+
+    private void pesquisarVenda(String id) {
+        DefaultTableModel modelo = (DefaultTableModel) TableVendas.getModel();
+        modelo.setRowCount(0);
+
+        Venda v = g.getListaDeVendas().get(id);
+
+        if (v != null) {
+            modelo.addRow(new Object[]{
+                v.getID_Venda(),
+                v.getCodigoProduto(),
+                v.getQuantidade(),
+                v.getValorUnitario(),
+                v.getValorTotal()
+            });
+        } else {
+            carregarTabelaVendas();
+            JOptionPane.showMessageDialog(this, "Venda não encontrada");
+        }
+    }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -200,7 +304,7 @@ public class Main extends javax.swing.JFrame {
         jScrollPane4 = new javax.swing.JScrollPane();
         TableVendas = new javax.swing.JTable();
         btPesquisar = new javax.swing.JButton();
-        txtPesquisar = new javax.swing.JTextField();
+        txtReferencia = new javax.swing.JTextField();
         btExcluir = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
@@ -336,8 +440,18 @@ public class Main extends javax.swing.JFrame {
         Abas.addTab("Tabela de Vendas", jScrollPane4);
 
         btPesquisar.setText("Pesquisar");
+        btPesquisar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btPesquisarActionPerformed(evt);
+            }
+        });
 
         btExcluir.setText("Excluir");
+        btExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btExcluirActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -347,7 +461,7 @@ public class Main extends javax.swing.JFrame {
                 .addContainerGap(256, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(txtPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtReferencia, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btPesquisar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -365,7 +479,7 @@ public class Main extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(btPesquisar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btExcluir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(txtPesquisar))
+                    .addComponent(txtReferencia))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(Abas, javax.swing.GroupLayout.PREFERRED_SIZE, 398, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(62, 62, 62))
@@ -552,6 +666,139 @@ public class Main extends javax.swing.JFrame {
         carregarTabelaClientes();
     }//GEN-LAST:event_mnAtuClienteActionPerformed
 
+    private void btPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btPesquisarActionPerformed
+        String ref = txtReferencia.getText().trim(); // chave que o usuario procura
+        int index = Abas.getSelectedIndex();         // indice da aba atual aberta
+
+        switch (index) {
+
+            // ------------------- PRODUTOS -------------------
+            case 0:
+                if (ref.isEmpty()) {
+                    carregarTabelaProdutos();
+                    return;
+                }
+                pesquisarProduto(ref);
+                break;
+
+            // ------------------- CLIENTES -------------------
+            case 1:
+                if (ref.isEmpty()) {
+                    carregarTabelaClientes();
+                    return;
+                }
+                pesquisarCliente(ref);
+                break;
+
+            // ------------------- FUNCIONÁRIOS -------------------
+            case 2:
+                if (ref.isEmpty()) {
+                    carregarTabelaFuncionarios();
+                    return;
+                }
+                pesquisarFuncionario(ref);
+                break;
+
+            // ------------------- VENDAS -------------------
+            case 3:
+                if (ref.isEmpty()) {
+                    carregarTabelaVendas();
+                    return;
+                }
+                pesquisarVenda(ref);
+                break;
+        }
+    }//GEN-LAST:event_btPesquisarActionPerformed
+
+    private void btExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btExcluirActionPerformed
+        int aba = Abas.getSelectedIndex(); // Identifica aba atual
+        int linha = -1;
+        String chave = "";
+
+        switch (aba) {
+            // ---------------------- PRODUTOS ----------------------
+            case 0:
+                linha = TableProdutos.getSelectedRow();
+                if (linha == -1) {
+                    JOptionPane.showMessageDialog(this, "Selecione um produto para excluir!");
+                    return;
+                }
+
+                // Pega chave (codigo do produto) da 1ª coluna
+                chave = TableProdutos.getValueAt(linha, 0).toString();
+
+                // Confirma antes de excluir
+                if (JOptionPane.showConfirmDialog(this,
+                        "Deseja excluir o produto " + chave + "?",
+                        "Confirmar Exclusão", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+
+                    g.removerProduto(chave);
+                    carregarTabelaProdutos();
+                }
+                break;
+
+            // ---------------------- CLIENTES ----------------------
+            case 1:
+                linha = TableClientes.getSelectedRow();
+                if (linha == -1) {
+                    JOptionPane.showMessageDialog(this, "Selecione um cliente para excluir!");
+                    return;
+                }
+
+                // chave = CPF (2ª coluna)
+                chave = TableClientes.getValueAt(linha, 1).toString();
+
+                if (JOptionPane.showConfirmDialog(this,
+                        "Deseja excluir o cliente CPF: " + chave + "?",
+                        "Confirmar Exclusão", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+
+                    g.removerCliente(chave);
+                    carregarTabelaClientes();
+                }
+                break;
+
+            // ---------------------- FUNCIONÁRIOS ----------------------
+            case 2:
+                linha = TableFuncionarios.getSelectedRow();
+                if (linha == -1) {
+                    JOptionPane.showMessageDialog(this, "Selecione um funcionário para excluir!");
+                    return;
+                }
+
+                // chave = CPF (2ª coluna)
+                chave = TableFuncionarios.getValueAt(linha, 1).toString();
+
+                if (JOptionPane.showConfirmDialog(this,
+                        "Deseja excluir o funcionário CPF: " + chave + "?",
+                        "Confirmar Exclusão", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+
+                    g.removerFuncionario(chave);
+                    carregarTabelaFuncionarios();
+                }
+                break;
+
+            // ---------------------- VENDAS ----------------------
+            case 3:
+                linha = TableVendas.getSelectedRow();
+                if (linha == -1) {
+                    JOptionPane.showMessageDialog(this, "Selecione uma venda para excluir!");
+                    return;
+                }
+
+                // chave = ID_Venda (1ª coluna)
+                chave = TableVendas.getValueAt(linha, 0).toString();
+
+                if (JOptionPane.showConfirmDialog(this,
+                        "Deseja excluir a venda ID: " + chave + "?",
+                        "Confirmar Exclusão", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+
+                    g.getListaDeVendas().remove(chave);
+                    carregarTabelaVendas();
+                }
+                break;
+        }
+    }//GEN-LAST:event_btExcluirActionPerformed
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -615,6 +862,6 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JMenuItem mnCliente;
     private javax.swing.JMenuItem mnNovaVenda;
     private javax.swing.JPanel painelImagem;
-    private javax.swing.JTextField txtPesquisar;
+    private javax.swing.JTextField txtReferencia;
     // End of variables declaration//GEN-END:variables
 }

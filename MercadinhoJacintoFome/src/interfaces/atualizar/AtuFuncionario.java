@@ -2,6 +2,7 @@ package interfaces.atualizar;
 
 import classes.Funcionario;
 import classes.Gerenciamento;
+import interfaces.Main;
 import javax.swing.JOptionPane;
 
 public class AtuFuncionario extends javax.swing.JDialog {
@@ -22,7 +23,7 @@ public class AtuFuncionario extends javax.swing.JDialog {
         txtNome = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        txtCPF = new javax.swing.JFormattedTextField();
+        txtCpf = new javax.swing.JFormattedTextField();
         jLabel1 = new javax.swing.JLabel();
         btAtualizar = new javax.swing.JButton();
 
@@ -46,7 +47,7 @@ public class AtuFuncionario extends javax.swing.JDialog {
         jLabel3.setText("CPF:");
 
         try {
-            txtCPF.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###.###.###-##")));
+            txtCpf.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###.###.###-##")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
@@ -54,6 +55,15 @@ public class AtuFuncionario extends javax.swing.JDialog {
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Atualizar Funcionario");
+        jLabel1.addAncestorListener(new javax.swing.event.AncestorListener() {
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+            }
+            public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
+                jLabel1AncestorAdded(evt);
+            }
+            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
+            }
+        });
 
         btAtualizar.setText("Atualizar");
         btAtualizar.addActionListener(new java.awt.event.ActionListener() {
@@ -76,7 +86,7 @@ public class AtuFuncionario extends javax.swing.JDialog {
                         .addGap(18, 18, 18)
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtCPF, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtCpf, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(35, 35, 35))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btAtualizar)
@@ -95,7 +105,7 @@ public class AtuFuncionario extends javax.swing.JDialog {
                     .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2)
                     .addComponent(jLabel3)
-                    .addComponent(txtCPF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtCpf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btCancelar)
@@ -116,7 +126,7 @@ public class AtuFuncionario extends javax.swing.JDialog {
 
     private void btAtualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAtualizarActionPerformed
         String nome = txtNome.getText().trim();
-        String cpf = txtCPF.getText().trim();
+        String cpf = txtCpf.getText().trim();
 
         // VALIDAÇÕES
         if (nome.isEmpty() || cpf.replace(".", "").replace("-", "").trim().isEmpty()) {
@@ -132,9 +142,30 @@ public class AtuFuncionario extends javax.swing.JDialog {
         if(g.verificarFuncionario(cpf)){
             g.cadastrarFuncionario(cpf, novoFuncionario);
             txtNome.setText("");
-            txtCPF.setText("");
+            txtCpf.setText("");
         }
     }//GEN-LAST:event_btAtualizarActionPerformed
+
+    private void jLabel1AncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_jLabel1AncestorAdded
+        try {
+            if (Main.codigoSelecionado == null)
+                return;
+
+            // buscando produto no gerenciamento
+            Funcionario f = g.getListaDeFuncionarios().get(Main.codigoSelecionado);
+
+            if (f != null) {
+                txtNome.setText(f.getNome());
+                txtCpf.setText(f.getCPF());
+            }
+
+            // limpa a referência para evitar reutilização errada
+            Main.codigoSelecionado = null;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_jLabel1AncestorAdded
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btAtualizar;
@@ -142,7 +173,7 @@ public class AtuFuncionario extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JFormattedTextField txtCPF;
+    private javax.swing.JFormattedTextField txtCpf;
     private javax.swing.JTextField txtNome;
     // End of variables declaration//GEN-END:variables
 }

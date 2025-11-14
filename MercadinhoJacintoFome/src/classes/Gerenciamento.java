@@ -117,12 +117,12 @@ public class Gerenciamento {
     }
     
     // 3.Metodos para remover
-    public void removerFuncionario(String CPF, Funcionario funcionario){
-        listaDeFuncionarios.remove(CPF, funcionario); 
+    public void removerFuncionario(String CPF){
+        listaDeFuncionarios.remove(CPF); 
     }
     
-    public void removerCliente(String CPF, Cliente cliente){
-        listaDeClientes.remove(CPF, cliente); 
+    public void removerCliente(String CPF){
+        listaDeClientes.remove(CPF); 
     }
     
     public void removerProduto(String codigo){
@@ -272,25 +272,25 @@ public class Gerenciamento {
         cadastrarProduto(cod18, new Produto(cod18, "Shampoo", 19, 10.99));
         
         String cod19 = gerarCodigoProduto();
-        cadastrarProduto(cod19, new Produto(cod18, "Shampoo", 19, 10.99));
+        cadastrarProduto(cod19, new Produto(cod19, "Shampoo", 19, 10.99));
         
         String cod20 = gerarCodigoProduto();
-        cadastrarProduto(cod20, new Produto(cod18, "Shampoo", 19, 10.99));
+        cadastrarProduto(cod20, new Produto(cod20, "Shampoo", 19, 10.99));
         
         String cod21 = gerarCodigoProduto();
-        cadastrarProduto(cod21, new Produto(cod18, "Shampoo", 19, 10.99));
+        cadastrarProduto(cod21, new Produto(cod21, "Shampoo", 19, 10.99));
         
         String cod22 = gerarCodigoProduto();
-        cadastrarProduto(cod22, new Produto(cod18, "Shampoo", 19, 10.99));
+        cadastrarProduto(cod22, new Produto(cod22, "Shampoo", 19, 10.99));
         
         String cod23 = gerarCodigoProduto();
-        cadastrarProduto(cod23, new Produto(cod18, "Shampoo", 19, 10.99));
+        cadastrarProduto(cod23, new Produto(cod23, "Shampoo", 19, 10.99));
         
         String cod24 = gerarCodigoProduto();
-        cadastrarProduto(cod24, new Produto(cod18, "Shampoo", 19, 10.99));
+        cadastrarProduto(cod24, new Produto(cod24, "Shampoo", 19, 10.99));
         
         String cod25 = gerarCodigoProduto();
-        cadastrarProduto(cod25, new Produto(cod18, "Shampoo", 19, 10.99));
+        cadastrarProduto(cod25, new Produto(cod25, "Shampoo", 19, 10.99));
     }
 
     
