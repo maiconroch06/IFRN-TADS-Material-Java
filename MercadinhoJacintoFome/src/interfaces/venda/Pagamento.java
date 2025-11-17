@@ -7,20 +7,22 @@ import javax.swing.JOptionPane;
 
 
 public class Pagamento extends javax.swing.JDialog {
-    private Gerenciamento g;
-    private Runnable onFinalizarCompra;
     private boolean finalizada = false;
-
+    private Runnable onFinalizarCompra;
+    private Gerenciamento g;
+    private double total;
     public Pagamento() {
         initComponents();
+        
         this.setLocationRelativeTo(this);
     }
 
     public Pagamento(java.awt.Window parent, boolean modal, Gerenciamento g, double total) {
         super(parent, ModalityType.APPLICATION_MODAL);
-        initComponents();
         this.g = g;
+        this.total = total;
         this.onFinalizarCompra = onFinalizarCompra;
+        initComponents();
         this.setLocationRelativeTo(parent);
         txtTotal.setText(String.format("R$ %.2f", total));
     }
@@ -100,11 +102,6 @@ public class Pagamento extends javax.swing.JDialog {
         txtCpf.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 txtCpfFocusLost(evt);
-            }
-        });
-        txtCpf.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtCpfActionPerformed(evt);
             }
         });
 
@@ -212,7 +209,7 @@ public class Pagamento extends javax.swing.JDialog {
 
     private void btnFinalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFinalizarActionPerformed
         String metodo = null;
-        if (opcPix.isSelected())          metodo = "PIX";
+        if (opcPix.isSelected())      metodo = "PIX";
         else if (opcDebito.isSelected())  metodo = "DEBITO";
         else if (opcCredito.isSelected()) metodo = "CREDITO";
         else if (opcEspecie.isSelected()) metodo = "ESPECIE";
@@ -224,32 +221,31 @@ public class Pagamento extends javax.swing.JDialog {
         }
         
         // Pega todo o texto de cpf e deixa só os números/String;
-        String cpf = txtCpf.getText().trim();
-
-        // Verifica se a máscara está completa (sem espaços "_")
-        if (cpf.contains("_")) {
-            JOptionPane.showMessageDialog(this, "CPF inválido. Preencha o CPF corretamente!");
+        String cpf = txtCpf.getText().trim().replaceAll("\\D", ""); 
+        
+        // Verifica se cpf tá vazio ou com menos dígitos;
+        if (cpf.isEmpty() || cpf.length() != 11) {
+            JOptionPane.showMessageDialog(this, "CPF inválido.");
             return;
         }
         
-        // Se esse CPF existir na lista, finaliza a compra. Se não, abre a tela de erro;
+        // Se esse CPF existir na lista finaliza a compra, caso não, Abre a tela de erro;
         if(g.verificarCliente(cpf)) {
-            JOptionPane.showMessageDialog(null, "Compra Finalizada com Sucesso!!!");
+            JOptionPane.showMessageDialog(null, "Compra Finalizada comm Sucesso!!");
             if (onFinalizarCompra != null) onFinalizarCompra.run();
             finalizada = true;
             dispose();
-            
         } else {
             Object[] options = {"Cadastrar", "Tentar Novamente"};
             int escolha = JOptionPane.showOptionDialog(
                 this,
                 "Cliente Não Cadastrado ou CPF incorreto." + cpf,
                 "Cliente",
-                JOptionPane.YES_NO_OPTION,
+                JOptionPane.YES_NO_OPTION,         
                 JOptionPane.WARNING_MESSAGE,
-                null,
-                options,                         
-                options[0]
+                null,                              
+                options,                           
+                options[0]                         
             );
             
             if (escolha == 0) {
@@ -259,6 +255,9 @@ public class Pagamento extends javax.swing.JDialog {
                 return;
             }
         }
+        
+        
+        
     }//GEN-LAST:event_btnFinalizarActionPerformed
 
     private void btnVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVoltarActionPerformed
@@ -272,23 +271,21 @@ public class Pagamento extends javax.swing.JDialog {
 
     private void txtCpfFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCpfFocusLost
         try {
-            Cliente cl = g.consultarCliente(txtCpf.getText().trim());
+            Cliente cl = g.consultarCliente(txtCpf.getText().trim().replaceAll("\\D", ""));
             txtNomeCliente.setText(cl.getNome());
         } catch (Exception e) {
         }
     }//GEN-LAST:event_txtCpfFocusLost
 
     private void txtNomeClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNomeClienteActionPerformed
+        // TODO add your handling code here:
     }//GEN-LAST:event_txtNomeClienteActionPerformed
-
-    private void txtCpfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCpfActionPerformed
-    }//GEN-LAST:event_txtCpfActionPerformed
 
     //Métodos
     public boolean isFinalizada() {
         return finalizada;
     }
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCadNCliente;
     private javax.swing.JButton btnFinalizar;

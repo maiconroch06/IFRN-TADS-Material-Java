@@ -27,8 +27,8 @@ public class NovaVenda extends javax.swing.JDialog {
         
         ativarOrdenacaoNaTabela(TableProdutos);
         
-        int linha = TableCarrinho.getSelectedRow();
-        jSpinner1.setMaximumSize(Integer.parseInt(TableCarrinho.getModel(getValueAt(linha, 2).toString())));
+        //int linha = TableCarrinho.getSelectedRow();
+        //jSpinner1.setMaximumSize(Integer.parseInt(TableCarrinho.getModel(getValueAt(linha, 2).toString())));
 
         // (opcional) permitir duplo-clique para adicionar ao carrinho
         TableProdutos.addMouseListener(new java.awt.event.MouseAdapter() {

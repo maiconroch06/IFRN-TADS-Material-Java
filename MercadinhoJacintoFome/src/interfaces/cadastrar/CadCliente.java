@@ -9,9 +9,10 @@ public class CadCliente extends javax.swing.JDialog {
     private Gerenciamento g;
     
     public CadCliente(java.awt.Window parent, boolean modal, Gerenciamento g, String cpfIni, String nomeIni) {
+        super(parent, ModalityType.APPLICATION_MODAL);
         this.g = g;
         initComponents();
-        setLocationRelativeTo(null);
+        setLocationRelativeTo(parent);
 
         if (nomeIni != null && !nomeIni.trim().isEmpty()) {
             txtNome.setText(nomeIni.trim());
