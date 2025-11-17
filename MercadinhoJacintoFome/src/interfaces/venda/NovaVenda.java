@@ -26,6 +26,9 @@ public class NovaVenda extends javax.swing.JDialog {
         this.setLocationRelativeTo(this);
         
         ativarOrdenacaoNaTabela(TableProdutos);
+        
+        int linha = TableCarrinho.getSelectedRow();
+        jSpinner1.setMaximumSize(Integer.parseInt(TableCarrinho.getModel(getValueAt(linha, 2).toString())));
 
         // (opcional) permitir duplo-clique para adicionar ao carrinho
         TableProdutos.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -195,6 +198,8 @@ public class NovaVenda extends javax.swing.JDialog {
             }
         });
 
+        jSpinner1.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
+
         jLabel3.setText("Q. de produto:");
 
         jLabel7.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
@@ -271,6 +276,8 @@ public class NovaVenda extends javax.swing.JDialog {
                 btRemoverActionPerformed(evt);
             }
         });
+
+        jSpinner2.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
 
         jLabel4.setText("Q. de produto:");
 
@@ -508,15 +515,11 @@ public class NovaVenda extends javax.swing.JDialog {
             quantidadeRemover = Integer.parseInt(jSpinner2.getValue().toString());
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Quantidade inválida!");
-            //txtCodigo.setText("");
-            //jSpinner2.setValue(0);
             return;
         }
 
         if (quantidadeRemover <= 0) {
             JOptionPane.showMessageDialog(this, "Informe uma quantidade válida para remover!");
-            txtCodigo.setText("");
-            jSpinner2.setValue(0);
             return;
         }
 
@@ -528,8 +531,12 @@ public class NovaVenda extends javax.swing.JDialog {
         int quantidadeAtual = Integer.parseInt(modeloCarrinho.getValueAt(linha, 2).toString());
         double valorUnitario = Double.parseDouble(modeloCarrinho.getValueAt(linha, 3).toString());
 
+        
+        if(quantidadeRemover > quantidadeAtual){
+        JOptionPane.showMessageDialog(this, "Quantidade inválida! favor selecionar corretamente!");
+        }
         // Atualiza o carrinho
-        if (quantidadeRemover >= quantidadeAtual) {
+        else if (quantidadeRemover == quantidadeAtual) {
             modeloCarrinho.removeRow(linha);
         } else {
             int novaQuantidade = quantidadeAtual - quantidadeRemover;
