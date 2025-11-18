@@ -177,7 +177,7 @@ public class CadCliente extends javax.swing.JDialog {
         String telefone = txtTelefone.getText().trim();
 
         // VALIDAÇÕES
-        if (nome.isEmpty() || cpf.replace(".", "").replace("-", "").trim().isEmpty() || endereco.isEmpty() || telefone.isEmpty()) {
+        if (nome.isEmpty() || cpf/*.replace(".", "").replace("-", "")*/.trim().isEmpty() || endereco.isEmpty() || telefone.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Preencha todos os campos!");
             return;
         }
@@ -205,18 +205,11 @@ public class CadCliente extends javax.swing.JDialog {
     }//GEN-LAST:event_btCadastrarActionPerformed
 
     private void txtNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNomeActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_txtNomeActionPerformed
-
     private void txtEnderecoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEnderecoActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_txtEnderecoActionPerformed
-
     private void txtTelefoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTelefoneActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_txtTelefoneActionPerformed
-
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btCadastrar;
     private javax.swing.JButton btCancelar;

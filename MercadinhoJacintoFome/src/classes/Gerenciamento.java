@@ -142,9 +142,8 @@ public class Gerenciamento {
         if(!listaDeClientes.containsKey(CPF)){
             JOptionPane.showMessageDialog(null, "Cliente não encontrado!");
             return null;
-        } else {
-            return listaDeClientes.get(CPF);
         }
+        return listaDeClientes.get(CPF);
     }
     
     public Produto consultarProduto(String codigo){

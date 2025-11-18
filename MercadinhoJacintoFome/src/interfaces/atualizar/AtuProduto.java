@@ -219,7 +219,7 @@ public class AtuProduto extends javax.swing.JDialog {
         "Quantidade: " + produto.getQuantidade() + "\n" +
         "Valor Unitário: " + produto.getValorUnitario();
 
-        JOptionPane.showMessageDialog(null, mensagem);
+        JOptionPane.showMessageDialog(null, mensagem); 
     }//GEN-LAST:event_btAtualizarActionPerformed
 
     private void btCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCancelarActionPerformed

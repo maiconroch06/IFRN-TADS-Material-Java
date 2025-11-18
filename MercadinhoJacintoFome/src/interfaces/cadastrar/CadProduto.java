@@ -148,8 +148,8 @@ public class CadProduto extends javax.swing.JDialog {
         String valorUnitarioS = txtValorUnitario.getText().trim();
 
         // Verifica se campos estão vazios
-        if (descricao.isEmpty() || /*codigo.replace(".", "").replace("-", "").trim().isEmpty() 
-            ||*/ quantidadeS.isEmpty() || valorUnitarioS.isEmpty()) {
+        if (descricao.isEmpty() || codigo.trim().isEmpty() 
+            || quantidadeS.isEmpty() || valorUnitarioS.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Preencha todos os campos!");
             return;
         }
@@ -179,7 +179,7 @@ public class CadProduto extends javax.swing.JDialog {
         // CRIA OBJETO PRODUTO
         Produto novoProduto = new Produto();
         novoProduto.setDescricao(descricao);
-        novoProduto.setCodigoProduto(g.gerarCodigoProduto());
+        novoProduto.setCodigoProduto(codigo);
         novoProduto.setQuantidade(quantidade);
         novoProduto.setValorUnitario(valorUnitario);
 

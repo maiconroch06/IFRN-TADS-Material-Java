@@ -131,6 +131,8 @@ public class Main extends javax.swing.JFrame {
 
                         AtualizarProd.setModal(true);
                         AtualizarProd.setVisible(true);
+                        
+                        carregarTabelaProdutos();
                     }
 
                     else if (tabela == TableFuncionarios) {
@@ -141,6 +143,8 @@ public class Main extends javax.swing.JFrame {
 
                         AtualizarFun.setModal(true);
                         AtualizarFun.setVisible(true);
+                        
+                        carregarTabelaFuncionarios();
                     }
                     
                     else if (tabela == TableClientes) {
@@ -151,6 +155,8 @@ public class Main extends javax.swing.JFrame {
 
                         AtualizarCli.setModal(true);
                         AtualizarCli.setVisible(true);
+                        
+                        carregarTabelaClientes();
                     }
 
                     else if (tabela == TableVendas) {
@@ -158,6 +164,8 @@ public class Main extends javax.swing.JFrame {
                         
                         vm.setModal(true);
                         vm.setVisible(true);
+                        
+                        carregarTabelaVendas();
                     }
                 }
             }
@@ -214,8 +222,7 @@ public class Main extends javax.swing.JFrame {
     }
     
     public void carregarTabelaVendas() {
-        javax.swing.table.DefaultTableModel modelo =
-            (javax.swing.table.DefaultTableModel) TableVendas.getModel();
+        DefaultTableModel modelo = (DefaultTableModel) TableVendas.getModel();
         modelo.setRowCount(0);
         for (classes.Venda v : g.getListaDeVendas().values()) {
             modelo.addRow(new Object[] {
@@ -668,7 +675,7 @@ public class Main extends javax.swing.JFrame {
         AtualizarProd.setModal(true);
         AtualizarProd.setVisible(true);
         
-        carregarTabelaProdutos();
+        carregarTabelaProdutos();                                             //
     }//GEN-LAST:event_mnAtuProdutoActionPerformed
 
     private void mnAtuFuncionarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnAtuFuncionarioActionPerformed
@@ -676,7 +683,7 @@ public class Main extends javax.swing.JFrame {
         AtualizarFun.setModal(true);
         AtualizarFun.setVisible(true);
 
-        carregarTabelaFuncionarios();
+        //carregarTabelaFuncionarios();                                       //
     }//GEN-LAST:event_mnAtuFuncionarioActionPerformed
 
     private void mnAtuClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnAtuClienteActionPerformed
@@ -684,7 +691,7 @@ public class Main extends javax.swing.JFrame {
         AtualizarCli.setModal(true);
         AtualizarCli.setVisible(true);
         
-        carregarTabelaClientes();
+        //carregarTabelaClientes();
     }//GEN-LAST:event_mnAtuClienteActionPerformed
 
     private void btPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btPesquisarActionPerformed
