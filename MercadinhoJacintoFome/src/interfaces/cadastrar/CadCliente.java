@@ -83,6 +83,7 @@ public class CadCliente extends javax.swing.JDialog {
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
+        txtCpf.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         txtEndereco.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -134,7 +135,7 @@ public class CadCliente extends javax.swing.JDialog {
                 .addComponent(txtEndereco, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtTelefone)
                 .addGap(35, 35, 35))
         );
@@ -171,7 +172,7 @@ public class CadCliente extends javax.swing.JDialog {
 
     private void btCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCadastrarActionPerformed
         String nome = txtNome.getText().trim();
-        String cpf = txtCpf.getText().trim().replaceAll("\\D", "");
+        String cpf = txtCpf.getText().trim();
         String endereco = txtEndereco.getText().trim();
         String telefone = txtTelefone.getText().trim();
 

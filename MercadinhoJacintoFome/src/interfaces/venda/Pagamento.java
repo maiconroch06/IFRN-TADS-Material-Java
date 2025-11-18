@@ -221,10 +221,10 @@ public class Pagamento extends javax.swing.JDialog {
         }
         
         // Pega todo o texto de cpf e deixa só os números/String;
-        String cpf = txtCpf.getText().trim().replaceAll("\\D", ""); 
+        String cpf = txtCpf.getText().trim();
         
         // Verifica se cpf tá vazio ou com menos dígitos;
-        if (cpf.isEmpty() || cpf.length() != 11) {
+        if (cpf.isEmpty() || cpf.length() != 14) {
             JOptionPane.showMessageDialog(this, "CPF inválido.");
             return;
         }
@@ -235,6 +235,7 @@ public class Pagamento extends javax.swing.JDialog {
             if (onFinalizarCompra != null) onFinalizarCompra.run();
             finalizada = true;
             dispose();
+            
         } else {
             Object[] options = {"Cadastrar", "Tentar Novamente"};
             int escolha = JOptionPane.showOptionDialog(
@@ -271,7 +272,7 @@ public class Pagamento extends javax.swing.JDialog {
 
     private void txtCpfFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCpfFocusLost
         try {
-            Cliente cl = g.consultarCliente(txtCpf.getText().trim().replaceAll("\\D", ""));
+            Cliente cl = g.consultarCliente(txtCpf.getText().trim());
             txtNomeCliente.setText(cl.getNome());
         } catch (Exception e) {
         }

@@ -5,13 +5,8 @@ import classes.*;
 import interfaces.atualizar.*;
 import interfaces.cadastrar.*;
 import interfaces.venda.NovaVenda;
-import java.awt.BorderLayout;
-import java.awt.event.ActionEvent;
-import javax.swing.AbstractAction;
-import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
-import javax.swing.KeyStroke;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
@@ -23,22 +18,61 @@ public class Main extends javax.swing.JFrame {
 
     
     public Main() {
+
+            // O painel com imagem de fundo deve ser o contentPane ANTES do initComponents()
+            painelImagem = new javax.swing.JPanel() {
+                @Override
+                protected void paintComponent(java.awt.Graphics g) {
+                    super.paintComponent(g);
+                    java.awt.Image img = new javax.swing.ImageIcon(
+                        getClass().getResource("/interfaces/fundinhoAR.jpg")
+                    ).getImage();
+                    g.drawImage(img, 0, 0, getWidth(), getHeight(), this);
+                }
+            };
+
+            setContentPane(painelImagem);
+
+        // Não mova o codigo referente a imagem de local, principalmente esse a baixo!
         initComponents();
-        setLocationRelativeTo(null);      // Tela main centralizada
-        setExtendedState(MAXIMIZED_BOTH); // Tela cheia
+        setLocationRelativeTo(null);      
+        setExtendedState(MAXIMIZED_BOTH);
 
-            painelImagem.setLayout(new java.awt.BorderLayout());
-            painelImagem.add(jPanel1, BorderLayout.CENTER);
-            
-            painelImagem.add(jLabel1);
-            painelImagem.add(jLabel2);
 
-            // Atualiza o painel no JFrame
-            getContentPane().removeAll();
-            getContentPane().add(painelImagem);
-            getContentPane().revalidate();
-            getContentPane().repaint();
+            javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+            getContentPane().setLayout(layout);
 
+            layout.setHorizontalGroup(
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(painelImagem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            );
+            layout.setVerticalGroup(
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(painelImagem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            );
+
+
+             javax.swing.GroupLayout painelImagemLayout = new javax.swing.GroupLayout(painelImagem);
+            painelImagem.setLayout(painelImagemLayout);
+
+            painelImagemLayout.setHorizontalGroup(
+                painelImagemLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 1420, Short.MAX_VALUE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 1420, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            );
+            painelImagemLayout.setVerticalGroup(
+                painelImagemLayout.createSequentialGroup()
+                    .addGap(40)
+                    .addComponent(jLabel1)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(jLabel2)
+                    .addGap(20)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(200, Short.MAX_VALUE)
+            );
+
+        
         // Sempre ao executar o main, adicionar valores pre definidos às tabelas
         g.carregarProdutosPadrao();
         g.carregarClientesPadrao();

@@ -130,19 +130,32 @@ public class Gerenciamento {
     }
     
     // 4.Metodos para consultar
+    public Funcionario consultarFuncionario(String CPF){
+        if(!listaDeFuncionarios.containsKey(CPF)){
+            JOptionPane.showMessageDialog(null, "Funcionario não encontrado!");
+            return null;
+        }
+        return listaDeFuncionarios.get(CPF);
+    }
+    
     public Cliente consultarCliente(String CPF){
-        return listaDeClientes.get(CPF);
+        if(!listaDeClientes.containsKey(CPF)){
+            JOptionPane.showMessageDialog(null, "Cliente não encontrado!");
+            return null;
+        } else {
+            return listaDeClientes.get(CPF);
+        }
     }
     
-    public void consultarProduto(String codigo){
-        listaDeProdutos.get(codigo);
+    public Produto consultarProduto(String codigo){
+        if(!listaDeProdutos.containsKey(codigo)){
+            JOptionPane.showMessageDialog(null, "Produto não encontrado!");
+            return null;
+        }
+        return listaDeProdutos.get(codigo);
     }
     
-    public void consultarFuncionario(String CPF){
-        listaDeFuncionarios.get(CPF);
-    }
-    
-    // 5.Metodos para atualizar
+// 5.Metodos para atualizar
     public boolean atualizarFuncionario(String CPF, Funcionario funcionario){        
         if(!listaDeFuncionarios.containsKey(CPF)){
             JOptionPane.showMessageDialog(null, "Dados não encontrado!");
@@ -194,17 +207,15 @@ public class Gerenciamento {
             return 0.0;
         }
     }
-    
-    
-    
-    // 98.Predefinição dos Clientes
+
+// 98.Predefinição dos Clientes
     public void carregarClientesPadrao() {
-        cadastrarCliente("111.111.111-11", new Cliente("Danilo", "111.111.111-11", "Rua A", "(11) 91111-1111"));
-        cadastrarCliente("222.222.222-22", new Cliente("Gabriel", "222.222.222-22", "Rua B", "(22) 92222-2222"));
-        cadastrarCliente("333.333.333-33", new Cliente("Jackson", "333.333.333-33", "Rua C", "(33) 93333-3333"));
-        cadastrarCliente("444.444.444-44", new Cliente("Laelson", "444.444.444-44", "Rua D", "(44) 94444-4444"));
-        cadastrarCliente("555.555.555-55", new Cliente("Maicon", "555.555.555-55", "Rua E", "(55) 95555-5555"));
-        cadastrarCliente("666.666.666-66", new Cliente("Ryan", "666.666.666-66", "Rua F", "(66) 96666-6666"));
+        cadastrarCliente("111.111.111-11", new Cliente("Danilo", "111.111.111-11", "Rua A", "(11)91111-1111"));
+        cadastrarCliente("222.222.222-22", new Cliente("Gabriel", "222.222.222-22", "Rua B", "(22)92222-2222"));
+        cadastrarCliente("333.333.333-33", new Cliente("Jackson", "333.333.333-33", "Rua C", "(33)93333-3333"));
+        cadastrarCliente("444.444.444-44", new Cliente("Laelson", "444.444.444-44", "Rua D", "(44)94444-4444"));
+        cadastrarCliente("555.555.555-55", new Cliente("Maicon", "555.555.555-55", "Rua E", "(55)95555-5555"));
+        cadastrarCliente("666.666.666-66", new Cliente("Ryan", "666.666.666-66", "Rua F", "(66)96666-6666"));
     }
 
 // 97. Predefinição dos Funcionários
@@ -217,7 +228,7 @@ public class Gerenciamento {
         cadastrarFuncionario("666.666.666-66", new Funcionario("Ryan", "666.666.666-66"));
     }
 
-    // 98.Predefinição dos produtos
+// 98.Predefinição dos produtos
     public void carregarProdutosPadrao() {
         String cod1 = gerarCodigoProduto();
         cadastrarProduto(cod1, new Produto(cod1, "Arroz", 10, 5.99));
@@ -296,7 +307,7 @@ public class Gerenciamento {
     }
 
     
-    // 99.Getters
+// 99.Getters
     public HashMap<String, Cliente> getListaDeClientes() {
         return listaDeClientes;
     }
