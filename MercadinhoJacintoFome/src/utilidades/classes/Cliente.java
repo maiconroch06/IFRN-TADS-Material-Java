@@ -1,4 +1,4 @@
-package classes;
+package utilidades.classes;
 
 public class Cliente extends Pessoa {
     private String endereco;

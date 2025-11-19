@@ -1,7 +1,7 @@
 package interfaces.venda;
 
-import classes.Gerenciamento;
-import classes.Cliente;
+import utilidades.Sistema.Gerenciamento;
+import utilidades.classes.Cliente;
 import interfaces.cadastrar.CadCliente;
 import javax.swing.JOptionPane;
 

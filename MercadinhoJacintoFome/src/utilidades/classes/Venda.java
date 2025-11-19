@@ -1,4 +1,4 @@
-package classes;
+package utilidades.classes;
 
 public class Venda{
     private int ID_Venda;

@@ -1,7 +1,7 @@
 package interfaces.atualizar;
 
-import classes.Gerenciamento;
-import classes.Produto;
+import utilidades.Sistema.Gerenciamento;
+import utilidades.classes.Produto;
 import interfaces.Main;
 import javax.swing.JOptionPane;
 

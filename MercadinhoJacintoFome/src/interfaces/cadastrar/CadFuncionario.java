@@ -1,7 +1,7 @@
 package interfaces.cadastrar;
 
-import classes.Funcionario;
-import classes.Gerenciamento;
+import utilidades.classes.Funcionario;
+import utilidades.Sistema.Gerenciamento;
 import javax.swing.JOptionPane;
 
 public class CadFuncionario extends javax.swing.JDialog {

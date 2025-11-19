@@ -1,7 +1,7 @@
 package interfaces.venda;
 
-import classes.Gerenciamento;
-import classes.Produto;
+import utilidades.Sistema.Gerenciamento;
+import utilidades.classes.Produto;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.List;
@@ -99,16 +99,16 @@ public class NovaVenda extends javax.swing.JDialog {
     }
     
     // obs*: esse metodo importa temporariamente a classe Venda e biblis? 
-    private List<classes.Venda> montarVendasDoCarrinho() {
+    private List<utilidades.classes.Venda> montarVendasDoCarrinho() {
         DefaultTableModel m = (DefaultTableModel) TableCarrinho.getModel();
-        List<classes.Venda> lista = new ArrayList<>();
+        List<utilidades.classes.Venda> lista = new ArrayList<>();
         
         for (int i = 0; i < m.getRowCount(); i++) {
             String codigo = String.valueOf(m.getValueAt(i, 0)); // coluna: Código
             int qtd = Integer.parseInt(String.valueOf(m.getValueAt(i, 2))); // coluna: Quantidade
             double vu = Double.parseDouble(String.valueOf(m.getValueAt(i, 3))); // coluna: Valor Unitário
 
-            classes.Venda v = new classes.Venda();
+            utilidades.classes.Venda v = new utilidades.classes.Venda();
             v.setCodigoProduto(codigo);
             v.setQuantidade(qtd);
             v.setValorUnitario(vu);
@@ -145,6 +145,7 @@ public class NovaVenda extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Tela Venda");
+        setResizable(false);
 
         txtCodigo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -458,7 +459,7 @@ public class NovaVenda extends javax.swing.JDialog {
         pagGUI.setVisible(true);
         
         if (pagGUI.isFinalizada()) {                                        // //
-            List<classes.Venda> itens = montarVendasDoCarrinho(); // //
+            List<utilidades.classes.Venda> itens = montarVendasDoCarrinho(); // //
             String id = g.gerarIDVenda();                       // //
             
             g.salvarVendasDoCarrinho(id, itens);          // //

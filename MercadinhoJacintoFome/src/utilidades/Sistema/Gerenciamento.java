@@ -1,8 +1,12 @@
-package classes;
+package utilidades.Sistema;
 
 import java.util.HashMap;
 import java.util.List;
 import javax.swing.JOptionPane;
+import utilidades.classes.Cliente;
+import utilidades.classes.Funcionario;
+import utilidades.classes.Produto;
+import utilidades.classes.Venda;
 
 /* Sumario:
 Funcionalidades

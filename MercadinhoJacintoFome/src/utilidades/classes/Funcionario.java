@@ -1,4 +1,4 @@
-package classes;
+package utilidades.classes;
 
 public class Funcionario extends Pessoa{
 

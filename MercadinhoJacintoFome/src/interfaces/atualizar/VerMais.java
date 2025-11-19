@@ -1,6 +1,6 @@
 package interfaces.atualizar;
 
-import classes.Gerenciamento;
+import utilidades.Sistema.Gerenciamento;
 
 public class VerMais extends javax.swing.JDialog {
     

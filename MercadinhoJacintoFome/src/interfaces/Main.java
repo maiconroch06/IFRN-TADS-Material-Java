@@ -1,7 +1,11 @@
 package interfaces;
 
+import utilidades.classes.Cliente;
+import utilidades.Sistema.Gerenciamento;
+import utilidades.classes.Produto;
+import utilidades.classes.Funcionario;
+import utilidades.classes.Venda;
 import interfaces.atualizar.VerMais;
-import classes.*;
 import interfaces.atualizar.*;
 import interfaces.cadastrar.*;
 import interfaces.venda.NovaVenda;
@@ -10,12 +14,12 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
+import utilidades.tabela.CarregamentoTabela;
 
 public class Main extends javax.swing.JFrame {
     
     private Gerenciamento g = new Gerenciamento();
     public static String codigoSelecionado = null;
-
     
     public Main() {
 
@@ -84,7 +88,7 @@ public class Main extends javax.swing.JFrame {
         verMais(TableVendas);
         
         // Sempre ao executar o main, atualiza a tabela
-        carregarTabelaProdutos();
+        CarregamentoTabela.carregarTabelaProdutos((DefaultTableModel)TableProdutos.getModel(), g.getListaDeProdutos());
         
         // Sempre ao executar o main, ativar ordernação em todas as tabelas
         ativarOrdenacaoNaTabela(TableProdutos);
@@ -98,7 +102,7 @@ public class Main extends javax.swing.JFrame {
 
             switch (index) {
                 case 0: // Produtos
-                    carregarTabelaProdutos();
+                    CarregamentoTabela.carregarTabelaProdutos((DefaultTableModel)TableProdutos.getModel(), g.getListaDeProdutos());
                     break;
 
                 case 1: // Clientes
@@ -132,7 +136,7 @@ public class Main extends javax.swing.JFrame {
                         AtualizarProd.setModal(true);
                         AtualizarProd.setVisible(true);
                         
-                        carregarTabelaProdutos();
+                        CarregamentoTabela.carregarTabelaProdutos((DefaultTableModel)TableProdutos.getModel(), g.getListaDeProdutos());
                     }
 
                     else if (tabela == TableFuncionarios) {
@@ -181,20 +185,6 @@ public class Main extends javax.swing.JFrame {
     }
     
     
-    public void carregarTabelaProdutos() {
-        DefaultTableModel modelo = (DefaultTableModel) TableProdutos.getModel();
-        modelo.setRowCount(0); // limpa a tabela antes de preencher
-
-        for (Produto p : g.getListaDeProdutos().values()) {
-            modelo.addRow(new Object[] {
-                p.getCodigoProduto(),
-                p.getDescricao(),
-                p.getQuantidade(),
-                p.getValorUnitario()
-            });
-        }
-    }
-    
     public void carregarTabelaFuncionarios() {
         DefaultTableModel modelo = (DefaultTableModel) TableFuncionarios.getModel();
         modelo.setRowCount(0);
@@ -224,7 +214,7 @@ public class Main extends javax.swing.JFrame {
     public void carregarTabelaVendas() {
         DefaultTableModel modelo = (DefaultTableModel) TableVendas.getModel();
         modelo.setRowCount(0);
-        for (classes.Venda v : g.getListaDeVendas().values()) {
+        for (utilidades.classes.Venda v : g.getListaDeVendas().values()) {
             modelo.addRow(new Object[] {
                 v.getID_Venda(),
                 v.getCodigoProduto(),
@@ -249,7 +239,7 @@ public class Main extends javax.swing.JFrame {
                 p.getValorUnitario()
             });
         } else {
-            carregarTabelaProdutos();
+            CarregamentoTabela.carregarTabelaProdutos(modelo, g.getListaDeProdutos());
             JOptionPane.showMessageDialog(this, "Produto não encontrado");
         }
     }
@@ -647,7 +637,7 @@ public class Main extends javax.swing.JFrame {
         cadVGUI.setModal(true);
         cadVGUI.setVisible(true);
         
-        carregarTabelaProdutos();
+        CarregamentoTabela.carregarTabelaProdutos((DefaultTableModel)TableProdutos.getModel() , g.getListaDeProdutos());
     }//GEN-LAST:event_mnCadProdutoActionPerformed
 
     private void mnCadFuncionarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnCadFuncionarioActionPerformed
@@ -675,7 +665,7 @@ public class Main extends javax.swing.JFrame {
         AtualizarProd.setModal(true);
         AtualizarProd.setVisible(true);
         
-        carregarTabelaProdutos();                                             //
+        CarregamentoTabela.carregarTabelaProdutos((DefaultTableModel)TableProdutos.getModel(), g.getListaDeProdutos());                                         //
     }//GEN-LAST:event_mnAtuProdutoActionPerformed
 
     private void mnAtuFuncionarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnAtuFuncionarioActionPerformed
@@ -703,7 +693,7 @@ public class Main extends javax.swing.JFrame {
             // ------------------- PRODUTOS -------------------
             case 0:
                 if (ref.isEmpty()) {
-                    carregarTabelaProdutos();
+                    CarregamentoTabela.carregarTabelaProdutos((DefaultTableModel)TableProdutos.getModel(), g.getListaDeProdutos());
                     return;
                 }
                 pesquisarProduto(ref);
@@ -761,7 +751,7 @@ public class Main extends javax.swing.JFrame {
                         "Confirmar Exclusão", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
 
                     g.removerProduto(chave);
-                    carregarTabelaProdutos();
+                    CarregamentoTabela.carregarTabelaProdutos((DefaultTableModel)TableProdutos.getModel(), g.getListaDeProdutos());
                 }
                 break;
 
