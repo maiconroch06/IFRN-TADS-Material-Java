@@ -234,11 +234,12 @@ public class AtuProduto extends javax.swing.JDialog {
 
     private void jLabel1AncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_jLabel1AncestorAdded
         try {
-            if (Main.codigoSelecionado == null)
+            if (g.getCodigoSelecionado().equals("")) {
                 return;
+            }
 
             // buscando produto no gerenciamento
-            Produto p = g.getListaDeProdutos().get(Main.codigoSelecionado);
+            Produto p = g.getListaDeProdutos().get(g.getCodigoSelecionado());
 
             if (p != null) {
                 txtCodigo.setText(p.getCodigoProduto());
@@ -248,10 +249,10 @@ public class AtuProduto extends javax.swing.JDialog {
             }
 
             // limpa a referência para evitar reutilização errada
-            Main.codigoSelecionado = null;
+            g.setCodigoSelecionado(null);
 
         } catch (Exception e) {
-            e.printStackTrace();
+            e.printStackTrace(); // ??
         }
     }//GEN-LAST:event_jLabel1AncestorAdded
 

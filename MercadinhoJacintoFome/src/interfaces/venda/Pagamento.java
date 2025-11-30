@@ -10,10 +10,10 @@ public class Pagamento extends javax.swing.JDialog {
     private boolean finalizada = false;
     private Runnable onFinalizarCompra;
     private Gerenciamento g;
-    private double total;
+    private double total; //?? n ta sendo usado
+    
     public Pagamento() {
         initComponents();
-        
         this.setLocationRelativeTo(this);
     }
 
@@ -21,7 +21,7 @@ public class Pagamento extends javax.swing.JDialog {
         super(parent, ModalityType.APPLICATION_MODAL);
         this.g = g;
         this.total = total;
-        this.onFinalizarCompra = onFinalizarCompra;
+        this.onFinalizarCompra = onFinalizarCompra; //?? ta atribuindo um um valor nele mesmo (num = num)
         initComponents();
         this.setLocationRelativeTo(parent);
         txtTotal.setText(String.format("R$ %.2f", total));
@@ -209,7 +209,7 @@ public class Pagamento extends javax.swing.JDialog {
 
     private void btnFinalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFinalizarActionPerformed
         String metodo = null;
-        if (opcPix.isSelected())      metodo = "PIX";
+        if (opcPix.isSelected())          metodo = "PIX";
         else if (opcDebito.isSelected())  metodo = "DEBITO";
         else if (opcCredito.isSelected()) metodo = "CREDITO";
         else if (opcEspecie.isSelected()) metodo = "ESPECIE";
@@ -256,8 +256,7 @@ public class Pagamento extends javax.swing.JDialog {
                 return;
             }
         }
-        
-        
+
         
     }//GEN-LAST:event_btnFinalizarActionPerformed
 

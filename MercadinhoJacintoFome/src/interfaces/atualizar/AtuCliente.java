@@ -216,11 +216,12 @@ public class AtuCliente extends javax.swing.JDialog {
 
     private void jLabel1AncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_jLabel1AncestorAdded
         try {
-            if (Main.codigoSelecionado == null)
+            if (g.getCodigoSelecionado().equals("")) {
                 return;
+            }
 
             // buscando produto no gerenciamento
-            Cliente c = g.getListaDeClientes().get(Main.codigoSelecionado);
+            Cliente c = g.getListaDeClientes().get(g.getCodigoSelecionado());
 
             if (c != null) {
                 txtNome.setText(c.getNome());
@@ -230,10 +231,10 @@ public class AtuCliente extends javax.swing.JDialog {
             }
 
             // limpa a referência para evitar reutilização errada
-            Main.codigoSelecionado = null;
+            g.setCodigoSelecionado(null);
 
         } catch (Exception e) {
-            e.printStackTrace();
+            e.printStackTrace(); // que problema é esse?
         }
     }//GEN-LAST:event_jLabel1AncestorAdded
 

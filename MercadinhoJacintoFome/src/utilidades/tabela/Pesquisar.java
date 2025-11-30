@@ -1,13 +1,12 @@
 package utilidades.tabela;
 
-import java.util.Map;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import utilidades.Sistema.Gerenciamento;
 import utilidades.classes.*;
 
 public class Pesquisar {
-    public void pesqProduto(String codigo, DefaultTableModel jTProduto, Map<String, Produto> produtos, Gerenciamento g) {
+    public static void pesqProduto(String codigo, DefaultTableModel jTProduto, Gerenciamento g) {
         jTProduto.setRowCount(0);
 
         Produto p = g.getListaDeProdutos().get(codigo);
@@ -25,50 +24,47 @@ public class Pesquisar {
         }
     }
 
-/*    public void pesquisarCliente(String cpf) {
-        DefaultTableModel modelo = (DefaultTableModel) TableClientes.getModel();
-        modelo.setRowCount(0);
+    public static void pesqCliente(String cpf, DefaultTableModel jTCliente, Gerenciamento g) {
+        jTCliente.setRowCount(0);
 
         Cliente c = g.getListaDeClientes().get(cpf);
 
         if (c != null) {
-            modelo.addRow(new Object[]{
+            jTCliente.addRow(new Object[]{
                 c.getNome(),
                 c.getCPF(),
                 c.getEndereco(),
                 c.getTelefone()
             });
         } else {
-            Carregar.tabelaClientes((DefaultTableModel)TableClientes.getModel(), g.getListaDeClientes());
-            JOptionPane.showMessageDialog(this, "Cliente não encontrado");
+            Carregar.tabelaClientes(jTCliente, g.getListaDeClientes());
+            JOptionPane.showMessageDialog(null, "Cliente não encontrado");
         }
     }
 
-    public void pesquisarFuncionario(String cpf) {
-        DefaultTableModel modelo = (DefaultTableModel) TableFuncionarios.getModel();
-        modelo.setRowCount(0);
+    public static void pesqFuncionario(String cpf, DefaultTableModel jTFuncionario, Gerenciamento g) {
+        jTFuncionario.setRowCount(0);
 
         Funcionario f = g.getListaDeFuncionarios().get(cpf);
 
         if (f != null) {
-            modelo.addRow(new Object[]{
+            jTFuncionario.addRow(new Object[]{
                 f.getNome(),
                 f.getCPF()
             });
         } else {
-            Carregar.tabelaFuncionarios((DefaultTableModel)TableFuncionarios.getModel(), g.getListaDeFuncionarios());
-            JOptionPane.showMessageDialog(this, "Funcionário não encontrado");
+            Carregar.tabelaFuncionarios(jTFuncionario, g.getListaDeFuncionarios());
+            JOptionPane.showMessageDialog(null, "Funcionário não encontrado");
         }
     }
 
-    public void pesquisarVenda(String id) {
-        DefaultTableModel modelo = (DefaultTableModel) TableVendas.getModel();
-        modelo.setRowCount(0);
+    public static void pesqVenda(String id, DefaultTableModel jTVenda, Gerenciamento g) {
+        jTVenda.setRowCount(0);
 
         Venda v = g.getListaDeVendas().get(id);
 
         if (v != null) {
-            modelo.addRow(new Object[]{
+            jTVenda.addRow(new Object[]{
                 v.getID_Venda(),
                 v.getCodigoProduto(),
                 v.getQuantidade(),
@@ -76,8 +72,8 @@ public class Pesquisar {
                 v.getValorTotal()
             });
         } else {
-            Carregar.tabelaFuncionarios((DefaultTableModel)TableFuncionarios.getModel(), g.getListaDeFuncionarios());
-            JOptionPane.showMessageDialog(this, "Venda não encontrada");
+            Carregar.tabelaVendas(jTVenda, g.getListaDeVendas());
+            JOptionPane.showMessageDialog(null, "Venda não encontrada");
         }
-    }*/
+    }
 }

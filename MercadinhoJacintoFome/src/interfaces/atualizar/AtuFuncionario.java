@@ -154,11 +154,12 @@ public class AtuFuncionario extends javax.swing.JDialog {
 
     private void jLabel1AncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_jLabel1AncestorAdded
         try {
-            if (Main.codigoSelecionado == null)
+            if (g.getCodigoSelecionado().equals("")) {
                 return;
+            }
 
             // buscando produto no gerenciamento
-            Funcionario f = g.getListaDeFuncionarios().get(Main.codigoSelecionado);
+            Funcionario f = g.getListaDeFuncionarios().get(g.getCodigoSelecionado());
 
             if (f != null) {
                 txtNome.setText(f.getNome());
@@ -166,7 +167,7 @@ public class AtuFuncionario extends javax.swing.JDialog {
             }
 
             // limpa a referência para evitar reutilização errada
-            Main.codigoSelecionado = null;
+            g.setCodigoSelecionado(null);
 
         } catch (Exception e) {
             e.printStackTrace();

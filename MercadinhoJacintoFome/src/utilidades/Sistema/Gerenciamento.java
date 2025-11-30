@@ -1,7 +1,9 @@
 package utilidades.Sistema;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import javax.swing.JOptionPane;
 import utilidades.classes.Cliente;
 import utilidades.classes.Funcionario;
@@ -31,11 +33,26 @@ Extras
 */
 
 public class Gerenciamento {
-    private final java.util.Map<String, Venda> listaDeVendas = new java.util.LinkedHashMap<>();
-    private final HashMap<String, Funcionario> listaDeFuncionarios = new HashMap<>();
-    private final HashMap<String, Cliente> listaDeClientes = new HashMap<>();
-    private final HashMap<String, Produto> listaDeProdutos = new HashMap<>();
-   
+    private final Map<String, Venda> listaDeVendas = new LinkedHashMap<>();
+    private final Map<String, Cliente> listaDeClientes = new HashMap<>();
+    private final Map<String, Funcionario> listaDeFuncionarios = new HashMap<>();
+    private final Map<String, Produto> listaDeProdutos = new HashMap<>();
+    
+    private String codigoSelecionado;
+
+    public String getCodigoSelecionado() {
+        return codigoSelecionado;
+    }
+
+    public void setCodigoSelecionado(String codigoSelecionado) {
+        this.codigoSelecionado = codigoSelecionado;
+    }
+    
+    private boolean produtosAtualizados = false;
+    private boolean clientesAtualizados = false;
+    private boolean funcionariosAtualizados = false;
+    private boolean vendasAtualizadas = false;
+
     
     public Gerenciamento() {}
     
@@ -72,27 +89,31 @@ public class Gerenciamento {
     }
     
     // 2.Metodos para cadastro
-    public void cadastrarFuncionario(String CPF, Funcionario funcionario) {
-        listaDeFuncionarios.put(CPF, funcionario);
-    }
-    
-    public void cadastrarCliente(String CPF, Cliente cliente){        
-        listaDeClientes.put(CPF, cliente);
-    }
-    
     public void cadastrarProduto(String codigo, Produto produto) {
         listaDeProdutos.put(codigo, produto);
+        produtosAtualizados = true;
     }
-    
+
+    public void cadastrarCliente(String CPF, Cliente cliente){        
+        listaDeClientes.put(CPF, cliente);
+        clientesAtualizados = true;
+    }
+
+    public void cadastrarFuncionario(String CPF, Funcionario funcionario) {
+        listaDeFuncionarios.put(CPF, funcionario);
+        funcionariosAtualizados = true;
+    }
+
     // salva cada item do carrinho como uma "linha de venda"
-    public void salvarVendasDoCarrinho(String idVenda, List<Venda> itens) { // //
+    public void salvarVendasDoCarrinho(String idVenda, List<Venda> itens) {
         for (int i = 0; i < itens.size(); i++) {                                      // //
-            Venda v = itens.get(i);                                              // //
-            v.setID_Venda(Integer.parseInt(idVenda));                        // //
-            String chave = idVenda + "-" + i;                                         // //
-            listaDeVendas.put(chave, v);                                      // //
-        }                                                                             // //
-    } 
+                Venda v = itens.get(i);                                              // //
+                v.setID_Venda(Integer.parseInt(idVenda));                        // //
+                String chave = idVenda + "-" + i;                                         // //
+                listaDeVendas.put(chave, v);
+        }
+        vendasAtualizadas = true;
+    }
     
     public void atualizarEstoque(java.util.List<Venda> itens) {       // //
         for (Venda v : itens) {
@@ -121,16 +142,19 @@ public class Gerenciamento {
     }
     
     // 3.Metodos para remover
-    public void removerFuncionario(String CPF){
-        listaDeFuncionarios.remove(CPF); 
-    }
-    
-    public void removerCliente(String CPF){
-        listaDeClientes.remove(CPF); 
-    }
-    
     public void removerProduto(String codigo){
         listaDeProdutos.remove(codigo);
+        produtosAtualizados = true;
+    }
+
+    public void removerCliente(String CPF){
+        listaDeClientes.remove(CPF);
+        clientesAtualizados = true;
+    }
+
+    public void removerFuncionario(String CPF){
+        listaDeFuncionarios.remove(CPF);
+        funcionariosAtualizados = true;
     }
     
     // 4.Metodos para consultar
@@ -157,7 +181,7 @@ public class Gerenciamento {
         }
         return listaDeProdutos.get(codigo);
     }
-    
+      
 // 5.Metodos para atualizar
     public boolean atualizarFuncionario(String CPF, Funcionario funcionario){        
         if(!listaDeFuncionarios.containsKey(CPF)){
@@ -165,6 +189,7 @@ public class Gerenciamento {
             return false;
         } 
         listaDeFuncionarios.put(CPF, funcionario);
+        produtosAtualizados = true;
         return true;
     }
 
@@ -174,6 +199,7 @@ public class Gerenciamento {
             return false;
         } 
         listaDeClientes.put(CPF, cliente);
+        clientesAtualizados = true;
         return true;
     }
     
@@ -183,6 +209,7 @@ public class Gerenciamento {
             return false;
         } 
         listaDeProdutos.put(codigo, atualizado);
+        funcionariosAtualizados = true;
         return true;
     }
     
@@ -311,20 +338,54 @@ public class Gerenciamento {
 
     
 // 99.Getters
-    public HashMap<String, Cliente> getListaDeClientes() {
+    public Map<String, Cliente> getListaDeClientes() {
         return listaDeClientes;
     }
     
-    public HashMap<String, Funcionario> getListaDeFuncionarios() {
+    public Map<String, Funcionario> getListaDeFuncionarios() {
         return listaDeFuncionarios;
     }
 
-    public HashMap<String, Produto> getListaDeProdutos() {
+    public Map<String, Produto> getListaDeProdutos() {
         return listaDeProdutos;
     }
 
-    public java.util.Map<String, Venda> getListaDeVendas() {
+    public Map<String, Venda> getListaDeVendas() {
         return listaDeVendas;
     }
+
+    public boolean isProdutosAtualizados() {
+        return produtosAtualizados;
+    }
+
+    public void setProdutosAtualizados(boolean produtosAtualizados) {
+        this.produtosAtualizados = produtosAtualizados;
+    }
+
+    public boolean isClientesAtualizados() {
+        return clientesAtualizados;
+    }
+
+    public void setClientesAtualizados(boolean clientesAtualizados) {
+        this.clientesAtualizados = clientesAtualizados;
+    }
+
+    public boolean isFuncionariosAtualizados() {
+        return funcionariosAtualizados;
+    }
+
+    public void setFuncionariosAtualizados(boolean funcionariosAtualizados) {
+        this.funcionariosAtualizados = funcionariosAtualizados;
+    }
+
+    public boolean isVendasAtualizadas() {
+        return vendasAtualizadas;
+    }
+
+    public void setVendasAtualizadas(boolean vendasAtualizadas) {
+        this.vendasAtualizadas = vendasAtualizadas;
+    }
+    
+    
     
 }

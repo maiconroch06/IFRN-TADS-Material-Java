@@ -2,7 +2,6 @@ package interfaces;
 
 import utilidades.Sistema.Gerenciamento;
 import interfaces.atualizar.VerMais;
-import utilidades.classes.*;
 import interfaces.cadastrar.*;
 import interfaces.atualizar.*;
 import utilidades.tabela.*;
@@ -10,17 +9,15 @@ import interfaces.venda.NovaVenda;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
-import javax.swing.table.TableRowSorter;
 
 public class Main extends javax.swing.JFrame {
     
-    private Gerenciamento g = new Gerenciamento();
-    public static String codigoSelecionado = null;
     DefaultTableModel jTProduto;
     DefaultTableModel jTCliente;
     DefaultTableModel jTFuncionario;
     DefaultTableModel jTVenda;
+    
+    private Gerenciamento g = new Gerenciamento();
     
     public Main() {
 
@@ -76,50 +73,61 @@ public class Main extends javax.swing.JFrame {
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addContainerGap(200, Short.MAX_VALUE)
             );
-            
+        
+        // Pega os modelos das tabelas e define como global para todo codigo.
         this.jTProduto = (DefaultTableModel)TableProdutos.getModel();
         this.jTCliente = (DefaultTableModel)TableClientes.getModel();
         this.jTFuncionario = (DefaultTableModel)TableFuncionarios.getModel();
         this.jTVenda = (DefaultTableModel)TableVendas.getModel();
         
-        // Sempre ao executar o main, adicionar valores pre definidos às tabelas
+        // Valores pré-cadastrados nos HashMaps
         g.carregarProdutosPadrao();
         g.carregarClientesPadrao();
         g.carregarFuncionariosPadrao();
         
+        verMais(TableProdutos);
         verMais(TableClientes);
         verMais(TableFuncionarios);
-        verMais(TableProdutos);
         verMais(TableVendas);
         
-        // Sempre ao executar o main, atualiza a tabela
-        Carregar.tabelaProdutos((DefaultTableModel)TableProdutos.getModel(), g.getListaDeProdutos());
+        // Sempre ao executar o main, carrega os dados do HashMap na primeira tabela
+        Carregar.tabelaProdutos(jTProduto, g.getListaDeProdutos());
         
         // Sempre ao executar o main, ativar ordernação em todas as tabelas
-        ativarOrdenacaoNaTabela(TableProdutos);
-        ativarOrdenacaoNaTabela(TableFuncionarios);
-        ativarOrdenacaoNaTabela(TableClientes);
-        ativarOrdenacaoNaTabela(TableVendas);
+        Carregar.ordenacao(TableProdutos);
+        Carregar.ordenacao(TableClientes, 1);
+        Carregar.ordenacao(TableFuncionarios, 1);
+        Carregar.ordenacao(TableVendas);
         
         // Habilida a função de sempre mostrar lista inteira, mesmo depois de ter feito uma pesquisa anteriomente.
         Abas.addChangeListener(e -> {
-            int index = Abas.getSelectedIndex();
-
-            switch (index) {
+            switch (Abas.getSelectedIndex()) {
                 case 0: // Produtos
-                    Carregar.tabelaProdutos((DefaultTableModel)TableProdutos.getModel(), g.getListaDeProdutos());
+                    if (g.isProdutosAtualizados()) {
+                        Carregar.tabelaProdutos(jTProduto, g.getListaDeProdutos());
+                        g.setProdutosAtualizados(false);
+                    }
                     break;
 
                 case 1: // Clientes
-                    Carregar.tabelaClientes((DefaultTableModel)TableClientes.getModel(), g.getListaDeClientes());
+                    if (g.isClientesAtualizados()) {
+                        Carregar.tabelaClientes(jTCliente, g.getListaDeClientes());
+                        g.setClientesAtualizados(false);
+                    }
                     break;
 
-                case 2: // Funcionários
-                    Carregar.tabelaClientes((DefaultTableModel)TableClientes.getModel(), g.getListaDeClientes());
+                case 2: // Funcionarios
+                    if (g.isFuncionariosAtualizados()) {
+                        Carregar.tabelaFuncionarios(jTFuncionario, g.getListaDeFuncionarios());
+                        g.setFuncionariosAtualizados(false);
+                    }
                     break;
 
                 case 3: // Vendas
-                    Carregar.tabelaClientes((DefaultTableModel)TableClientes.getModel(), g.getListaDeClientes());
+                    if (g.isVendasAtualizadas()) {
+                        Carregar.tabelaVendas(jTVenda, g.getListaDeVendas());
+                        g.setVendasAtualizadas(false);
+                    }
                     break;
             }
         });
@@ -132,119 +140,55 @@ public class Main extends javax.swing.JFrame {
                 if (evt.getClickCount() == 2) {
 
                     // AQUI IDENTIFICA QUAL TABELA É
-                    if (tabela == TableProdutos) {
+                    if (tabela.equals(TableProdutos)) {
                         int linha = tabela.getSelectedRow();
-                        codigoSelecionado = tabela.getValueAt(linha, 0).toString();
+                        g.setCodigoSelecionado(tabela.getValueAt(linha, 0).toString());
 
                         AtuProduto AtualizarProd = new AtuProduto(g);
 
                         AtualizarProd.setModal(true);
                         AtualizarProd.setVisible(true);
                         
-                        Carregar.tabelaProdutos((DefaultTableModel)TableProdutos.getModel(), g.getListaDeProdutos());
+                        Carregar.tabelaProdutos(jTProduto, g.getListaDeProdutos());
                     }
 
-                    else if (tabela == TableFuncionarios) {
+                    else if (tabela.equals(TableFuncionarios)) {
                         int linha = tabela.getSelectedRow();
-                        codigoSelecionado = tabela.getValueAt(linha, 1).toString();
+                        g.setCodigoSelecionado(tabela.getValueAt(linha, 1).toString());
                         
                         AtuFuncionario AtualizarFun = new AtuFuncionario(g);
 
                         AtualizarFun.setModal(true);
                         AtualizarFun.setVisible(true);
                         
-                        Carregar.tabelaFuncionarios((DefaultTableModel)TableFuncionarios.getModel(), g.getListaDeFuncionarios());
+                        Carregar.tabelaFuncionarios(jTFuncionario, g.getListaDeFuncionarios());
                     }
                     
-                    else if (tabela == TableClientes) {
+                    else if (tabela.equals(TableClientes)) {
                         int linha = tabela.getSelectedRow();
-                        codigoSelecionado = tabela.getValueAt(linha, 1).toString();
+                        g.setCodigoSelecionado(tabela.getValueAt(linha, 1).toString());
                         
                         AtuCliente AtualizarCli = new AtuCliente(g);
 
                         AtualizarCli.setModal(true);
                         AtualizarCli.setVisible(true);
                         
-                        Carregar.tabelaClientes((DefaultTableModel)TableClientes.getModel(), g.getListaDeClientes());
+                        Carregar.tabelaClientes(jTCliente, g.getListaDeClientes());
                     }
 
-                    else if (tabela == TableVendas) {
+                    else if (tabela.equals(TableVendas)) {
                         VerMais vm = new VerMais(g);
                         
                         vm.setModal(true);
                         vm.setVisible(true);
                         
-                        Carregar.tabelaVendas((DefaultTableModel)TableVendas.getModel(), g.getListaDeVendas());
+                        Carregar.tabelaVendas(jTVenda, g.getListaDeVendas());
                     }
                 }
             }
         });
     }
-
-    
-    // Ativar onrdenação na primeira coluna
-    private void ativarOrdenacaoNaTabela(JTable tabela) {
-        TableRowSorter<TableModel> sorter = new TableRowSorter<>(tabela.getModel());
-        tabela.setRowSorter(sorter);
-        sorter.toggleSortOrder(0); // ordena pela 1ª coluna
-    }
-
-    private void pesquisarCliente(String cpf) {
-        DefaultTableModel modelo = (DefaultTableModel) TableClientes.getModel();
-        modelo.setRowCount(0);
-
-        Cliente c = g.getListaDeClientes().get(cpf);
-
-        if (c != null) {
-            modelo.addRow(new Object[]{
-                c.getNome(),
-                c.getCPF(),
-                c.getEndereco(),
-                c.getTelefone()
-            });
-        } else {
-            Carregar.tabelaClientes((DefaultTableModel)TableClientes.getModel(), g.getListaDeClientes());
-            JOptionPane.showMessageDialog(this, "Cliente não encontrado");
-        }
-    }
-
-    private void pesquisarFuncionario(String cpf) {
-        DefaultTableModel modelo = (DefaultTableModel) TableFuncionarios.getModel();
-        modelo.setRowCount(0);
-
-        Funcionario f = g.getListaDeFuncionarios().get(cpf);
-
-        if (f != null) {
-            modelo.addRow(new Object[]{
-                f.getNome(),
-                f.getCPF()
-            });
-        } else {
-            Carregar.tabelaFuncionarios((DefaultTableModel)TableFuncionarios.getModel(), g.getListaDeFuncionarios());
-            JOptionPane.showMessageDialog(this, "Funcionário não encontrado");
-        }
-    }
-
-    private void pesquisarVenda(String id) {
-        DefaultTableModel modelo = (DefaultTableModel) TableVendas.getModel();
-        modelo.setRowCount(0);
-
-        Venda v = g.getListaDeVendas().get(id);
-
-        if (v != null) {
-            modelo.addRow(new Object[]{
-                v.getID_Venda(),
-                v.getCodigoProduto(),
-                v.getQuantidade(),
-                v.getValorUnitario(),
-                v.getValorTotal()
-            });
-        } else {
-            Carregar.tabelaFuncionarios((DefaultTableModel)TableFuncionarios.getModel(), g.getListaDeFuncionarios());
-            JOptionPane.showMessageDialog(this, "Venda não encontrada");
-        }
-    }
-    
+  
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -574,7 +518,7 @@ public class Main extends javax.swing.JFrame {
         vendaGUI.setModal(true);
         vendaGUI.setVisible(true);
         
-        Carregar.tabelaClientes((DefaultTableModel)TableClientes.getModel(), g.getListaDeClientes());
+        Carregar.tabelaClientes(jTCliente, g.getListaDeClientes());
     }//GEN-LAST:event_mnNovaVendaActionPerformed
 
     private void mnCadProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnCadProdutoActionPerformed
@@ -582,7 +526,7 @@ public class Main extends javax.swing.JFrame {
         cadVGUI.setModal(true);
         cadVGUI.setVisible(true);
         
-        Carregar.tabelaProdutos((DefaultTableModel)TableProdutos.getModel() , g.getListaDeProdutos());
+        Carregar.tabelaProdutos(jTProduto , g.getListaDeProdutos());
     }//GEN-LAST:event_mnCadProdutoActionPerformed
 
     private void mnCadFuncionarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnCadFuncionarioActionPerformed
@@ -590,7 +534,7 @@ public class Main extends javax.swing.JFrame {
         cadFGUI.setModal(true);
         cadFGUI.setVisible(true);
         
-        Carregar.tabelaFuncionarios((DefaultTableModel)TableFuncionarios.getModel(), g.getListaDeFuncionarios());
+        Carregar.tabelaFuncionarios(jTFuncionario, g.getListaDeFuncionarios());
     }//GEN-LAST:event_mnCadFuncionarioActionPerformed
 
     private void mnClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnClienteActionPerformed
@@ -598,11 +542,10 @@ public class Main extends javax.swing.JFrame {
         cadCGUI.setModal(true);
         cadCGUI.setVisible(true);
 
-        Carregar.tabelaClientes((DefaultTableModel)TableClientes.getModel(), g.getListaDeClientes());
+        Carregar.tabelaClientes(jTCliente, g.getListaDeClientes());
     }//GEN-LAST:event_mnClienteActionPerformed
 
     private void TableClientesFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_TableClientesFocusGained
-
     }//GEN-LAST:event_TableClientesFocusGained
 
     private void mnAtuProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnAtuProdutoActionPerformed
@@ -610,7 +553,7 @@ public class Main extends javax.swing.JFrame {
         AtualizarProd.setModal(true);
         AtualizarProd.setVisible(true);
         
-        Carregar.tabelaProdutos((DefaultTableModel)TableProdutos.getModel(), g.getListaDeProdutos());                                         //
+        Carregar.tabelaProdutos(jTProduto, g.getListaDeProdutos());
     }//GEN-LAST:event_mnAtuProdutoActionPerformed
 
     private void mnAtuFuncionarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnAtuFuncionarioActionPerformed
@@ -618,7 +561,7 @@ public class Main extends javax.swing.JFrame {
         AtualizarFun.setModal(true);
         AtualizarFun.setVisible(true);
 
-        Carregar.tabelaClientes((DefaultTableModel)TableClientes.getModel(), g.getListaDeClientes());                                       //
+        Carregar.tabelaFuncionarios(jTFuncionario, g.getListaDeFuncionarios());
     }//GEN-LAST:event_mnAtuFuncionarioActionPerformed
 
     private void mnAtuClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnAtuClienteActionPerformed
@@ -626,59 +569,58 @@ public class Main extends javax.swing.JFrame {
         AtualizarCli.setModal(true);
         AtualizarCli.setVisible(true);
         
-        Carregar.tabelaClientes((DefaultTableModel)TableClientes.getModel(), g.getListaDeClientes());
+        Carregar.tabelaClientes(jTCliente, g.getListaDeClientes());
     }//GEN-LAST:event_mnAtuClienteActionPerformed
 
     private void btPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btPesquisarActionPerformed
         String ref = txtReferencia.getText().trim(); // chave que o usuario procura
-        int index = Abas.getSelectedIndex();         // indice da aba atual aberta
+        int indiceAba = Abas.getSelectedIndex();         // indice da aba atual aberta
 
-        switch (index) {
-
+        switch (indiceAba) {
             // ------------------- PRODUTOS -------------------
             case 0:
                 if (ref.isEmpty()) {
-                    Carregar.tabelaProdutos((DefaultTableModel)TableProdutos.getModel(), g.getListaDeProdutos());
+                    Carregar.tabelaProdutos(jTProduto, g.getListaDeProdutos());
                     return;
                 }
-                Pesquisar.pesqProduto
+                Pesquisar.pesqProduto(ref, jTProduto, g);
                 break;
 
             // ------------------- CLIENTES -------------------
             case 1:
                 if (ref.isEmpty()) {
-                    Carregar.tabelaClientes((DefaultTableModel)TableClientes.getModel(), g.getListaDeClientes());
+                    Carregar.tabelaClientes(jTCliente, g.getListaDeClientes());
                     return;
                 }
-                pesquisarCliente(ref);
+                Pesquisar.pesqCliente(ref, jTCliente, g);
                 break;
 
             // ------------------- FUNCIONÁRIOS -------------------
             case 2:
                 if (ref.isEmpty()) {
-                    Carregar.tabelaClientes((DefaultTableModel)TableClientes.getModel(), g.getListaDeClientes());
+                    Carregar.tabelaFuncionarios(jTFuncionario, g.getListaDeFuncionarios());
                     return;
                 }
-                pesquisarFuncionario(ref);
+                Pesquisar.pesqFuncionario(ref, jTFuncionario, g);
                 break;
 
             // ------------------- VENDAS -------------------
             case 3:
                 if (ref.isEmpty()) {
-                    Carregar.tabelaClientes((DefaultTableModel)TableClientes.getModel(), g.getListaDeClientes());
+                    Carregar.tabelaVendas(jTVenda, g.getListaDeVendas());
                     return;
                 }
-                pesquisarVenda(ref);
+                Pesquisar.pesqVenda(ref, jTVenda, g);
                 break;
         }
     }//GEN-LAST:event_btPesquisarActionPerformed
 
     private void btExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btExcluirActionPerformed
-        int aba = Abas.getSelectedIndex(); // Identifica aba atual
-        int linha = -1;
-        String chave = "";
+        int indiceAba = Abas.getSelectedIndex(); // Identifica aba atual
+        int linha;
+        String chave;
 
-        switch (aba) {
+        switch (indiceAba) {
             // ---------------------- PRODUTOS ----------------------
             case 0:
                 linha = TableProdutos.getSelectedRow();
@@ -696,7 +638,7 @@ public class Main extends javax.swing.JFrame {
                         "Confirmar Exclusão", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
 
                     g.removerProduto(chave);
-                    Carregar.tabelaProdutos((DefaultTableModel)TableProdutos.getModel(), g.getListaDeProdutos());
+                    Carregar.tabelaProdutos(jTProduto, g.getListaDeProdutos());
                 }
                 break;
 
@@ -716,7 +658,7 @@ public class Main extends javax.swing.JFrame {
                         "Confirmar Exclusão", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
 
                     g.removerCliente(chave);
-                    Carregar.tabelaClientes((DefaultTableModel)TableClientes.getModel(), g.getListaDeClientes());
+                    Carregar.tabelaClientes(jTCliente, g.getListaDeClientes());
                 }
                 break;
 
@@ -736,7 +678,7 @@ public class Main extends javax.swing.JFrame {
                         "Confirmar Exclusão", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
 
                     g.removerFuncionario(chave);
-                    Carregar.tabelaFuncionarios((DefaultTableModel)TableFuncionarios.getModel(), g.getListaDeFuncionarios());
+                    Carregar.tabelaFuncionarios(jTFuncionario, g.getListaDeFuncionarios());
                 }
                 break;
 
@@ -756,7 +698,7 @@ public class Main extends javax.swing.JFrame {
                         "Confirmar Exclusão", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
 
                     g.getListaDeVendas().remove(chave);
-                    Carregar.tabelaVendas((DefaultTableModel)TableVendas.getModel(), g.getListaDeVendas());
+                    Carregar.tabelaVendas(jTVenda, g.getListaDeVendas());
                 }
                 break;
         }

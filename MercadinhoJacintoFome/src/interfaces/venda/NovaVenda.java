@@ -1,31 +1,32 @@
 package interfaces.venda;
 
 import utilidades.Sistema.Gerenciamento;
-import utilidades.classes.Produto;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.AbstractAction;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
-import javax.swing.JTable;
 import javax.swing.KeyStroke;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
-import javax.swing.table.TableRowSorter;
+import utilidades.tabela.Carregar;
+import utilidades.tabela.Pesquisar;
 
 
 public class NovaVenda extends javax.swing.JDialog {
 
     private Gerenciamento g;
+    private DefaultTableModel jTProdutos;
 
     public NovaVenda(Gerenciamento g) {
         this.g = g;
         initComponents();
-        carregarTabelaProdutos();
         this.setLocationRelativeTo(this);
+        this.jTProdutos = (DefaultTableModel)TableProdutos.getModel();
         
-        ativarOrdenacaoNaTabela(TableProdutos);
+        Carregar.tabelaProdutos(jTProdutos, g.getListaDeProdutos());
+        Carregar.ordenacao(TableProdutos);
+        Carregar.ordenacao(TableCarrinho);
         
         //int linha = TableCarrinho.getSelectedRow();
         //jSpinner1.setMaximumSize(Integer.parseInt(TableCarrinho.getModel(getValueAt(linha, 2).toString())));
@@ -48,29 +49,6 @@ public class NovaVenda extends javax.swing.JDialog {
                 btPagamento.doClick(); // Simula o clique no botão
             }
         });
-    }
-    
-    // Ativar onrdenação na primeira coluna
-    private void ativarOrdenacaoNaTabela(JTable tabela) {
-        TableRowSorter<TableModel> sorter = new TableRowSorter<>(tabela.getModel());
-        tabela.setRowSorter(sorter);
-        sorter.toggleSortOrder(0); // ordena pela 1ª coluna
-    }
-    
-    private void carregarTabelaProdutos() {
-        DefaultTableModel modelo = (DefaultTableModel) TableProdutos.getModel();
-        modelo.setRowCount(0); // limpa
-
-        if (g == null) return;
-
-        for (Produto p : g.getListaDeProdutos().values()) {
-            modelo.addRow(new Object[]{
-                p.getCodigoProduto(),
-                p.getDescricao(),
-                p.getQuantidade(),
-                p.getValorUnitario()
-            });
-        }
     }
     
     // Pega na linha selecionada da tabela de produto o preço do produto.
@@ -414,14 +392,13 @@ public class NovaVenda extends javax.swing.JDialog {
             return;
         }
 
-        DefaultTableModel modeloProdutos = (DefaultTableModel) TableProdutos.getModel();
         DefaultTableModel modeloCarrinho = (DefaultTableModel) TableCarrinho.getModel();
 
         // pega dados da linha selecionada
-        String codigo = modeloProdutos.getValueAt(linhaSelecionada, 0).toString();
-        String descricao = modeloProdutos.getValueAt(linhaSelecionada, 1).toString();
-        int estoque = Integer.parseInt(modeloProdutos.getValueAt(linhaSelecionada, 2).toString());
-        double valorUnitario = Double.parseDouble(modeloProdutos.getValueAt(linhaSelecionada, 3).toString());
+        String codigo = jTProdutos.getValueAt(linhaSelecionada, 0).toString();
+        String descricao = jTProdutos.getValueAt(linhaSelecionada, 1).toString();
+        int estoque = Integer.parseInt(jTProdutos.getValueAt(linhaSelecionada, 2).toString());
+        double valorUnitario = Double.parseDouble(jTProdutos.getValueAt(linhaSelecionada, 3).toString());
 
         if (quantidadeDesejada > estoque) {
             JOptionPane.showMessageDialog(this, "Quantidade em estoque insuficiente!");
@@ -434,7 +411,7 @@ public class NovaVenda extends javax.swing.JDialog {
         modeloCarrinho.addRow(new Object[]{codigo, descricao, quantidadeDesejada, valorUnitario, valorTotal});
 
         // reduzir o estoque visualmente
-        modeloProdutos.setValueAt(estoque - quantidadeDesejada, linhaSelecionada, 2);
+        jTProdutos.setValueAt(estoque - quantidadeDesejada, linhaSelecionada, 2);
 
         // limpa campos
         txtCodigo.setText("");
@@ -449,7 +426,6 @@ public class NovaVenda extends javax.swing.JDialog {
     }//GEN-LAST:event_btVoltarActionPerformed
 
     private void btPagamentoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btPagamentoKeyPressed
-        
     }//GEN-LAST:event_btPagamentoKeyPressed
 
     private void btPagamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btPagamentoActionPerformed
@@ -465,38 +441,22 @@ public class NovaVenda extends javax.swing.JDialog {
             g.salvarVendasDoCarrinho(id, itens);          // //
             g.atualizarEstoque(itens);
             limparCarrinho();                                              // //
-            carregarTabelaProdutos();
+            Carregar.tabelaProdutos(jTProdutos, g.getListaDeProdutos());
         }
     }//GEN-LAST:event_btPagamentoActionPerformed
 
     private void btPesquisarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btPesquisarKeyPressed
-        
     }//GEN-LAST:event_btPesquisarKeyPressed
 
     private void btPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btPesquisarActionPerformed
         String codigo = txtCodigo.getText().trim();
         if (codigo.isEmpty()) {
             // mostra todos novamente
-            carregarTabelaProdutos();
+            Carregar.tabelaProdutos(jTProdutos, g.getListaDeProdutos());
             return;
         }
-
-        DefaultTableModel modelo = (DefaultTableModel) TableProdutos.getModel();
-        modelo.setRowCount(0);
-
-        Produto p = g.getListaDeProdutos().get(codigo);
-        if (p != null) {
-            modelo.addRow(new Object[]{
-                p.getCodigoProduto(),
-                p.getDescricao(),
-                p.getQuantidade(),
-                p.getValorUnitario()
-            });
-        } else {
-            JOptionPane.showMessageDialog(this, "Produto não encontrado: " + codigo);
-            // opcional: recarrega tudo
-            carregarTabelaProdutos();
-        }
+        
+        Pesquisar.pesqProduto(codigo, jTProdutos, g);
     }//GEN-LAST:event_btPesquisarActionPerformed
 
     private void btRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btRemoverActionPerformed
@@ -525,7 +485,6 @@ public class NovaVenda extends javax.swing.JDialog {
         }
 
         DefaultTableModel modeloCarrinho = (DefaultTableModel) TableCarrinho.getModel();
-        DefaultTableModel modeloProdutos = (DefaultTableModel) TableProdutos.getModel();
 
         // Dados do item selecionado no carrinho
         String codigoCarrinho = modeloCarrinho.getValueAt(linha, 0).toString();
@@ -547,11 +506,11 @@ public class NovaVenda extends javax.swing.JDialog {
         }
 
         // Agora devolve ao estoque (tabela de produtos) - Quando o usuario decide tirar produto do carrinho.
-        for (int i = 0; i < modeloProdutos.getRowCount(); i++) {
-            String codigoEstoque = modeloProdutos.getValueAt(i, 0).toString();
+        for (int i = 0; i < jTProdutos.getRowCount(); i++) {
+            String codigoEstoque = jTProdutos.getValueAt(i, 0).toString();
             if (codigoEstoque.equals(codigoCarrinho)) {
-                int estoqueAtual = Integer.parseInt(modeloProdutos.getValueAt(i, 2).toString());
-                modeloProdutos.setValueAt(estoqueAtual + quantidadeRemover, i, 2);
+                int estoqueAtual = Integer.parseInt(jTProdutos.getValueAt(i, 2).toString());
+                jTProdutos.setValueAt(estoqueAtual + quantidadeRemover, i, 2);
                 break;
             }
         }
