@@ -3,7 +3,6 @@ package utilidades.Sistema;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import javax.swing.JOptionPane;
 import utilidades.classes.Cliente;
 import utilidades.classes.Funcionario;
@@ -33,10 +32,12 @@ Extras
 */
 
 public class Gerenciamento {
-    private final Map<String, Venda> listaDeVendas = new LinkedHashMap<>();
-    private final Map<String, Cliente> listaDeClientes = new HashMap<>();
-    private final Map<String, Funcionario> listaDeFuncionarios = new HashMap<>();
-    private final Map<String, Produto> listaDeProdutos = new HashMap<>();
+    private final HashMap<String, Venda> listaDeVendas = new HashMap<>();
+    private final HashMap<String, Cliente> listaDeClientes = new HashMap<>();
+    private final HashMap<String, Funcionario> listaDeFuncionarios = new HashMap<>();
+    private final HashMap<String, Produto> listaDeProdutos = new HashMap<>();
+    
+    public Gerenciamento() {}
     
     private String codigoSelecionado;
 
@@ -53,9 +54,6 @@ public class Gerenciamento {
     private boolean funcionariosAtualizados = false;
     private boolean vendasAtualizadas = false;
 
-    
-    public Gerenciamento() {}
-    
     // 1.Metodos para verificar
     public boolean verificarFuncionario(String CPF) {
         if (listaDeFuncionarios.containsKey(CPF)) {
@@ -338,19 +336,19 @@ public class Gerenciamento {
 
     
 // 99.Getters
-    public Map<String, Cliente> getListaDeClientes() {
+    public HashMap<String, Cliente> getListaDeClientes() {
         return listaDeClientes;
     }
     
-    public Map<String, Funcionario> getListaDeFuncionarios() {
+    public HashMap<String, Funcionario> getListaDeFuncionarios() {
         return listaDeFuncionarios;
     }
 
-    public Map<String, Produto> getListaDeProdutos() {
+    public HashMap<String, Produto> getListaDeProdutos() {
         return listaDeProdutos;
     }
 
-    public Map<String, Venda> getListaDeVendas() {
+    public HashMap<String, Venda> getListaDeVendas() {
         return listaDeVendas;
     }
 
@@ -385,7 +383,5 @@ public class Gerenciamento {
     public void setVendasAtualizadas(boolean vendasAtualizadas) {
         this.vendasAtualizadas = vendasAtualizadas;
     }
-    
-    
     
 }
