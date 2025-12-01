@@ -1,7 +1,7 @@
 package interfaces.atualizar;
 
-import utilidades.Sistema.Gerenciamento;
-import utilidades.classes.Produto;
+import classes.Gerenciamento;
+import classes.Produto;
 import interfaces.Main;
 import javax.swing.JOptionPane;
 
@@ -234,12 +234,11 @@ public class AtuProduto extends javax.swing.JDialog {
 
     private void jLabel1AncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_jLabel1AncestorAdded
         try {
-            if (g.getCodigoSelecionado().equals("")) {
+            if (Main.codigoSelecionado == null)
                 return;
-            }
 
             // buscando produto no gerenciamento
-            Produto p = g.getListaDeProdutos().get(g.getCodigoSelecionado());
+            Produto p = g.getListaDeProdutos().get(Main.codigoSelecionado);
 
             if (p != null) {
                 txtCodigo.setText(p.getCodigoProduto());
@@ -249,10 +248,10 @@ public class AtuProduto extends javax.swing.JDialog {
             }
 
             // limpa a referência para evitar reutilização errada
-            g.setCodigoSelecionado(null);
+            Main.codigoSelecionado = null;
 
         } catch (Exception e) {
-            e.printStackTrace(); // ??
+            e.printStackTrace();
         }
     }//GEN-LAST:event_jLabel1AncestorAdded
 

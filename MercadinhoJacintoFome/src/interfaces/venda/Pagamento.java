@@ -1,19 +1,23 @@
 package interfaces.venda;
 
-import utilidades.Sistema.Gerenciamento;
-import utilidades.classes.Cliente;
+import classes.Gerenciamento;
+import classes.Cliente;
+import classes.Funcionario;
 import interfaces.cadastrar.CadCliente;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 
 
 public class Pagamento extends javax.swing.JDialog {
+    private String nomeFunc;
+    private String nomeClnt;
+    private String metodoPagamento;
     private boolean finalizada = false;
-    private Runnable onFinalizarCompra;
     private Gerenciamento g;
-    private double total; //?? n ta sendo usado
-    
+    private double total;
     public Pagamento() {
         initComponents();
+        
         this.setLocationRelativeTo(this);
     }
 
@@ -21,10 +25,11 @@ public class Pagamento extends javax.swing.JDialog {
         super(parent, ModalityType.APPLICATION_MODAL);
         this.g = g;
         this.total = total;
-        this.onFinalizarCompra = onFinalizarCompra; //?? ta atribuindo um um valor nele mesmo (num = num)
         initComponents();
         this.setLocationRelativeTo(parent);
         txtTotal.setText(String.format("R$ %.2f", total));
+        
+        carregarFuncionariosNoCombo(); // Puxa todos os funcionarios cadastrados no sistema para o JcomboBox
     }
     
     @SuppressWarnings("unchecked")
@@ -53,6 +58,7 @@ public class Pagamento extends javax.swing.JDialog {
         jLabel5 = new javax.swing.JLabel();
         txtTotal = new javax.swing.JLabel();
         btnCadNCliente = new javax.swing.JButton();
+        cbFuncionario = new javax.swing.JComboBox<>();
 
         jCheckBoxMenuItem1.setSelected(true);
         jCheckBoxMenuItem1.setText("jCheckBoxMenuItem1");
@@ -132,6 +138,8 @@ public class Pagamento extends javax.swing.JDialog {
             }
         });
 
+        cbFuncionario.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -140,6 +148,9 @@ public class Pagamento extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addGap(26, 26, 26)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(cbFuncionario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -160,7 +171,7 @@ public class Pagamento extends javax.swing.JDialog {
                                 .addComponent(jLabel2)
                                 .addGap(28, 28, 28)
                                 .addComponent(txtCpf, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addContainerGap(21, Short.MAX_VALUE))
+                        .addContainerGap(12, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -193,15 +204,22 @@ public class Pagamento extends javax.swing.JDialog {
                         .addComponent(opcDebito)
                         .addComponent(opcCredito)
                         .addComponent(opcEspecie)))
-                .addGap(47, 47, 47)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(txtTotal)
-                    .addComponent(btnVoltar)
-                    .addComponent(btnFinalizar))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnCadNCliente)
-                .addContainerGap(30, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(47, 47, 47)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnVoltar)
+                            .addComponent(btnFinalizar))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnCadNCliente))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(25, 25, 25)
+                        .addComponent(cbFuncionario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel5)
+                            .addComponent(txtTotal))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -209,7 +227,7 @@ public class Pagamento extends javax.swing.JDialog {
 
     private void btnFinalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFinalizarActionPerformed
         String metodo = null;
-        if (opcPix.isSelected())          metodo = "PIX";
+        if (opcPix.isSelected()) metodo = "PIX";
         else if (opcDebito.isSelected())  metodo = "DEBITO";
         else if (opcCredito.isSelected()) metodo = "CREDITO";
         else if (opcEspecie.isSelected()) metodo = "ESPECIE";
@@ -217,6 +235,13 @@ public class Pagamento extends javax.swing.JDialog {
         // Verifica se algum método de pagamento foi selecionado;
         if (metodo == null) {
             JOptionPane.showMessageDialog(this, "Selecione uma forma de pagamento.");
+            return;
+        }
+        
+        String funcSelect = (String) cbFuncionario.getSelectedItem();
+
+        if (funcSelect.equals("<Funcionários>")) {
+            JOptionPane.showMessageDialog(this, "Selecione um funcionário válido.");
             return;
         }
         
@@ -232,7 +257,9 @@ public class Pagamento extends javax.swing.JDialog {
         // Se esse CPF existir na lista finaliza a compra, caso não, Abre a tela de erro;
         if(g.verificarCliente(cpf)) {
             JOptionPane.showMessageDialog(null, "Compra Finalizada comm Sucesso!!");
-            if (onFinalizarCompra != null) onFinalizarCompra.run();
+            nomeClnt = txtNomeCliente.getText().trim();
+            nomeFunc = funcSelect;
+            metodoPagamento = metodo;
             finalizada = true;
             dispose();
             
@@ -256,7 +283,8 @@ public class Pagamento extends javax.swing.JDialog {
                 return;
             }
         }
-
+        
+        
         
     }//GEN-LAST:event_btnFinalizarActionPerformed
 
@@ -282,6 +310,29 @@ public class Pagamento extends javax.swing.JDialog {
     }//GEN-LAST:event_txtNomeClienteActionPerformed
 
     //Métodos
+    public String getMetodoPagamento() {
+        return metodoPagamento;
+    }
+    
+    public String getNomeFunc() {
+        return nomeFunc;
+    }
+    public String getNomeClnt() {
+        return nomeClnt;
+    }
+    
+    private void carregarFuncionariosNoCombo() {
+        DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>();
+
+        model.addElement("<Funcionários>"); // Primeiro item estético
+
+        for (Funcionario f : g.getListaDeFuncionarios().values()) {
+            model.addElement(f.getNome());
+        }
+
+        cbFuncionario.setModel(model);
+    }
+
     public boolean isFinalizada() {
         return finalizada;
     }
@@ -291,6 +342,7 @@ public class Pagamento extends javax.swing.JDialog {
     private javax.swing.JButton btnFinalizar;
     private javax.swing.JButton btnVoltar;
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JComboBox<String> cbFuncionario;
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

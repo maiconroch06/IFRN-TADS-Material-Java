@@ -1,4 +1,4 @@
-package utilidades.classes;
+package classes;
 
 public class Pessoa {
     private String CPF;

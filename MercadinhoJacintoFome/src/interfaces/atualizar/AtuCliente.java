@@ -1,7 +1,7 @@
 package interfaces.atualizar;
 
-import utilidades.classes.Cliente;
-import utilidades.Sistema.Gerenciamento;
+import classes.Cliente;
+import classes.Gerenciamento;
 import interfaces.Main;
 import javax.swing.JOptionPane;
 
@@ -216,12 +216,11 @@ public class AtuCliente extends javax.swing.JDialog {
 
     private void jLabel1AncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_jLabel1AncestorAdded
         try {
-            if (g.getCodigoSelecionado().equals("")) {
+            if (Main.codigoSelecionado == null)
                 return;
-            }
 
             // buscando produto no gerenciamento
-            Cliente c = g.getListaDeClientes().get(g.getCodigoSelecionado());
+            Cliente c = g.getListaDeClientes().get(Main.codigoSelecionado);
 
             if (c != null) {
                 txtNome.setText(c.getNome());
@@ -231,10 +230,10 @@ public class AtuCliente extends javax.swing.JDialog {
             }
 
             // limpa a referência para evitar reutilização errada
-            g.setCodigoSelecionado(null);
+            Main.codigoSelecionado = null;
 
         } catch (Exception e) {
-            e.printStackTrace(); // que problema é esse?
+            e.printStackTrace();
         }
     }//GEN-LAST:event_jLabel1AncestorAdded
 

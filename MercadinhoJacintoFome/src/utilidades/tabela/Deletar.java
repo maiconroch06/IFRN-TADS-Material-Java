@@ -2,7 +2,7 @@ package utilidades.tabela;
 
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import utilidades.Sistema.Gerenciamento;
+import classes.Gerenciamento;
 
 public class Deletar {
     
@@ -40,8 +40,8 @@ public class Deletar {
                 "Deseja excluir a venda ID: " + chave + "?",
                 "Confirmar Exclusão", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
 
-            g.getListaDeVendas().remove(chave);
-            Carregar.tabelaVendas(modeloTabelaVenda, g.getListaDeVendas());
+            g.getHistoricoDeVendas().remove(chave);
+            Carregar.tabelaVendas(modeloTabelaVenda, g.getHistoricoDeVendas());
         }
     }
 }

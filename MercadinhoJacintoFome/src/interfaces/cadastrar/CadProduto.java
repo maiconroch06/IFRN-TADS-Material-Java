@@ -1,7 +1,7 @@
 package interfaces.cadastrar;
 
-import utilidades.Sistema.Gerenciamento;
-import utilidades.classes.Produto;
+import classes.Gerenciamento;
+import classes.Produto;
 import javax.swing.JOptionPane;
 
 public class CadProduto extends javax.swing.JDialog {

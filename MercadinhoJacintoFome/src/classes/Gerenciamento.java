@@ -1,13 +1,8 @@
-package utilidades.Sistema;
+package classes;
 
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import javax.swing.JOptionPane;
-import utilidades.classes.Cliente;
-import utilidades.classes.Funcionario;
-import utilidades.classes.Produto;
-import utilidades.classes.Venda;
 
 /* Sumario:
 Funcionalidades
@@ -16,15 +11,12 @@ Funcionalidades
     3.Metodos de remover
     4.Metodos de consultar
     5.Metodos de atualizar
-Interface    
-    6.Metodos das tabelas
 Extras
-    
     Lista de produtos
     96.Predefinição dos Clientes
     97.Predefinição dos Funcionarios
     98.Predefinição dos produtos
-    99.Metodos Getters
+    99.Metodos Acessores
 */
 
 /* Algumas pendencias:
@@ -32,29 +24,21 @@ Extras
 */
 
 public class Gerenciamento {
-    private final HashMap<String, Venda> listaDeVendas = new HashMap<>();
-    private final HashMap<String, Cliente> listaDeClientes = new HashMap<>();
     private final HashMap<String, Funcionario> listaDeFuncionarios = new HashMap<>();
+    private final HashMap<String, Cliente> listaDeClientes = new HashMap<>();
     private final HashMap<String, Produto> listaDeProdutos = new HashMap<>();
-    
+    private final HashMap<String, RegistroVenda> historicoVendas = new HashMap<>();
+
     public Gerenciamento() {}
     
     private String codigoSelecionado;
 
-    public String getCodigoSelecionado() {
-        return codigoSelecionado;
-    }
-
-    public void setCodigoSelecionado(String codigoSelecionado) {
-        this.codigoSelecionado = codigoSelecionado;
-    }
-    
-    private boolean produtosAtualizados = false;
-    private boolean clientesAtualizados = false;
     private boolean funcionariosAtualizados = false;
+    private boolean clientesAtualizados = false;
+    private boolean produtosAtualizados = false;
     private boolean vendasAtualizadas = false;
-
-    // 1.Metodos para verificar
+    
+// 1.Metodos para verificar
     public boolean verificarFuncionario(String CPF) {
         if (listaDeFuncionarios.containsKey(CPF)) {
             JOptionPane.showMessageDialog(null, "Funcionário já cadastrado!");
@@ -78,7 +62,7 @@ public class Gerenciamento {
     }
     
     public boolean verificarVenda(String ID_Venda){        
-        if(listaDeVendas.containsKey(ID_Venda)){
+        if(historicoVendas.containsKey(ID_Venda)){
             JOptionPane.showMessageDialog(null, "Venda já cadastrada!");
             return false;
         }
@@ -86,7 +70,7 @@ public class Gerenciamento {
         return true;
     }
     
-    // 2.Metodos para cadastro
+// 2.Metodos para cadastro
     public void cadastrarProduto(String codigo, Produto produto) {
         listaDeProdutos.put(codigo, produto);
         produtosAtualizados = true;
@@ -101,45 +85,12 @@ public class Gerenciamento {
         listaDeFuncionarios.put(CPF, funcionario);
         funcionariosAtualizados = true;
     }
-
-    // salva cada item do carrinho como uma "linha de venda"
-    public void salvarVendasDoCarrinho(String idVenda, List<Venda> itens) {
-        for (int i = 0; i < itens.size(); i++) {                                      // //
-                Venda v = itens.get(i);                                              // //
-                v.setID_Venda(Integer.parseInt(idVenda));                        // //
-                String chave = idVenda + "-" + i;                                         // //
-                listaDeVendas.put(chave, v);
-        }
-        vendasAtualizadas = true;
+    
+    public void cadastrarVendaCompleta(String id, String nomeFunc, String nomeClnt, double total, String metodo, List<ItemVenda> itens) {
+        historicoVendas.put(id, new RegistroVenda(id, nomeFunc, nomeClnt, total, metodo, itens));
     }
     
-    public void atualizarEstoque(java.util.List<Venda> itens) {       // //
-        for (Venda v : itens) {
-            // A chave do produto é o codigo do produto
-            String chave =  v.getCodigoProduto() + ""; // Converte int em String
-
-            // Busca o produto real no HashMap do estoque
-            Produto produto = listaDeProdutos.get(chave);
-
-            if (produto != null) {
-                // Calcula a nova quantidade
-                int novaQuantidade = produto.getQuantidade() - v.getQuantidade();
-
-                // Garante que não fique negativo
-                if (novaQuantidade < 0) {
-                    novaQuantidade = 0;
-                }
-
-                // Atualiza a quantidade no objeto
-                produto.setQuantidade(novaQuantidade);
-
-                /*// Atualiza o HashMap (opcional, pois o objeto já foi alterado)
-                listaDeProdutos.put(chave, produto);*/
-            }                                                                         // //
-        }
-    }
-    
-    // 3.Metodos para remover
+// 3.Metodos para remover
     public void removerProduto(String codigo){
         listaDeProdutos.remove(codigo);
         produtosAtualizados = true;
@@ -155,7 +106,7 @@ public class Gerenciamento {
         funcionariosAtualizados = true;
     }
     
-    // 4.Metodos para consultar
+// 4.Metodos para consultar
     public Funcionario consultarFuncionario(String CPF){
         if(!listaDeFuncionarios.containsKey(CPF)){
             JOptionPane.showMessageDialog(null, "Funcionario não encontrado!");
@@ -179,7 +130,15 @@ public class Gerenciamento {
         }
         return listaDeProdutos.get(codigo);
     }
-      
+    
+    public RegistroVenda consultarVenda(String id) {
+        if(!historicoVendas.containsKey(id)){
+            JOptionPane.showMessageDialog(null, "Venda não encontrada!");
+            return null;
+        }
+        return historicoVendas.get(id);
+    }
+    
 // 5.Metodos para atualizar
     public boolean atualizarFuncionario(String CPF, Funcionario funcionario){        
         if(!listaDeFuncionarios.containsKey(CPF)){
@@ -211,17 +170,35 @@ public class Gerenciamento {
         return true;
     }
     
+        public void atualizarEstoque(List<ItemVenda> itens) {       // //
+        for (ItemVenda v : itens) {
+            // A chave do produto é o codigo do produto
+            String chave =  v.getCodigoProduto() + ""; // Converte int em String
+
+            // Busca o produto real no HashMap do estoque
+            Produto produto = listaDeProdutos.get(chave);
+
+            if (produto != null) {
+                // Calcula a nova quantidade
+                int novaQuantidade = produto.getQuantidade() - v.getQuantidade();
+
+                // Garante que não fique negativo
+                if (novaQuantidade < 0) {
+                    novaQuantidade = 0;
+                }
+
+                // Atualiza a quantidade no objeto
+                produto.setQuantidade(novaQuantidade);
+
+                /*// Atualiza o HashMap (opcional, pois o objeto já foi alterado)
+                listaDeProdutos.put(chave, produto);*/
+            }                                                                         // //
+        }
+    }
+    
     // EXTRAS
     // AUTO-INCREMENTO para produtos e venda
-    private int contadorProduto = 1;
     private int seqVenda = 1;
-
-    // Gera código automático 001, 002, 003 ...
-    public String gerarCodigoProduto() {
-        String codigo = String.format("%03d", contadorProduto);
-        contadorProduto++;
-        return codigo;
-    }
     
     public String gerarIDVenda() {                                              // //
         return String.valueOf(seqVenda++);                                      // //
@@ -258,84 +235,49 @@ public class Gerenciamento {
 
 // 98.Predefinição dos produtos
     public void carregarProdutosPadrao() {
-        String cod1 = gerarCodigoProduto();
-        cadastrarProduto(cod1, new Produto(cod1, "Arroz", 10, 5.99));
+        cadastrarProduto("001", new Produto("001", "Arroz", 10, 5.99));
 
-        String cod2 = gerarCodigoProduto();
-        cadastrarProduto(cod2, new Produto(cod2, "Feijão", 20, 7.50));
+        cadastrarProduto("002", new Produto("002", "Feijão", 20, 7.50));
 
-        String cod3 = gerarCodigoProduto();
-        cadastrarProduto(cod3, new Produto(cod3, "Macarrão", 15, 4.25));
+        cadastrarProduto("003", new Produto("003", "Macarrão", 15, 4.25));
 
-        String cod4 = gerarCodigoProduto();
-        cadastrarProduto(cod4, new Produto(cod4, "Açúcar", 18, 3.89));
+        cadastrarProduto("004", new Produto("004", "Açúcar", 18, 3.89));
 
-        String cod5 = gerarCodigoProduto();
-        cadastrarProduto(cod5, new Produto(cod5, "Café", 12, 14.90));
+        cadastrarProduto("005", new Produto("005", "Café", 12, 14.90));
 
-        String cod6 = gerarCodigoProduto();
-        cadastrarProduto(cod6, new Produto(cod6, "Óleo de Soja", 9, 7.99));
+        cadastrarProduto("006", new Produto("006", "Óleo de Soja", 9, 7.99));
 
-        String cod7 = gerarCodigoProduto();
-        cadastrarProduto(cod7, new Produto(cod7, "Leite 1L", 25, 5.49));
+        cadastrarProduto("007", new Produto("007", "Leite 1L", 25, 5.49));
 
-        String cod8 = gerarCodigoProduto();
-        cadastrarProduto(cod8, new Produto(cod8, "Manteiga", 8, 8.90));
+        cadastrarProduto("008", new Produto("008", "Manteiga", 8, 8.90));
 
-        String cod9 = gerarCodigoProduto();
-        cadastrarProduto(cod9, new Produto(cod9, "Detergente", 30, 2.39));
+        cadastrarProduto("009", new Produto("009", "Detergente", 30, 2.39));
 
-        String cod10 = gerarCodigoProduto();
-        cadastrarProduto(cod10, new Produto(cod10, "Refrigerante 2L", 14, 9.50));
+        cadastrarProduto("010", new Produto("010", "Refrigerante 2L", 14, 9.50));
         
-        String cod11 = gerarCodigoProduto();
-        cadastrarProduto(cod11, new Produto(cod11, "Achocolatado", 16, 7.99));
+        cadastrarProduto("011", new Produto("011", "Achocolatado", 16, 7.99));
 
-        String cod12 = gerarCodigoProduto();
-        cadastrarProduto(cod12, new Produto(cod12, "Biscoito", 35, 3.50));
+        cadastrarProduto("012", new Produto("012", "Biscoito", 35, 3.50));
 
-        String cod13 = gerarCodigoProduto();
-        cadastrarProduto(cod13, new Produto(cod13, "Margarina", 20, 5.25));
+        cadastrarProduto("013", new Produto("013", "Margarina", 20, 5.25));
 
-        String cod14 = gerarCodigoProduto();
-        cadastrarProduto(cod14, new Produto(cod14, "Detergente", 28, 2.10));
+        cadastrarProduto("014", new Produto("014", "Detergente", 28, 2.10));
 
-        String cod15 = gerarCodigoProduto();
-        cadastrarProduto(cod15, new Produto(cod15, "Sabão em Pó", 17, 12.90));
+        cadastrarProduto("015", new Produto("015", "Sabão em Pó", 17, 12.90));
 
-        String cod16 = gerarCodigoProduto();
-        cadastrarProduto(cod16, new Produto(cod16, "Papel Higiênico", 50, 13.50));
+        cadastrarProduto("016", new Produto("016", "Papel Higiênico", 50, 13.50));
 
-        String cod17 = gerarCodigoProduto();
-        cadastrarProduto(cod17, new Produto(cod17, "Creme Dental", 27, 4.99));
+        cadastrarProduto("017", new Produto("017", "Creme Dental", 27, 4.99));
 
-        String cod18 = gerarCodigoProduto();
-        cadastrarProduto(cod18, new Produto(cod18, "Shampoo", 19, 10.99));
-        
-        String cod19 = gerarCodigoProduto();
-        cadastrarProduto(cod19, new Produto(cod19, "Shampoo", 19, 10.99));
-        
-        String cod20 = gerarCodigoProduto();
-        cadastrarProduto(cod20, new Produto(cod20, "Shampoo", 19, 10.99));
-        
-        String cod21 = gerarCodigoProduto();
-        cadastrarProduto(cod21, new Produto(cod21, "Shampoo", 19, 10.99));
-        
-        String cod22 = gerarCodigoProduto();
-        cadastrarProduto(cod22, new Produto(cod22, "Shampoo", 19, 10.99));
-        
-        String cod23 = gerarCodigoProduto();
-        cadastrarProduto(cod23, new Produto(cod23, "Shampoo", 19, 10.99));
-        
-        String cod24 = gerarCodigoProduto();
-        cadastrarProduto(cod24, new Produto(cod24, "Shampoo", 19, 10.99));
-        
-        String cod25 = gerarCodigoProduto();
-        cadastrarProduto(cod25, new Produto(cod25, "Shampoo", 19, 10.99));
+        cadastrarProduto("018", new Produto("018", "Shampoo", 19, 10.99));
+
+        cadastrarProduto("019", new Produto("019", "Shampoo", 5, 10.99));
+
+        cadastrarProduto("020", new Produto("020", "Shampoo", 7, 10.99));
+
     }
-
     
-// 99.Getters
+// 99.Metodos Acessores
     public HashMap<String, Cliente> getListaDeClientes() {
         return listaDeClientes;
     }
@@ -348,14 +290,24 @@ public class Gerenciamento {
         return listaDeProdutos;
     }
 
-    public HashMap<String, Venda> getListaDeVendas() {
-        return listaDeVendas;
+    public HashMap<String, RegistroVenda> getHistoricoDeVendas() {
+        return historicoVendas;
+    }
+    
+    
+    public String getCodigoSelecionado() {
+        return codigoSelecionado;
     }
 
+    public void setCodigoSelecionado(String codigoSelecionado) {
+        this.codigoSelecionado = codigoSelecionado;
+    }
+    
     public boolean isProdutosAtualizados() {
         return produtosAtualizados;
     }
 
+    
     public void setProdutosAtualizados(boolean produtosAtualizados) {
         this.produtosAtualizados = produtosAtualizados;
     }
@@ -383,5 +335,4 @@ public class Gerenciamento {
     public void setVendasAtualizadas(boolean vendasAtualizadas) {
         this.vendasAtualizadas = vendasAtualizadas;
     }
-    
 }

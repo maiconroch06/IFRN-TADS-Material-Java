@@ -1,38 +1,34 @@
 package interfaces;
 
-import utilidades.Sistema.Gerenciamento;
-import interfaces.atualizar.VerMais;
-import interfaces.cadastrar.*;
+import classes.*;
 import interfaces.atualizar.*;
-import utilidades.tabela.*;
+import interfaces.cadastrar.*;
 import interfaces.venda.NovaVenda;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
+import utilidades.tabela.Carregar;
+import utilidades.tabela.Deletar;
+import utilidades.tabela.Pesquisar;
 
 public class Main extends javax.swing.JFrame {
+    
+    private Gerenciamento g = new Gerenciamento();
+    public static String codigoSelecionado = null;
     
     DefaultTableModel modeloTableProduto;
     DefaultTableModel modeloTableCliente;
     DefaultTableModel modeloTableFuncionario;
     DefaultTableModel modeloTabelaVenda;
-    
-    private Gerenciamento g = new Gerenciamento();
+
     
     public Main() {
 
             // O painel com imagem de fundo deve ser o contentPane ANTES do initComponents()
             painelImagem = new javax.swing.JPanel() {
-                @Override
-                protected void paintComponent(java.awt.Graphics g) {
-                    super.paintComponent(g);
-                    java.awt.Image img = new javax.swing.ImageIcon(
-                        getClass().getResource("/interfaces/fundinhoAR.jpg")
-                    ).getImage();
-                    g.drawImage(img, 0, 0, getWidth(), getHeight(), this);
-                }
             };
-
             setContentPane(painelImagem);
 
         // Não mova o codigo referente a imagem de local, principalmente esse a baixo!
@@ -73,22 +69,22 @@ public class Main extends javax.swing.JFrame {
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addContainerGap(200, Short.MAX_VALUE)
             );
-        
+
         // Pega os modelos das tabelas e define como global para todo codigo.
         this.modeloTableProduto = (DefaultTableModel)jTProdutos.getModel();
         this.modeloTableCliente = (DefaultTableModel)jTClientes.getModel();
         this.modeloTableFuncionario = (DefaultTableModel)jTFuncionarios.getModel();
         this.modeloTabelaVenda = (DefaultTableModel)jTVendas.getModel();
-        
-        // Valores pré-cadastrados nos HashMaps
+
+        // Sempre ao executar o main, adicionar valores pre definidos às tabelas
         g.carregarProdutosPadrao();
         g.carregarClientesPadrao();
         g.carregarFuncionariosPadrao();
         
-        verMais(jTProdutos);
-        verMais(jTClientes);
-        verMais(jTFuncionarios);
-        verMais(jTVendas);
+        duploClick(jTClientes);
+        duploClick(jTFuncionarios);
+        duploClick(jTProdutos);
+        duploClick(jTVendas);
         
         // Sempre ao executar o main, carrega os dados do HashMap na primeira tabela
         Carregar.tabelaProdutos(modeloTableProduto, g.getListaDeProdutos());
@@ -101,39 +97,29 @@ public class Main extends javax.swing.JFrame {
         
         // Habilida a função de sempre mostrar lista inteira, mesmo depois de ter feito uma pesquisa anteriomente.
         Abas.addChangeListener(e -> {
-            switch (Abas.getSelectedIndex()) {
+            int index = Abas.getSelectedIndex();
+
+            switch (index) {
                 case 0: // Produtos
-                    if (g.isProdutosAtualizados()) {
-                        Carregar.tabelaProdutos(modeloTableProduto, g.getListaDeProdutos());
-                        g.setProdutosAtualizados(false);
-                    }
+                    Carregar.tabelaProdutos(modeloTableProduto, g.getListaDeProdutos());
                     break;
 
                 case 1: // Clientes
-                    if (g.isClientesAtualizados()) {
-                        Carregar.tabelaClientes(modeloTableCliente, g.getListaDeClientes());
-                        g.setClientesAtualizados(false);
-                    }
+                    Carregar.tabelaClientes(modeloTableCliente, g.getListaDeClientes());
                     break;
 
-                case 2: // Funcionarios
-                    if (g.isFuncionariosAtualizados()) {
-                        Carregar.tabelaFuncionarios(modeloTableFuncionario, g.getListaDeFuncionarios());
-                        g.setFuncionariosAtualizados(false);
-                    }
+                case 2: // Funcionários
+                    Carregar.tabelaFuncionarios(modeloTableFuncionario, g.getListaDeFuncionarios());
                     break;
 
                 case 3: // Vendas
-                    if (g.isVendasAtualizadas()) {
-                        Carregar.tabelaVendas(modeloTabelaVenda, g.getListaDeVendas());
-                        g.setVendasAtualizadas(false);
-                    }
+                    Carregar.tabelaVendas(modeloTabelaVenda, g.getHistoricoDeVendas());
                     break;
             }
         });
     }
     
-    public final void verMais(JTable tabela) {
+    public void duploClick(JTable tabela) {
         tabela.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -176,19 +162,22 @@ public class Main extends javax.swing.JFrame {
                         Carregar.tabelaClientes(modeloTableCliente, g.getListaDeClientes());
                     }
 
-                    else if (tabela.equals(jTVendas)) {
-                        VerMais vm = new VerMais(g);
+                    else if (tabela == jTVendas) {
+                        int linha = tabela.getSelectedRow();
+                        String idVenda = jTVendas.getValueAt(linha, 0).toString();
+                        RegistroVenda v = g.consultarVenda(idVenda);
+
+                        VerMais tela = new VerMais(Main.this, true, v);
                         
-                        vm.setModal(true);
-                        vm.setVisible(true);
+                        tela.setVisible(true);
                         
-                        Carregar.tabelaVendas(modeloTabelaVenda, g.getListaDeVendas());
+                        Carregar.tabelaVendas(modeloTabelaVenda, g.getHistoricoDeVendas());
                     }
                 }
             }
         });
     }
-  
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -338,7 +327,7 @@ public class Main extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID_Venda", "Codigo Produto", "Quantidade", "Valor Unitario (R$)", "Valor Total (R$)"
+                "ID_Venda", "Funcionário", "Cliente", "Quantidade Total De Itens", "Total Da Compra"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -373,7 +362,7 @@ public class Main extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(140, Short.MAX_VALUE)
+                .addContainerGap(105, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(txtReferencia, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -382,7 +371,7 @@ public class Main extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btExcluir, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(Abas, javax.swing.GroupLayout.PREFERRED_SIZE, 1141, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(141, Short.MAX_VALUE))
+                .addContainerGap(117, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -394,7 +383,7 @@ public class Main extends javax.swing.JFrame {
                     .addComponent(txtReferencia, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(Abas, javax.swing.GroupLayout.PREFERRED_SIZE, 398, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(73, Short.MAX_VALUE))
+                .addContainerGap(159, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout painelImagemLayout = new javax.swing.GroupLayout(painelImagem);
@@ -403,10 +392,10 @@ public class Main extends javax.swing.JFrame {
             painelImagemLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(painelImagemLayout.createSequentialGroup()
                 .addGroup(painelImagemLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 1338, Short.MAX_VALUE))
                 .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         painelImagemLayout.setVerticalGroup(
             painelImagemLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -416,8 +405,7 @@ public class Main extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(208, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jMenu7.setText("Operações");
@@ -501,13 +489,13 @@ public class Main extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(painelImagem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(painelImagem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(painelImagem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(painelImagem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -518,7 +506,8 @@ public class Main extends javax.swing.JFrame {
         vendaGUI.setModal(true);
         vendaGUI.setVisible(true);
         
-        Carregar.tabelaVendas(modeloTabelaVenda, g.getListaDeVendas());
+        Carregar.tabelaVendas(modeloTabelaVenda, g.getHistoricoDeVendas());
+        Carregar.tabelaProdutos(modeloTableProduto , g.getListaDeProdutos());
     }//GEN-LAST:event_mnNovaVendaActionPerformed
 
     private void mnCadProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnCadProdutoActionPerformed
@@ -553,7 +542,7 @@ public class Main extends javax.swing.JFrame {
         AtualizarProd.setModal(true);
         AtualizarProd.setVisible(true);
         
-        Carregar.tabelaProdutos(modeloTableProduto, g.getListaDeProdutos());
+        Carregar.tabelaProdutos(modeloTableProduto , g.getListaDeProdutos());
     }//GEN-LAST:event_mnAtuProdutoActionPerformed
 
     private void mnAtuFuncionarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnAtuFuncionarioActionPerformed
@@ -574,13 +563,14 @@ public class Main extends javax.swing.JFrame {
 
     private void btPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btPesquisarActionPerformed
         String chave = txtReferencia.getText().trim(); // chave que o usuario procura
-        int indiceAba = Abas.getSelectedIndex();         // indice da aba atual aberta
+        int index = Abas.getSelectedIndex();         // indice da aba atual aberta
 
-        switch (indiceAba) {
+        switch (index) {
+
             // ------------------- PRODUTOS -------------------
             case 0:
                 if (chave.isEmpty()) {
-                    Carregar.tabelaProdutos(modeloTableProduto, g.getListaDeProdutos());
+                    Carregar.tabelaProdutos(modeloTableProduto , g.getListaDeProdutos());
                     return;
                 }
                 Pesquisar.pesqProduto(chave, modeloTableProduto, g);
@@ -607,7 +597,7 @@ public class Main extends javax.swing.JFrame {
             // ------------------- VENDAS -------------------
             case 3:
                 if (chave.isEmpty()) {
-                    Carregar.tabelaVendas(modeloTabelaVenda, g.getListaDeVendas());
+                    Carregar.tabelaVendas(modeloTabelaVenda, g.getHistoricoDeVendas());
                     return;
                 }
                 Pesquisar.pesqVenda(chave, modeloTabelaVenda, g);
@@ -617,8 +607,8 @@ public class Main extends javax.swing.JFrame {
 
     private void btExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btExcluirActionPerformed
         int indiceAba = Abas.getSelectedIndex(); // Identifica aba atual
-        int linha;
-        String chave;
+        int linha = -1;
+        String chave = "";
 
         switch (indiceAba) {
             // ---------------------- PRODUTOS ----------------------
@@ -680,9 +670,8 @@ public class Main extends javax.swing.JFrame {
 
                 // chave = ID_Venda (1ª coluna)
                 chave = jTVendas.getValueAt(linha, 0).toString();
-                
+
                 Deletar.deletarVenda(modeloTabelaVenda, linha, chave, g);
-                
                 break;
         }
     }//GEN-LAST:event_btExcluirActionPerformed

@@ -1,33 +1,48 @@
 package interfaces.atualizar;
 
-import utilidades.Sistema.Gerenciamento;
+import classes.ItemVenda;
+import classes.RegistroVenda;
+import classes.Gerenciamento;
+import javax.swing.table.DefaultTableModel;
 
-public class VerMais extends javax.swing.JDialog {
+public class VerMais extends javax.swing.JDialog {    
+    private RegistroVenda venda;
     
     private Gerenciamento g;
     
     public VerMais(Gerenciamento g) {
         initComponents();
-        setLocationRelativeTo(null);
         this.g = g;
+        this.setLocationRelativeTo(this);
     }
+    
 
+    public VerMais(java.awt.Frame parent, boolean modal, RegistroVenda venda) {
+        super(parent, modal);
+        this.venda = venda;
+        initComponents(); 
+        this.setLocationRelativeTo(this);
+        carregarDados();
+    }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
+        Cliente = new javax.swing.JLabel();
+        txtNomeCliente = new javax.swing.JLabel();
+        Atendente = new javax.swing.JLabel();
+        txtNomeFuncionario = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         TableCompra = new javax.swing.JTable();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
+        ttCompra = new javax.swing.JLabel();
+        txtTotalCompra = new javax.swing.JLabel();
+        id = new javax.swing.JLabel();
+        txtIdVenda = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
+        txtMetodoPagamento = new javax.swing.JLabel();
+        metodoPag = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -35,15 +50,15 @@ public class VerMais extends javax.swing.JDialog {
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Lista de Compras");
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel2.setText("Cliente:");
+        Cliente.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        Cliente.setText("Cliente:");
 
-        jLabel3.setText("'nome'");
+        txtNomeCliente.setText("'nome'");
 
-        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel4.setText("Atendente:");
+        Atendente.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        Atendente.setText("Atendente:");
 
-        jLabel5.setText("'nome funcionario'");
+        txtNomeFuncionario.setText("'nome funcionario'");
 
         TableCompra.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -71,15 +86,15 @@ public class VerMais extends javax.swing.JDialog {
             TableCompra.getColumnModel().getColumn(4).setResizable(false);
         }
 
-        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel6.setText("Total da Compra: R$");
+        ttCompra.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        ttCompra.setText("Total da Compra: R$");
 
-        jLabel7.setText("00,00");
+        txtTotalCompra.setText("00,00");
 
-        jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel8.setText("ID:");
+        id.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        id.setText("ID:");
 
-        jLabel9.setText("'1'");
+        txtIdVenda.setText("'1'");
 
         jButton1.setText("Voltar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -87,6 +102,11 @@ public class VerMais extends javax.swing.JDialog {
                 jButton1ActionPerformed(evt);
             }
         });
+
+        txtMetodoPagamento.setText("'Método de Pagamento'");
+
+        metodoPag.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        metodoPag.setText("Método:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -100,23 +120,26 @@ public class VerMais extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jScrollPane1)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addComponent(jLabel8)
+                        .addComponent(id)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel9)
+                        .addComponent(txtIdVenda)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel2)
+                        .addComponent(Cliente)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel5)
+                        .addComponent(txtNomeCliente)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel6)
+                        .addComponent(metodoPag)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel7))
+                        .addComponent(txtMetodoPagamento)
+                        .addGap(18, 18, 18)
+                        .addComponent(ttCompra)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtTotalCompra))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(Atendente)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtNomeFuncionario)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton1)))
                 .addContainerGap())
         );
@@ -126,19 +149,25 @@ public class VerMais extends javax.swing.JDialog {
                 .addGap(14, 14, 14)
                 .addComponent(jLabel1)
                 .addGap(26, 26, 26)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel5)
-                    .addComponent(jLabel6)
-                    .addComponent(jLabel7)
-                    .addComponent(jLabel8)
-                    .addComponent(jLabel9))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(metodoPag)
+                        .addComponent(txtMetodoPagamento))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(Cliente)
+                        .addComponent(txtNomeCliente)
+                        .addComponent(ttCompra)
+                        .addComponent(txtTotalCompra)
+                        .addComponent(id)
+                        .addComponent(txtIdVenda)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(Atendente)
+                        .addComponent(txtNomeFuncionario))
+                    .addComponent(jButton1))
                 .addContainerGap())
         );
 
@@ -150,17 +179,45 @@ public class VerMais extends javax.swing.JDialog {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel Atendente;
+    private javax.swing.JLabel Cliente;
     private javax.swing.JTable TableCompra;
+    private javax.swing.JLabel id;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel metodoPag;
+    private javax.swing.JLabel ttCompra;
+    private javax.swing.JLabel txtIdVenda;
+    private javax.swing.JLabel txtMetodoPagamento;
+    private javax.swing.JLabel txtNomeCliente;
+    private javax.swing.JLabel txtNomeFuncionario;
+    private javax.swing.JLabel txtTotalCompra;
     // End of variables declaration//GEN-END:variables
+
+    //Métodos
+    private void carregarDados() {
+        txtIdVenda.setText(venda.getId());
+        txtTotalCompra.setText(String.format("R$ %.2f", venda.getTotal()));
+
+        DefaultTableModel model = (DefaultTableModel) TableCompra.getModel();
+        model.setRowCount(0);
+
+        for(ItemVenda item : venda.getItens()) {
+            model.addRow(new Object[]{
+                item.getCodigoProduto(),
+                item.getProduto(),
+                item.getQuantidade(),
+                item.getValorUnitario(),
+                item.getValorTotal()
+            });
+        }
+        txtNomeCliente.setText(venda.getNomeCliente());
+        txtNomeFuncionario.setText(venda.getNomeFuncionario());
+        txtMetodoPagamento.setText(venda.getMetodo());
+    }
+    
+    
 }
+
+

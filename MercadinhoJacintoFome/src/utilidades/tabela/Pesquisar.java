@@ -2,8 +2,7 @@ package utilidades.tabela;
 
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import utilidades.Sistema.Gerenciamento;
-import utilidades.classes.*;
+import classes.*;
 
 public class Pesquisar {
     public static void pesqProduto(String codigo, DefaultTableModel modeloTableProduto, Gerenciamento g) {
@@ -61,18 +60,16 @@ public class Pesquisar {
     public static void pesqVenda(String id, DefaultTableModel modeloTableVenda, Gerenciamento g) {
         modeloTableVenda.setRowCount(0);
 
-        Venda v = g.getListaDeVendas().get(id);
+        RegistroVenda v = g.consultarVenda(id);
 
         if (v != null) {
             modeloTableVenda.addRow(new Object[]{
-                v.getID_Venda(),
-                v.getCodigoProduto(),
-                v.getQuantidade(),
-                v.getValorUnitario(),
-                v.getValorTotal()
-            });
+            v.getId(),
+            String.format("R$ %.2f", v.getTotal()),
+            v.getItens().size()
+        });
         } else {
-            Carregar.tabelaVendas(modeloTableVenda, g.getListaDeVendas());
+            Carregar.tabelaVendas(modeloTableVenda, g.getHistoricoDeVendas());
             JOptionPane.showMessageDialog(null, "Venda não encontrada");
         }
     }

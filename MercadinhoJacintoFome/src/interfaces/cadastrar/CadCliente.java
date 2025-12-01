@@ -1,7 +1,7 @@
 package interfaces.cadastrar;
 
-import utilidades.classes.Cliente;
-import utilidades.Sistema.Gerenciamento;
+import classes.Cliente;
+import classes.Gerenciamento;
 import javax.swing.JOptionPane;
 
 public class CadCliente extends javax.swing.JDialog {

@@ -1,4 +1,4 @@
-package utilidades.classes;
+package classes;
 
 public class Produto {
     private String codigoProduto; //pode ser int

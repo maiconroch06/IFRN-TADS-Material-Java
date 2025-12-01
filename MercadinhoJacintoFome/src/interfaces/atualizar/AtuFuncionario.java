@@ -1,7 +1,7 @@
 package interfaces.atualizar;
 
-import utilidades.classes.Funcionario;
-import utilidades.Sistema.Gerenciamento;
+import classes.Funcionario;
+import classes.Gerenciamento;
 import interfaces.Main;
 import javax.swing.JOptionPane;
 
@@ -154,12 +154,11 @@ public class AtuFuncionario extends javax.swing.JDialog {
 
     private void jLabel1AncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_jLabel1AncestorAdded
         try {
-            if (g.getCodigoSelecionado().equals("")) {
+            if (Main.codigoSelecionado == null)
                 return;
-            }
 
             // buscando produto no gerenciamento
-            Funcionario f = g.getListaDeFuncionarios().get(g.getCodigoSelecionado());
+            Funcionario f = g.getListaDeFuncionarios().get(Main.codigoSelecionado);
 
             if (f != null) {
                 txtNome.setText(f.getNome());
@@ -167,7 +166,7 @@ public class AtuFuncionario extends javax.swing.JDialog {
             }
 
             // limpa a referência para evitar reutilização errada
-            g.setCodigoSelecionado(null);
+            Main.codigoSelecionado = null;
 
         } catch (Exception e) {
             e.printStackTrace();

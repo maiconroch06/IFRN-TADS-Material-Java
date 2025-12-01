@@ -5,7 +5,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
-import utilidades.classes.*;
+import classes.*;
 
 public class Carregar {
     
@@ -64,15 +64,16 @@ public class Carregar {
     }
 
     // CARREGAR VENDAS
-    public static void tabelaVendas(DefaultTableModel modelo, HashMap<String, Venda> vendas) {
+    public static void tabelaVendas(DefaultTableModel modelo, HashMap<String, RegistroVenda> vendas) {
         modelo.setRowCount(0);
 
-        for (Venda v : vendas.values()) {
+        for(RegistroVenda v : vendas.values()) {
             modelo.addRow(new Object[]{
-                v.getID_Venda(),
-                v.getCodigoProduto(),
-                v.getQuantidade(),
-                v.getValorUnitario()
+                v.getId(),
+                v.getNomeFuncionario(),
+                v.getNomeCliente(),
+                v.getQuantidadeTotalItens(),  // Quantidade Total de itens
+                String.format("R$ %.2f", v.getTotal())  // Valor Total
             });
         }
     }
