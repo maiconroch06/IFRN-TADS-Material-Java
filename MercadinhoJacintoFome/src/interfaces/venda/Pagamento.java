@@ -15,15 +15,18 @@ public class Pagamento extends javax.swing.JDialog {
     private String metodoPagamento;
     private boolean finalizada = false;
     private Gerenciamento g;
+    private double total;
 
     public Pagamento(Window parent, boolean modal, Gerenciamento g, double total) {
-        super(parent, ModalityType.APPLICATION_MODAL);
+        super(parent, ModalityType.APPLICATION_MODAL); 
         this.g = g;
+        this.total = total;
+
         initComponents();
-        this.setLocationRelativeTo(parent);
+        this.setLocationRelativeTo(parent); // centraliza em relação à janela que abriu ela
+
         txtTotal.setText(String.format("R$ %.2f", total));
-        
-        carregarFuncionariosNoCombo(); // Puxa todos os funcionarios cadastrados no sistema para o JcomboBox
+        carregarFuncionariosNoCombo();
     }
     
     @SuppressWarnings("unchecked")
@@ -249,8 +252,8 @@ public class Pagamento extends javax.swing.JDialog {
         }
         
         // Se esse CPF existir na lista finaliza a compra, caso não, Abre a tela de erro;
+        // Se esse CPF existir na lista finaliza a compra, caso não, Abre a tela de erro;
         if(g.verificarCliente(cpf)) {
-            JOptionPane.showMessageDialog(null, "Compra Finalizada comm Sucesso!!");
             nomeClnt = txtNomeCliente.getText().trim();
             nomeFunc = funcSelect;
             metodoPagamento = metodo;
@@ -277,9 +280,36 @@ public class Pagamento extends javax.swing.JDialog {
                 return;
             }
         }
-        
-        
-        
+            switch (metodo.toUpperCase()) {
+            case "PIX":
+                TelaPix tPix = new TelaPix(this, true, g, total);
+                tPix.setLocationRelativeTo(this);
+                tPix.setVisible(true);
+                tPix.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+
+                break;
+
+            case "DEBITO":
+                TelaDebito tDeb = new TelaDebito(this, true, g, total);
+                tDeb.setLocationRelativeTo(this);
+                tDeb.setVisible(true);
+                tDeb.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+                break;
+
+            case "CREDITO":
+                TelaCredito tCred = new TelaCredito(this, true, g, total);
+                tCred.setLocationRelativeTo(this);
+                tCred.setVisible(true);
+                tCred.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+                break;
+
+            case "ESPECIE":
+                TelaEspecie tEsp = new TelaEspecie(this, true, g, total);
+                tEsp.setLocationRelativeTo(this);
+                tEsp.setVisible(true);
+                tEsp.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+                break;
+        }
     }//GEN-LAST:event_btnFinalizarActionPerformed
 
     private void btnVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVoltarActionPerformed
@@ -300,7 +330,6 @@ public class Pagamento extends javax.swing.JDialog {
     }//GEN-LAST:event_txtCpfFocusLost
 
     private void txtNomeClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNomeClienteActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_txtNomeClienteActionPerformed
 
     //Métodos

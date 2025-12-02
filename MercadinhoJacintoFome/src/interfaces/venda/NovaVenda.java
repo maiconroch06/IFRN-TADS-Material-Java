@@ -491,7 +491,6 @@ public class NovaVenda extends javax.swing.JDialog {
             
             String metodo = pagGUI.getMetodoPagamento(); 
             g.cadastrarVendaCompleta(id, pagGUI.getNomeFunc(), pagGUI.getNomeClnt(), total, metodo, itens);        // //
-            g.atualizarEstoque(itens);
             limparCarrinho();                                              // //
             Carregar.ordenacao(jTProdutos);
         }
