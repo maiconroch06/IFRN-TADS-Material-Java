@@ -491,7 +491,7 @@ public class NovaVenda extends javax.swing.JDialog {
         String codigo = txtCodigo.getText().trim();
         if (codigo.isEmpty()) {
             // mostra todos novamente
-            Carregar.ordenacao(jTProdutos);
+            Carregar.tabelaProdutos((DefaultTableModel)jTProdutos.getModel(), g.getListaDeProdutos());
             return;
         }
 

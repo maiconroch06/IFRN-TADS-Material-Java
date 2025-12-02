@@ -4,6 +4,7 @@ import classes.Gerenciamento;
 import classes.Cliente;
 import classes.Funcionario;
 import interfaces.cadastrar.CadCliente;
+import java.awt.Window;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 
@@ -14,17 +15,10 @@ public class Pagamento extends javax.swing.JDialog {
     private String metodoPagamento;
     private boolean finalizada = false;
     private Gerenciamento g;
-    private double total;
-    
-    public Pagamento() {
-        initComponents();
-        this.setLocationRelativeTo(this);
-    }
 
-    public Pagamento(java.awt.Window parent, boolean modal, Gerenciamento g, double total) {
+    public Pagamento(Window parent, boolean modal, Gerenciamento g, double total) {
         super(parent, ModalityType.APPLICATION_MODAL);
         this.g = g;
-        this.total = total;
         initComponents();
         this.setLocationRelativeTo(parent);
         txtTotal.setText(String.format("R$ %.2f", total));
