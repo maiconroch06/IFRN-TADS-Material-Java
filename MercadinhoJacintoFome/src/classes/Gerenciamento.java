@@ -30,8 +30,6 @@ public class Gerenciamento {
     private final HashMap<String, RegistroVenda> historicoVendas = new HashMap<>();
 
     public Gerenciamento() {}
-    
-    private String codigoSelecionado;
 
     private boolean funcionariosAtualizados = false;
     private boolean clientesAtualizados = false;
@@ -294,14 +292,6 @@ public class Gerenciamento {
         return historicoVendas;
     }
     
-    
-    public String getCodigoSelecionado() {
-        return codigoSelecionado;
-    }
-
-    public void setCodigoSelecionado(String codigoSelecionado) {
-        this.codigoSelecionado = codigoSelecionado;
-    }
     
     public boolean isProdutosAtualizados() {
         return produtosAtualizados;

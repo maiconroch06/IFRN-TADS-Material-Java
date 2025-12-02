@@ -8,11 +8,19 @@ import javax.swing.JOptionPane;
 public class AtuProduto extends javax.swing.JDialog {
     
     private Gerenciamento g;
+    private Produto p;
     
     public AtuProduto(Gerenciamento g) {
         initComponents();
         setLocationRelativeTo(null);
         this.g = g;
+    }
+    
+    public AtuProduto(Gerenciamento g, Produto p) {
+        initComponents();
+        setLocationRelativeTo(null);
+        this.g = g;
+        this.p = p;
     }
 
     @SuppressWarnings("unchecked")
@@ -156,7 +164,6 @@ public class AtuProduto extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtCodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodigoActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_txtCodigoActionPerformed
 
     private void txtValorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtValorActionPerformed
@@ -234,11 +241,9 @@ public class AtuProduto extends javax.swing.JDialog {
 
     private void jLabel1AncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_jLabel1AncestorAdded
         try {
-            if (Main.codigoSelecionado == null)
+            if (p == null){
                 return;
-
-            // buscando produto no gerenciamento
-            Produto p = g.getListaDeProdutos().get(Main.codigoSelecionado);
+            }
 
             if (p != null) {
                 txtCodigo.setText(p.getCodigoProduto());
@@ -246,9 +251,6 @@ public class AtuProduto extends javax.swing.JDialog {
                 txtQuantidade.setText(String.valueOf(p.getQuantidade()));
                 txtValor.setText(String.valueOf(p.getValorUnitario()));
             }
-
-            // limpa a referência para evitar reutilização errada
-            Main.codigoSelecionado = null;
 
         } catch (Exception e) {
             e.printStackTrace();

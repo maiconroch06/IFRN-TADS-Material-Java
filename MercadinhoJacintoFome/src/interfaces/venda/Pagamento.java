@@ -15,9 +15,9 @@ public class Pagamento extends javax.swing.JDialog {
     private boolean finalizada = false;
     private Gerenciamento g;
     private double total;
+    
     public Pagamento() {
         initComponents();
-        
         this.setLocationRelativeTo(this);
     }
 

@@ -3,17 +3,15 @@ package interfaces.venda;
 import classes.Gerenciamento;
 import classes.ItemVenda;
 import classes.Produto;
-import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.AbstractAction;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
-import javax.swing.KeyStroke;
 import javax.swing.table.DefaultTableModel;
 import utilidades.tabela.Carregar;
+import utilidades.tabela.Atalhos;
 
 public class NovaVenda extends javax.swing.JDialog {
 
@@ -29,23 +27,11 @@ public class NovaVenda extends javax.swing.JDialog {
         Carregar.ordenacao(jTProdutos);
 
         // permite duplo-clique para adicionar ao carrinho
-        jTProdutos.addMouseListener(new java.awt.event.MouseAdapter() {
-            @Override
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                if (evt.getClickCount() == 2) {
-                    btAdicionar.doClick();
-                }
-            }
-        });
+        Atalhos.duploClique(jTProdutos, () -> btAdicionar.doClick());
+        Atalhos.duploClique(jTCarrinho, () -> btRemover.doClick());
 
         // Atalho F2 para o botão Pagamento (jButton4)
-        btPagamento.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("F2"), "Pagamento");
-        btPagamento.getActionMap().put("Pagamento", new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                btPagamento.doClick(); // Simula o clique no botão
-            }
-        });
+        Atalhos.atalho(btPagamento, "F2");
     }
     
     // Pega na linha selecionada da tabela de produto o preço do produto.
@@ -73,10 +59,9 @@ public class NovaVenda extends javax.swing.JDialog {
         jLabelTotalDaCompra.setText("0.00"); // reinicia o total da compra;
     }
     
-    // obs*: esse metodo importa temporariamente a classe ItemVenda e biblis? 
     private List<ItemVenda> montarVendasDoCarrinho() {
         DefaultTableModel m = (DefaultTableModel) jTCarrinho.getModel();
-        List<classes.ItemVenda> lista = new ArrayList<>();
+        List<ItemVenda> lista = new ArrayList<>();
         
         for (int i = 0; i < m.getRowCount(); i++) {
             String codigo = String.valueOf(m.getValueAt(i, 0)); // coluna: Código
@@ -84,9 +69,9 @@ public class NovaVenda extends javax.swing.JDialog {
             int qtd = Integer.parseInt(String.valueOf(m.getValueAt(i, 2))); // coluna: Quantidade
             double vu = Double.parseDouble(String.valueOf(m.getValueAt(i, 3))); // coluna: Valor Unitário
 
-            ItemVenda iv = new classes.ItemVenda();
+            ItemVenda iv = new ItemVenda();
             iv.setCodigoProduto(codigo);
-            iv.setProduto(produto);
+            iv.setDescricao(produto);
             iv.setQuantidade(qtd);
             iv.setValorUnitario(vu);
             lista.add(iv);
@@ -488,7 +473,7 @@ public class NovaVenda extends javax.swing.JDialog {
         pagGUI.setVisible(true);
         
         if (pagGUI.isFinalizada()) {                                        // //
-            List<classes.ItemVenda> itens = montarVendasDoCarrinho(); // //
+            List<ItemVenda> itens = montarVendasDoCarrinho(); // //
             String id = g.gerarIDVenda();                       // //
             
             String metodo = pagGUI.getMetodoPagamento(); 
@@ -500,7 +485,6 @@ public class NovaVenda extends javax.swing.JDialog {
     }//GEN-LAST:event_btPagamentoActionPerformed
 
     private void btPesquisarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btPesquisarKeyPressed
-        
     }//GEN-LAST:event_btPesquisarKeyPressed
 
     private void btPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btPesquisarActionPerformed
@@ -544,9 +528,6 @@ public class NovaVenda extends javax.swing.JDialog {
             jSpQtdRemover.setValue(0);
             return;
         }
-        
-        // Converter índice visual para índice real do modelo da tabela ordenada
-        //linha = TableCarrinho.convertRowIndexToModel(linha); // Somente se tabela do carrinho estiver ordernada
 
         int quantidadeRemover;
         try {

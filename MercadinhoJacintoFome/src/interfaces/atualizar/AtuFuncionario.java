@@ -8,11 +8,19 @@ import javax.swing.JOptionPane;
 public class AtuFuncionario extends javax.swing.JDialog {
     
     private Gerenciamento g;
+    private Funcionario f;
     
     public AtuFuncionario(Gerenciamento g) {
         initComponents();
         setLocationRelativeTo(null);
         this.g = g;
+        
+    }
+    public AtuFuncionario(Gerenciamento g, Funcionario f) {
+        initComponents();
+        setLocationRelativeTo(null);
+        this.g = g;
+        this.f = f;
     }
 
     @SuppressWarnings("unchecked")
@@ -154,19 +162,13 @@ public class AtuFuncionario extends javax.swing.JDialog {
 
     private void jLabel1AncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_jLabel1AncestorAdded
         try {
-            if (Main.codigoSelecionado == null)
+            if (f == null)
                 return;
-
-            // buscando produto no gerenciamento
-            Funcionario f = g.getListaDeFuncionarios().get(Main.codigoSelecionado);
 
             if (f != null) {
                 txtNome.setText(f.getNome());
                 txtCpf.setText(f.getCPF());
             }
-
-            // limpa a referência para evitar reutilização errada
-            Main.codigoSelecionado = null;
 
         } catch (Exception e) {
             e.printStackTrace();

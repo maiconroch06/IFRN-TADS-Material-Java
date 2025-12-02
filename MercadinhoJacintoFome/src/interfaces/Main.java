@@ -7,8 +7,6 @@ import interfaces.venda.NovaVenda;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
-import javax.swing.table.TableRowSorter;
 import utilidades.tabela.Carregar;
 import utilidades.tabela.Deletar;
 import utilidades.tabela.Pesquisar;
@@ -16,7 +14,6 @@ import utilidades.tabela.Pesquisar;
 public class Main extends javax.swing.JFrame {
     
     private Gerenciamento g = new Gerenciamento();
-    public static String codigoSelecionado = null;
     
     DefaultTableModel modeloTableProduto;
     DefaultTableModel modeloTableCliente;
@@ -126,11 +123,12 @@ public class Main extends javax.swing.JFrame {
                 if (evt.getClickCount() == 2) {
 
                     // AQUI IDENTIFICA QUAL TABELA É
-                    if (tabela.equals(jTProdutos)) {
+                    if (tabela == jTProdutos) {
                         int linha = tabela.getSelectedRow();
-                        g.setCodigoSelecionado(tabela.getValueAt(linha, 0).toString());
+                        String codigo = tabela.getValueAt(linha, 0).toString();
+                        Produto p = g.consultarProduto(codigo);
 
-                        AtuProduto AtualizarProd = new AtuProduto(g);
+                        AtuProduto AtualizarProd = new AtuProduto(g, p);
 
                         AtualizarProd.setModal(true);
                         AtualizarProd.setVisible(true);
@@ -138,11 +136,12 @@ public class Main extends javax.swing.JFrame {
                         Carregar.tabelaProdutos(modeloTableProduto, g.getListaDeProdutos());
                     }
 
-                    else if (tabela.equals(jTFuncionarios)) {
+                    else if (tabela == jTFuncionarios) {
                         int linha = tabela.getSelectedRow();
-                        g.setCodigoSelecionado(tabela.getValueAt(linha, 1).toString());
+                        String cpf = tabela.getValueAt(linha, 1).toString();
+                        Funcionario f = g.consultarFuncionario(cpf);
                         
-                        AtuFuncionario AtualizarFun = new AtuFuncionario(g);
+                        AtuFuncionario AtualizarFun = new AtuFuncionario(g, f);
 
                         AtualizarFun.setModal(true);
                         AtualizarFun.setVisible(true);
@@ -150,11 +149,12 @@ public class Main extends javax.swing.JFrame {
                         Carregar.tabelaFuncionarios(modeloTableFuncionario, g.getListaDeFuncionarios());
                     }
                     
-                    else if (tabela.equals(jTClientes)) {
+                    else if (tabela == jTClientes) {
                         int linha = tabela.getSelectedRow();
-                        g.setCodigoSelecionado(tabela.getValueAt(linha, 1).toString());
+                        String cpf = tabela.getValueAt(linha, 1).toString();
+                        Cliente c = g.consultarCliente(cpf);
                         
-                        AtuCliente AtualizarCli = new AtuCliente(g);
+                        AtuCliente AtualizarCli = new AtuCliente(g, c);
 
                         AtualizarCli.setModal(true);
                         AtualizarCli.setVisible(true);

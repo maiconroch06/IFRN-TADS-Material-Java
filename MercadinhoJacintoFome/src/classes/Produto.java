@@ -1,6 +1,6 @@
 package classes;
 
-public class Produto {
+public class Produto{
     private String codigoProduto; //pode ser int
     private String descricao;
     private int quantidade;
@@ -47,6 +47,8 @@ public class Produto {
         this.valorUnitario = valorUnitario;
     }
     
-    
-    
+    public double getValorTotal() {
+        return quantidade * valorUnitario;
+    }
+
 }

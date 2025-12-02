@@ -2,10 +2,6 @@ package classes;
 
 import java.util.List;
 
-/**
- *
- * @author lucas
- */
 public class RegistroVenda {
     private String id;
     private String nomeFuncionario;

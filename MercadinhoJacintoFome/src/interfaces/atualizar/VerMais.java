@@ -206,7 +206,7 @@ public class VerMais extends javax.swing.JDialog {
         for(ItemVenda item : venda.getItens()) {
             model.addRow(new Object[]{
                 item.getCodigoProduto(),
-                item.getProduto(),
+                item.getDescricao(),
                 item.getQuantidade(),
                 item.getValorUnitario(),
                 item.getValorTotal()
