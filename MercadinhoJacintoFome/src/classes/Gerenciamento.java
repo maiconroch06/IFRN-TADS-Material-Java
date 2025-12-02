@@ -168,6 +168,10 @@ public class Gerenciamento {
         return true;
     }
     
+    public void atualizarProdutoQuantidade(String codigo, int quantidade){
+        listaDeProdutos.get(codigo).setQuantidade(quantidade);
+    }
+    
         public void atualizarEstoque(List<ItemVenda> itens) {       // //
         for (ItemVenda v : itens) {
             // A chave do produto é o codigo do produto
@@ -187,9 +191,8 @@ public class Gerenciamento {
 
                 // Atualiza a quantidade no objeto
                 produto.setQuantidade(novaQuantidade);
-
-                /*// Atualiza o HashMap (opcional, pois o objeto já foi alterado)
-                listaDeProdutos.put(chave, produto);*/
+                
+                listaDeProdutos.put(chave, produto);
             }                                                                         // //
         }
     }
