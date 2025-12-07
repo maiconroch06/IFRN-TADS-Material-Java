@@ -98,19 +98,27 @@ public class Main extends javax.swing.JFrame {
 
             switch (index) {
                 case 0: // Produtos
-                    Carregar.tabelaProdutos(modeloTableProduto, g.getListaDeProdutos());
+                    if(g.isProdutosAtualizados()) {
+                        Carregar.tabelaProdutos(modeloTableProduto, g.getListaDeProdutos());
+                    }
                     break;
 
                 case 1: // Clientes
-                    Carregar.tabelaClientes(modeloTableCliente, g.getListaDeClientes());
+                    if(g.isClientesAtualizados()) {
+                        Carregar.tabelaClientes(modeloTableCliente, g.getListaDeClientes());
+                    }
                     break;
 
                 case 2: // Funcionários
-                    Carregar.tabelaFuncionarios(modeloTableFuncionario, g.getListaDeFuncionarios());
+                    if(g.isFuncionariosAtualizados()) {
+                        Carregar.tabelaFuncionarios(modeloTableFuncionario, g.getListaDeFuncionarios());
+                    }
                     break;
 
                 case 3: // Vendas
-                    Carregar.tabelaVendas(modeloTabelaVenda, g.getHistoricoDeVendas());
+                    if(g.isVendasAtualizadas()) {
+                        Carregar.tabelaVendas(modeloTabelaVenda, g.getHistoricoDeVendas());
+                    }
                     break;
             }
         });

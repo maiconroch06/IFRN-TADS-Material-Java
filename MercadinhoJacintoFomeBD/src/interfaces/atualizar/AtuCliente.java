@@ -1,25 +1,25 @@
 package interfaces.atualizar;
 
 import classes.Cliente;
-import classes.Gerenciamento;
+import conexao.ConexaoCliente;
 import javax.swing.JOptionPane;
 
 public class AtuCliente extends javax.swing.JDialog {
     
-    private Gerenciamento g;
-    private Cliente c;
+    private Cliente cliente;
+    ConexaoCliente conexaoCliente;
     
-    public AtuCliente(Gerenciamento g) {
+    public AtuCliente(ConexaoCliente conexaoCliente) {
         initComponents();
         setLocationRelativeTo(null);
-        this.g = g;
+        this.conexaoCliente = conexaoCliente;
     }
     
-    public AtuCliente(Gerenciamento g, Cliente c) {
+    public AtuCliente(ConexaoCliente conexaoCliente, Cliente cliente) {
         initComponents();
         setLocationRelativeTo(null);
-        this.g = g;
-        this.c = c;
+        this.conexaoCliente = conexaoCliente;
+        this.cliente = cliente;
     }
 
     @SuppressWarnings("unchecked")
@@ -49,7 +49,6 @@ public class AtuCliente extends javax.swing.JDialog {
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
-        txtCpf.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtCpf.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 txtCpfFocusLost(evt);
@@ -81,10 +80,10 @@ public class AtuCliente extends javax.swing.JDialog {
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Atualizar Cliente");
         jLabel1.addAncestorListener(new javax.swing.event.AncestorListener() {
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+            }
             public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
                 jLabel1AncestorAdded(evt);
-            }
-            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
             }
             public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
             }
@@ -116,31 +115,33 @@ public class AtuCliente extends javax.swing.JDialog {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(224, Short.MAX_VALUE)
-                .addComponent(btAtualizar)
-                .addGap(18, 18, 18)
-                .addComponent(btCancelar)
-                .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
                 .addGap(26, 26, 26)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtEndereco, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(14, 14, 14)
+                .addComponent(jLabel5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addContainerGap(224, Short.MAX_VALUE)
+                        .addComponent(btAtualizar)
+                        .addGap(18, 18, 18)
+                        .addComponent(btCancelar))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(52, 52, 52)
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtCpf, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtEndereco, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(14, 14, 14)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel5))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(txtCpf, javax.swing.GroupLayout.DEFAULT_SIZE, 99, Short.MAX_VALUE)
-                    .addComponent(txtTelefone))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -148,11 +149,13 @@ public class AtuCliente extends javax.swing.JDialog {
                 .addGap(12, 12, 12)
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel3)
-                    .addComponent(txtCpf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel2))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel3)
+                        .addComponent(txtCpf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel4)
@@ -160,7 +163,7 @@ public class AtuCliente extends javax.swing.JDialog {
                         .addComponent(txtEndereco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel5)
                         .addComponent(txtTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btCancelar)
                     .addComponent(btAtualizar))
@@ -187,10 +190,8 @@ public class AtuCliente extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(this, "Preencha todos os campos!");
             return;
         }
-
         
-        Cliente cliente = g.consultarCliente(cpf);
-
+        cliente = conexaoCliente.consultarCliente(cpf);
 
         // atualiza os atributos
         cliente.setNome(nome);
@@ -223,17 +224,13 @@ public class AtuCliente extends javax.swing.JDialog {
 
     private void jLabel1AncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_jLabel1AncestorAdded
         try {
-            if (c == null){
-                return;
+            if (cliente != null) {
+                txtNome.setText(cliente.getNome());
+                txtCpf.setText(cliente.getCPF());
+                txtEndereco.setText(cliente.getEndereco());
+                txtTelefone.setText(cliente.getTelefone());
             }
-
-            if (c != null) {
-                txtNome.setText(c.getNome());
-                txtCpf.setText(c.getCPF());
-                txtEndereco.setText(c.getEndereco());
-                txtTelefone.setText(c.getTelefone());
-            }
-
+            
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -241,10 +238,10 @@ public class AtuCliente extends javax.swing.JDialog {
 
     private void txtCpfFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCpfFocusLost
         try {
-            Cliente c = g.consultarCliente(txtCpf.getText().trim());
-            txtEndereco.setText(c.getEndereco());
-            txtNome.setText(c.getNome()); 
-            txtTelefone.setText(String.valueOf(c.getTelefone()));
+            cliente = conexaoCliente.consultarCliente(txtCpf.getText().trim());
+            txtEndereco.setText(cliente.getEndereco());
+            txtNome.setText(cliente.getNome()); 
+            txtTelefone.setText(String.valueOf(cliente.getTelefone()));
         } catch (Exception e) {
         }
     }//GEN-LAST:event_txtCpfFocusLost

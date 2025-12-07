@@ -1,11 +1,11 @@
 package utilidades.tabela;
 
-import java.util.HashMap;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import classes.*;
+import conexao.*;
 
 public class Carregar {
     
@@ -24,11 +24,12 @@ public class Carregar {
     }
     
     // CARREGAR PRODUTOS
-    public static void tabelaProdutos(DefaultTableModel modelo, HashMap<String, Produto> produtos) {
-        modelo.setRowCount(0);
+    public static void tabelaProdutos(DefaultTableModel modeloTableProdutos) {
+        ConexaoProduto cp = new ConexaoProduto();
+        modeloTableProdutos.setRowCount(0);
 
-        for (Produto p : produtos.values()) {
-            modelo.addRow(new Object[]{
+        for (Produto p : cp.consultarProduto()) {
+            modeloTableProdutos.addRow(new Object[]{
                 p.getCodigoProduto(),
                 p.getDescricao(),
                 p.getQuantidade(),
@@ -38,11 +39,12 @@ public class Carregar {
     }
 
     // CARREGAR CLIENTES
-    public static void tabelaClientes(DefaultTableModel modeloTableProduto, HashMap<String, Cliente> clientes) {
-        modeloTableProduto.setRowCount(0);
+    public static void tabelaClientes(DefaultTableModel modeloTableCliente) {
+        ConexaoCliente cc = new ConexaoCliente();
+        modeloTableCliente.setRowCount(0);
 
-        for (Cliente c : clientes.values()) {
-            modeloTableProduto.addRow(new Object[]{
+        for (Cliente c : cc.consultarCliente()) {
+            modeloTableCliente.addRow(new Object[]{
                 c.getNome(),
                 c.getCPF(),
                 c.getTelefone(),
@@ -52,10 +54,11 @@ public class Carregar {
     }
 
     // CARREGAR FUNCIONÁRIOS
-    public static void tabelaFuncionarios(DefaultTableModel modeloTableFuncionario, HashMap<String, Funcionario> funcionarios) {
+    public static void tabelaFuncionarios(DefaultTableModel modeloTableFuncionario) {
+        ConexaoFuncionario cf = new ConexaoFuncionario();
         modeloTableFuncionario.setRowCount(0);
-
-        for (Funcionario f : funcionarios.values()) {
+         
+        for(Funcionario f : cf.consultarFuncionario()) {
             modeloTableFuncionario.addRow(new Object[]{
                 f.getNome(),
                 f.getCPF()
@@ -64,16 +67,18 @@ public class Carregar {
     }
 
     // CARREGAR VENDAS
-    public static void tabelaVendas(DefaultTableModel modelo, HashMap<String, RegistroVenda> vendas) {
+    public static void tabelaVendas(DefaultTableModel modelo) {
+        ConexaoVenda cv = new ConexaoVenda();
         modelo.setRowCount(0);
 
-        for(RegistroVenda v : vendas.values()) {
+        for(RegistroVenda v : cv.consultarVenda()) {
             modelo.addRow(new Object[]{
                 v.getId(),
-                v.getNomeFuncionario(),
-                v.getNomeCliente(),
-                v.getQuantidadeTotalItens(),  // Quantidade Total de itens
-                String.format("R$ %.2f", v.getTotal())  // Valor Total
+                v.getCpfFuncionario(),
+                v.getCpfCliente(),
+                v.getMetodo(),
+                v.getQuantidadeTotalItens(),
+                String.format("R$ %.2f", v.getTotalValor())
             });
         }
     }

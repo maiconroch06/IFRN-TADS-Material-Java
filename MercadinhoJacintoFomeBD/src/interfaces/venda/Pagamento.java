@@ -1,8 +1,9 @@
 package interfaces.venda;
 
-import classes.Gerenciamento;
 import classes.Cliente;
 import classes.Funcionario;
+import conexao.ConexaoCliente;
+import conexao.ConexaoFuncionario;
 import interfaces.cadastrar.CadCliente;
 import java.awt.Window;
 import javax.swing.DefaultComboBoxModel;
@@ -15,12 +16,12 @@ public class Pagamento extends javax.swing.JDialog {
     private String nomeClnt;
     private String metodoPagamento;
     private boolean finalizada = false;
-    private Gerenciamento g;
-    private double total;
-
-    public Pagamento(Window parent, boolean modal, Gerenciamento g, double total) {
+    private final double total;
+    ConexaoCliente conexaoCliente = new ConexaoCliente();
+    ConexaoFuncionario conexaoFuncionario = new ConexaoFuncionario();
+    
+    public Pagamento(Window parent, boolean modal, double total) {
         super(parent, ModalityType.APPLICATION_MODAL); 
-        this.g = g;
         this.total = total;
 
         initComponents();
@@ -137,6 +138,11 @@ public class Pagamento extends javax.swing.JDialog {
         });
 
         cbFuncionario.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbFuncionario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbFuncionarioActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -253,7 +259,7 @@ public class Pagamento extends javax.swing.JDialog {
         }
         
         // Se esse CPF existir na lista finaliza a compra, caso não, Abre a tela de erro;
-        if(g.verificarCliente(cpf)) {
+        if(conexaoCliente.consultarCliente(cpf) != null) {
             nomeClnt = txtNomeCliente.getText().trim();
             nomeFunc = funcSelect;
             metodoPagamento = metodo;
@@ -274,15 +280,16 @@ public class Pagamento extends javax.swing.JDialog {
             );
             
             if (escolha == 0) {
-                CadCliente cad = new CadCliente(this, true, g, cpf, txtNomeCliente.getText().trim());
+                CadCliente cad = new CadCliente(this, true, conexaoCliente, cpf, nomeClnt);
                 cad.setVisible(true);
             } else {
                 return;
             }
         }
-            switch (metodo.toUpperCase()) {
+        
+        switch (metodo.toUpperCase()) {
             case "PIX":
-                TelaPix tPix = new TelaPix(this, true, g, total);
+                TelaPix tPix = new TelaPix(this, true, total);
                 tPix.setLocationRelativeTo(this);
                 tPix.setVisible(true);
                 tPix.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
@@ -290,21 +297,21 @@ public class Pagamento extends javax.swing.JDialog {
                 break;
 
             case "DEBITO":
-                TelaDebito tDeb = new TelaDebito(this, true, g, total);
+                TelaDebito tDeb = new TelaDebito(this, true, total);
                 tDeb.setLocationRelativeTo(this);
                 tDeb.setVisible(true);
                 tDeb.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
                 break;
 
             case "CREDITO":
-                TelaCredito tCred = new TelaCredito(this, true, g, total);
+                TelaCredito tCred = new TelaCredito(this, true, total);
                 tCred.setLocationRelativeTo(this);
                 tCred.setVisible(true);
                 tCred.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
                 break;
 
             case "ESPECIE":
-                TelaEspecie tEsp = new TelaEspecie(this, true, g, total);
+                TelaEspecie tEsp = new TelaEspecie(this, true, total);
                 tEsp.setLocationRelativeTo(this);
                 tEsp.setVisible(true);
                 tEsp.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
@@ -317,14 +324,15 @@ public class Pagamento extends javax.swing.JDialog {
     }//GEN-LAST:event_btnVoltarActionPerformed
 
     private void btnCadNClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadNClienteActionPerformed
-        CadCliente cad = new CadCliente(this, true, g, txtCpf.getText().trim(), txtNomeCliente.getText().trim());
+        CadCliente cad = new CadCliente(this, true, conexaoCliente, txtCpf.getText().trim(), txtNomeCliente.getText().trim());
         cad.setVisible(true);
     }//GEN-LAST:event_btnCadNClienteActionPerformed
 
     private void txtCpfFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCpfFocusLost
         try {
-            Cliente cl = g.consultarCliente(txtCpf.getText().trim());
-            txtNomeCliente.setText(cl.getNome());
+            String cpfCliente = txtCpf.getText().trim();
+            Cliente cliente = conexaoCliente.consultarCliente(cpfCliente);
+            txtNomeCliente.setText(cliente.getNome());
         } catch (Exception e) {
         }
     }//GEN-LAST:event_txtCpfFocusLost
@@ -332,7 +340,23 @@ public class Pagamento extends javax.swing.JDialog {
     private void txtNomeClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNomeClienteActionPerformed
     }//GEN-LAST:event_txtNomeClienteActionPerformed
 
+    private void cbFuncionarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbFuncionarioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbFuncionarioActionPerformed
+
     //Métodos
+    private void carregarFuncionariosNoCombo() {
+        DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>();
+
+        model.addElement("<Funcionários>"); // Primeiro item estético
+
+        for (Funcionario f : conexaoFuncionario.consultarFuncionario()) {
+            model.addElement(f.getNome());
+        }
+
+        cbFuncionario.setModel(model);
+    }
+    
     public String getMetodoPagamento() {
         return metodoPagamento;
     }
@@ -342,18 +366,6 @@ public class Pagamento extends javax.swing.JDialog {
     }
     public String getNomeClnt() {
         return nomeClnt;
-    }
-    
-    private void carregarFuncionariosNoCombo() {
-        DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>();
-
-        model.addElement("<Funcionários>"); // Primeiro item estético
-
-        for (Funcionario f : g.getListaDeFuncionarios().values()) {
-            model.addElement(f.getNome());
-        }
-
-        cbFuncionario.setModel(model);
     }
 
     public boolean isFinalizada() {

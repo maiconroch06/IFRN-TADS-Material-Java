@@ -1,26 +1,25 @@
 package interfaces.atualizar;
 
-import classes.Gerenciamento;
 import classes.Produto;
-import interfaces.Main;
+import conexao.ConexaoProduto;
 import javax.swing.JOptionPane;
 
 public class AtuProduto extends javax.swing.JDialog {
     
-    private Gerenciamento g;
-    private Produto p;
+    private Produto produto;
+    ConexaoProduto conexaoProduto;
     
-    public AtuProduto(Gerenciamento g) {
+    public AtuProduto(ConexaoProduto conexaoProduto) {
         initComponents();
         setLocationRelativeTo(null);
-        this.g = g;
+        this.conexaoProduto = conexaoProduto;
     }
     
-    public AtuProduto(Gerenciamento g, Produto p) {
+    public AtuProduto(ConexaoProduto conexaoProduto, Produto produto) {
         initComponents();
         setLocationRelativeTo(null);
-        this.g = g;
-        this.p = p;
+        this.conexaoProduto = conexaoProduto;
+        this.produto = produto;
     }
 
     @SuppressWarnings("unchecked")
@@ -167,7 +166,6 @@ public class AtuProduto extends javax.swing.JDialog {
     }//GEN-LAST:event_txtCodigoActionPerformed
 
     private void txtValorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtValorActionPerformed
-
     }//GEN-LAST:event_txtValorActionPerformed
 
     private void btAtualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAtualizarActionPerformed
@@ -187,7 +185,10 @@ public class AtuProduto extends javax.swing.JDialog {
         int quantidade;
         try {
             quantidade = Integer.parseInt(quantidadeS);
-            if (quantidade < 0) throw new NumberFormatException(); // evitar negativos se quiser
+            if (quantidade < 0) {
+                throw new NumberFormatException();
+            }
+            
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(null, "Quantidade deve ser um número inteiro válido!");
             txtQuantidade.requestFocus();
@@ -198,7 +199,10 @@ public class AtuProduto extends javax.swing.JDialog {
         double valorUnitario;
         try {
             valorUnitario = Double.parseDouble(valorUnitarioS.replace(",", "."));
-            if (valorUnitario < 0) throw new NumberFormatException();
+            if (valorUnitario < 0) {
+                throw new NumberFormatException();
+            }
+            
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(null, "Valor unitário deve ser um número válido!");
             txtValor.requestFocus();
@@ -206,7 +210,7 @@ public class AtuProduto extends javax.swing.JDialog {
         }
 
         // Verifica se o produto existe
-        Produto produto = g.consultarProduto(codigo);
+        produto = conexaoProduto.consultarProduto(codigo);
 
         // Atualiza diretamente os atributos do produto existente
         produto.setDescricao(descricao);
@@ -241,17 +245,12 @@ public class AtuProduto extends javax.swing.JDialog {
 
     private void jLabel1AncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_jLabel1AncestorAdded
         try {
-            if (p == null){
-                return;
+            if (produto != null) {
+                txtCodigo.setText(produto.getCodigoProduto());
+                txtDescricao.setText(produto.getDescricao());
+                txtQuantidade.setText(String.valueOf(produto.getQuantidade()));
+                txtValor.setText(String.valueOf(produto.getValorUnitario()));
             }
-
-            if (p != null) {
-                txtCodigo.setText(p.getCodigoProduto());
-                txtDescricao.setText(p.getDescricao());
-                txtQuantidade.setText(String.valueOf(p.getQuantidade()));
-                txtValor.setText(String.valueOf(p.getValorUnitario()));
-            }
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -259,10 +258,10 @@ public class AtuProduto extends javax.swing.JDialog {
 
     private void txtCodigoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCodigoFocusLost
         try {
-            Produto p = g.consultarProduto(txtCodigo.getText().trim().replaceAll("\\D", ""));
-            txtDescricao.setText(p.getDescricao());
-            txtQuantidade.setText(String.valueOf(p.getQuantidade())); 
-            txtValor.setText(String.valueOf(p.getValorUnitario()));
+            produto = conexaoProduto.consultarProduto(txtCodigo.getText().trim().replaceAll("\\D", ""));
+            txtDescricao.setText(produto.getDescricao());
+            txtQuantidade.setText(String.valueOf(produto.getQuantidade())); 
+            txtValor.setText(String.valueOf(produto.getValorUnitario()));
         } catch (Exception e) {
         }
     }//GEN-LAST:event_txtCodigoFocusLost

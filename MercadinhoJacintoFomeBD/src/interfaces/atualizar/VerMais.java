@@ -2,27 +2,28 @@ package interfaces.atualizar;
 
 import classes.ItemVenda;
 import classes.RegistroVenda;
-import classes.Gerenciamento;
+import conexao.ConexaoVenda;
+import java.awt.Frame;
 import javax.swing.table.DefaultTableModel;
 
 public class VerMais extends javax.swing.JDialog {    
+    
     private RegistroVenda venda;
+    ConexaoVenda conexaoVenda;
     
-    private Gerenciamento g;
-    
-    public VerMais(Gerenciamento g) {
-        initComponents();
-        this.g = g;
-        this.setLocationRelativeTo(this);
-    }
-    
+//    public VerMais(ConexaoVenda conexaoVenda) {
+//        initComponents();
+//        this.setLocationRelativeTo(this);
+//        this.conexaoVenda = conexaoVenda;
+//    }
 
-    public VerMais(java.awt.Frame parent, boolean modal, RegistroVenda venda) {
+    public VerMais(Frame parent, boolean modal, ConexaoVenda conexaoVenda, RegistroVenda venda) {
         super(parent, modal);
-        this.venda = venda;
-        initComponents(); 
         this.setLocationRelativeTo(this);
+        initComponents();
         carregarDados();
+        this.venda = venda;
+        this.conexaoVenda = conexaoVenda;
     }
     
     @SuppressWarnings("unchecked")
@@ -197,9 +198,6 @@ public class VerMais extends javax.swing.JDialog {
 
     //Métodos
     private void carregarDados() {
-        txtIdVenda.setText(venda.getId());
-        txtTotalCompra.setText(String.format("R$ %.2f", venda.getTotal()));
-
         DefaultTableModel model = (DefaultTableModel) TableCompra.getModel();
         model.setRowCount(0);
 
@@ -212,12 +210,12 @@ public class VerMais extends javax.swing.JDialog {
                 item.getValorTotal()
             });
         }
-        txtNomeCliente.setText(venda.getNomeCliente());
-        txtNomeFuncionario.setText(venda.getNomeFuncionario());
+        txtIdVenda.setText(venda.getId());
+        txtTotalCompra.setText(String.format("R$ %.2f", venda.getTotalValor()));
+        txtNomeCliente.setText(venda.getCpfCliente());
+        txtNomeFuncionario.setText(venda.getCpfFuncionario());
         txtMetodoPagamento.setText(venda.getMetodo());
     }
-    
-    
 }
 
 

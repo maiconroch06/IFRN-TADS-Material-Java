@@ -4,19 +4,19 @@ package interfaces.cadastrar;
 import classes.Produto;
 import conexao.ConexaoProduto;
 import javax.swing.JOptionPane;
+import utilidades.tabela.Atalhos;
 
 public class CadProduto extends javax.swing.JDialog {
 
-//    private Gerenciamento g;
-    ConexaoProduto cp;
+    ConexaoProduto conexaoProduto;
     
-    public CadProduto(/*Gerenciamento g*/) {
-//        this.g = g;
-        cp = new ConexaoProduto();
+    public CadProduto(ConexaoProduto conexaoProduto) {
         initComponents();
         this.setLocationRelativeTo(null);
+        this.conexaoProduto = conexaoProduto;
         
-        getRootPane().setDefaultButton(btCadastrar);
+//        getRootPane().setDefaultButton(btCadastrar);
+        Atalhos.atalho(btCadastrar, "ENTER");
     }
 
     @SuppressWarnings("unchecked")
@@ -120,12 +120,12 @@ public class CadProduto extends javax.swing.JDialog {
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
@@ -187,7 +187,11 @@ public class CadProduto extends javax.swing.JDialog {
         novoProduto.setQuantidade(quantidade);
         novoProduto.setValorUnitario(valorUnitario);
         
-        cp.cadastrarFuncionario(novoProduto);
+        conexaoProduto.cadastrarProduto(novoProduto);
+        txtDescricao.setText("");
+        txtCodigo.setText("");
+        txtQuantidade.setText("");
+        txtValorUnitario.setText("");
 
 //        if (g.verificarProduto(codigo)) {
 //            g.cadastrarProduto(codigo, novoProduto);
@@ -202,7 +206,6 @@ public class CadProduto extends javax.swing.JDialog {
     }//GEN-LAST:event_btCadastrarActionPerformed
 
     private void txtDescricaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDescricaoActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_txtDescricaoActionPerformed
 
     private void btCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCancelarActionPerformed
@@ -210,15 +213,12 @@ public class CadProduto extends javax.swing.JDialog {
     }//GEN-LAST:event_btCancelarActionPerformed
 
     private void txtValorUnitarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtValorUnitarioActionPerformed
-
     }//GEN-LAST:event_txtValorUnitarioActionPerformed
 
     private void txtQuantidadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtQuantidadeActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_txtQuantidadeActionPerformed
 
     private void txtCodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodigoActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_txtCodigoActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

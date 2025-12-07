@@ -4,29 +4,21 @@ import java.util.List;
 
 public class RegistroVenda {
     private String id;
-    private String nomeFuncionario;
-    private String nomeCliente;
     private String cpfFuncionario;
     private String cpfCliente;
-    private double total;
     private String metodo;
+    private double totalValor;
+    private int quantidadeTotalItens;
     private List<ItemVenda> itens;
 
-    public RegistroVenda(String id, String nomeFuncionario, String nomeCliente, double total, String metodo, List<ItemVenda> itens) {
-        this.id = id;
-        this.nomeFuncionario = nomeFuncionario;
-        this.nomeCliente = nomeCliente;
-        this.total = total;
-        this.metodo = metodo;
-        this.itens = itens;
-    }
-
-    public RegistroVenda(String cpfFuncionario, String cpfCliente, String metodo, double total) {
-        this.cpfFuncionario = cpfFuncionario;
-        this.cpfCliente = cpfCliente;
-        this.total = total;
-        this.metodo = metodo;
-    }
+//    public RegistroVenda(){}
+    
+//    public RegistroVenda(String cpfFuncionario, String cpfCliente, String metodo, double totalValor) {
+//        this.cpfFuncionario = cpfFuncionario;
+//        this.cpfCliente = cpfCliente;
+//        this.totalValor = totalValor;
+//        this.metodo = metodo;
+//    }
 
     public String getCpfFuncionario() {
         return cpfFuncionario;
@@ -44,6 +36,27 @@ public class RegistroVenda {
         this.cpfCliente = cpfCliente;
     }
 
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setTotalValor(double total) {
+        this.totalValor = total;
+    }
+
+    public void setMetodo(String metodo) {
+        this.metodo = metodo;
+    }
+
+    public void setItens(List<ItemVenda> itens) {
+        this.itens = itens;
+    }
+    
+    public void setQuantidadeTotalItens(int quantidadeTotalItens) {
+        this.quantidadeTotalItens = quantidadeTotalItens;
+    }
+    
+
     
     
     public String getId() { 
@@ -52,26 +65,12 @@ public class RegistroVenda {
     public List<ItemVenda> getItens() { 
         return itens; 
     }
-    public double getTotal() { 
-        return total; 
+    public double getTotalValor() { 
+        return totalValor; 
     }
 
     public String getMetodo() {
         return metodo;
-    }
-    
-    public String getNomeCliente() {
-        return nomeCliente;
-    }
-    public void setNomeCliente(String nomeCliente) {
-        this.nomeCliente = nomeCliente;
-    }
-
-    public String getNomeFuncionario() {
-        return nomeFuncionario;
-    }
-    public void setNomeFuncionario(String nomeFuncionario) {
-        this.nomeFuncionario = nomeFuncionario;
     }
     
     public int getQuantidadeTotalItens() {

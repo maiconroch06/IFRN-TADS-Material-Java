@@ -1,26 +1,25 @@
 package interfaces.atualizar;
 
 import classes.Funcionario;
-import classes.Gerenciamento;
-import interfaces.Main;
+import conexao.ConexaoFuncionario;
 import javax.swing.JOptionPane;
 
 public class AtuFuncionario extends javax.swing.JDialog {
+
+    private Funcionario funcionario;
+    ConexaoFuncionario conexaoFuncionario;
     
-    private Gerenciamento g;
-    private Funcionario f;
-    
-    public AtuFuncionario(Gerenciamento g) {
+    public AtuFuncionario(ConexaoFuncionario conexaoFuncionario) {
         initComponents();
         setLocationRelativeTo(null);
-        this.g = g;
-        
+        this.conexaoFuncionario = conexaoFuncionario;
     }
-    public AtuFuncionario(Gerenciamento g, Funcionario f) {
+
+    public AtuFuncionario(ConexaoFuncionario conexaoFuncionario, Funcionario funcionario) {
         initComponents();
         setLocationRelativeTo(null);
-        this.g = g;
-        this.f = f;
+        this.conexaoFuncionario = conexaoFuncionario;
+        this.funcionario = funcionario;
     }
 
     @SuppressWarnings("unchecked")
@@ -59,16 +58,15 @@ public class AtuFuncionario extends javax.swing.JDialog {
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
-        txtCpf.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Atualizar Funcionario");
         jLabel1.addAncestorListener(new javax.swing.event.AncestorListener() {
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+            }
             public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
                 jLabel1AncestorAdded(evt);
-            }
-            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
             }
             public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
             }
@@ -129,12 +127,11 @@ public class AtuFuncionario extends javax.swing.JDialog {
     }//GEN-LAST:event_btCancelarActionPerformed
 
     private void txtNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNomeActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_txtNomeActionPerformed
 
     private void btAtualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAtualizarActionPerformed
-        String nome = txtNome.getText().trim();
         String cpf = txtCpf.getText().trim();
+        String nome = txtNome.getText().trim();
 
         // VALIDAÇÕES
         if (nome.isEmpty() || cpf.replace(".", "").replace("-", "").trim().isEmpty()) {
@@ -142,34 +139,26 @@ public class AtuFuncionario extends javax.swing.JDialog {
             return;
         }
 
-        
-        Funcionario func = g.consultarFuncionario(cpf);
-       
-        func.setNome(nome);
-       
+        funcionario = conexaoFuncionario.consultarFuncionario(cpf);
+        funcionario.setNome(nome);
        
         txtNome.setText("");
         txtCpf.setText("");
        
-       
         String mensagem = 
         "Funcionario atualizado com sucesso!\n\n" +
-        "CPF: " + func.getCPF()+ "\n" +
-        "Nome: " + func.getNome();
+        "CPF: " + funcionario.getCPF()+ "\n" +
+        "Nome: " + funcionario.getNome();
 
         JOptionPane.showMessageDialog(null, mensagem);
     }//GEN-LAST:event_btAtualizarActionPerformed
 
     private void jLabel1AncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_jLabel1AncestorAdded
         try {
-            if (f == null)
-                return;
-
-            if (f != null) {
-                txtNome.setText(f.getNome());
-                txtCpf.setText(f.getCPF());
+            if (funcionario != null) {
+                txtNome.setText(funcionario.getNome());
+                txtCpf.setText(funcionario.getCPF());
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }
