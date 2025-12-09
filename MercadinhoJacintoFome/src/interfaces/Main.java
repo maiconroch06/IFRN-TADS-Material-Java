@@ -124,68 +124,6 @@ public class Main extends javax.swing.JFrame {
         });
     }
     
-    public void duploClick(JTable tabela) {
-        tabela.addMouseListener(new java.awt.event.MouseAdapter() {
-            @Override
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                if (evt.getClickCount() == 2) {
-
-                    // AQUI IDENTIFICA QUAL TABELA É
-                    if (tabela == jTProdutos) {
-                        int linha = tabela.getSelectedRow();
-                        String codigo = tabela.getValueAt(linha, 0).toString();
-                        Produto p = g.consultarProduto(codigo);
-
-                        AtuProduto AtualizarProd = new AtuProduto(g, p);
-
-                        AtualizarProd.setModal(true);
-                        AtualizarProd.setVisible(true);
-                        
-                        Carregar.tabelaProdutos(modeloTableProduto, g.getListaDeProdutos());
-                    }
-
-                    else if (tabela == jTFuncionarios) {
-                        int linha = tabela.getSelectedRow();
-                        String cpf = tabela.getValueAt(linha, 1).toString();
-                        Funcionario f = g.consultarFuncionario(cpf);
-                        
-                        AtuFuncionario AtualizarFun = new AtuFuncionario(g, f);
-
-                        AtualizarFun.setModal(true);
-                        AtualizarFun.setVisible(true);
-                        
-                        Carregar.tabelaFuncionarios(modeloTableFuncionario, g.getListaDeFuncionarios());
-                    }
-                    
-                    else if (tabela == jTClientes) {
-                        int linha = tabela.getSelectedRow();
-                        String cpf = tabela.getValueAt(linha, 1).toString();
-                        Cliente c = g.consultarCliente(cpf);
-                        
-                        AtuCliente AtualizarCli = new AtuCliente(g, c);
-
-                        AtualizarCli.setModal(true);
-                        AtualizarCli.setVisible(true);
-                        
-                        Carregar.tabelaClientes(modeloTableCliente, g.getListaDeClientes());
-                    }
-
-                    else if (tabela == jTVendas) {
-                        int linha = tabela.getSelectedRow();
-                        String idVenda = jTVendas.getValueAt(linha, 0).toString();
-                        RegistroVenda v = g.consultarVenda(idVenda);
-
-                        VerMais tela = new VerMais(Main.this, true, v);
-                        
-                        tela.setVisible(true);
-                        
-                        Carregar.tabelaVendas(modeloTabelaVenda, g.getHistoricoDeVendas());
-                    }
-                }
-            }
-        });
-    }
-    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -300,11 +238,6 @@ public class Main extends javax.swing.JFrame {
             }
         });
         jTClientes.getTableHeader().setReorderingAllowed(false);
-        jTClientes.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                jTClientesFocusGained(evt);
-            }
-        });
         jScrollPane2.setViewportView(jTClientes);
 
         Abas.addTab("Tabela de Clientes", jScrollPane2);
@@ -335,7 +268,7 @@ public class Main extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID_Venda", "Funcionário", "Cliente", "Quantidade Total De Itens", "Total Da Compra"
+                "ID_Venda", "Funcionario", "Cliente", "Quantidade Total De Itens", "Total da Compra (R$)"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -542,9 +475,6 @@ public class Main extends javax.swing.JFrame {
         Carregar.tabelaClientes(modeloTableCliente, g.getListaDeClientes());
     }//GEN-LAST:event_mnClienteActionPerformed
 
-    private void jTClientesFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTClientesFocusGained
-    }//GEN-LAST:event_jTClientesFocusGained
-
     private void mnAtuProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnAtuProdutoActionPerformed
         AtuProduto AtualizarProd = new AtuProduto(g);
         AtualizarProd.setModal(true);
@@ -582,6 +512,7 @@ public class Main extends javax.swing.JFrame {
                     return;
                 }
                 Pesquisar.pesqProduto(chave, modeloTableProduto, g);
+                txtReferencia.setText("");
                 break;
 
             // ------------------- CLIENTES -------------------
@@ -591,6 +522,7 @@ public class Main extends javax.swing.JFrame {
                     return;
                 }
                 Pesquisar.pesqCliente(chave, modeloTableCliente, g);
+                txtReferencia.setText("");
                 break;
 
             // ------------------- FUNCIONÁRIOS -------------------
@@ -600,6 +532,7 @@ public class Main extends javax.swing.JFrame {
                     return;
                 }
                 Pesquisar.pesqFuncionario(chave, modeloTableFuncionario, g);
+                txtReferencia.setText("");
                 break;
 
             // ------------------- VENDAS -------------------
@@ -609,6 +542,7 @@ public class Main extends javax.swing.JFrame {
                     return;
                 }
                 Pesquisar.pesqVenda(chave, modeloTabelaVenda, g);
+                txtReferencia.setText("");
                 break;
         }
     }//GEN-LAST:event_btPesquisarActionPerformed
@@ -749,4 +683,63 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JPanel painelImagem;
     private javax.swing.JTextField txtReferencia;
     // End of variables declaration//GEN-END:variables
+    
+    public void duploClick(JTable tabela) {
+        tabela.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                if (evt.getClickCount() == 2) {
+
+                    // AQUI IDENTIFICA QUAL TABELA É
+                    if (tabela == jTProdutos) {
+                        int linha = tabela.getSelectedRow();
+                        String codigo = tabela.getValueAt(linha, 0).toString();
+
+                        AtuProduto AtualizarProd = new AtuProduto(g, codigo);
+
+                        AtualizarProd.setModal(true);
+                        AtualizarProd.setVisible(true);
+                        
+                        Carregar.tabelaProdutos(modeloTableProduto, g.getListaDeProdutos());
+                    }
+
+                    else if (tabela == jTFuncionarios) {
+                        int linha = tabela.getSelectedRow();
+                        String cpf = tabela.getValueAt(linha, 1).toString();
+                        
+                        AtuFuncionario AtualizarFun = new AtuFuncionario(g, cpf);
+
+                        AtualizarFun.setModal(true);
+                        AtualizarFun.setVisible(true);
+                        
+                        Carregar.tabelaFuncionarios(modeloTableFuncionario, g.getListaDeFuncionarios());
+                    }
+                    
+                    else if (tabela == jTClientes) {
+                        int linha = tabela.getSelectedRow();
+                        String cpf = tabela.getValueAt(linha, 1).toString();
+                        
+                        AtuCliente AtualizarCli = new AtuCliente(g, cpf);
+
+                        AtualizarCli.setModal(true);
+                        AtualizarCli.setVisible(true);
+                        
+                        Carregar.tabelaClientes(modeloTableCliente, g.getListaDeClientes());
+                    }
+
+                    else if (tabela == jTVendas) {
+                        int linha = tabela.getSelectedRow();
+                        String idVenda = jTVendas.getValueAt(linha, 0).toString();
+
+                        VerMais tela = new VerMais(Main.this, true, idVenda, g);
+                        
+                        tela.setVisible(true);
+                        
+                        Carregar.tabelaVendas(modeloTabelaVenda, g.getHistoricoDeVendas());
+                    }
+                }
+            }
+        });
+    }
+    
 }

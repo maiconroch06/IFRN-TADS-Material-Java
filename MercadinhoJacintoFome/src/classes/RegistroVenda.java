@@ -1,57 +1,69 @@
 package classes;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public class RegistroVenda {
-    private String id;
+    private String idVenda;
     private String nomeFuncionario;
-    private String nomeCliente;
-    private double total;
+    private String cpfCliente;
+    private double totalValor;
     private String metodo;
-    private List<ItemVenda> itens;
-
-    public RegistroVenda(String id, String nomeFuncionario, String nomeCliente, double total, String metodo, List<ItemVenda> itens) {
-        this.id = id;
-        this.nomeFuncionario = nomeFuncionario;
-        this.nomeCliente = nomeCliente;
-        this.total = total;
-        this.metodo = metodo;
-        this.itens = itens;
-    }
-
-    public String getId() { 
-        return id; 
-    }
-    public List<ItemVenda> getItens() { 
-        return itens; 
-    }
-    public double getTotal() { 
-        return total; 
-    }
-
-    public String getMetodo() {
-        return metodo;
+    private ArrayList<ItemVenda> itensComprados;
+    
+    public void setIdVenda(String idVenda) { 
+        this.idVenda = idVenda; 
     }
     
-    public String getNomeCliente() {
-        return nomeCliente;
+    public String getIdVenda() { 
+        return idVenda; 
     }
-    public void setNomeCliente(String nomeCliente) {
-        this.nomeCliente = nomeCliente;
+    
+    public String getCpfCliente() {
+        return cpfCliente;
+    }
+    
+    public void setCpfCliente(String cpfCliente) {
+        this.cpfCliente = cpfCliente;
     }
 
     public String getNomeFuncionario() {
         return nomeFuncionario;
     }
+    
     public void setNomeFuncionario(String nomeFuncionario) {
         this.nomeFuncionario = nomeFuncionario;
     }
     
-    public int getQuantidadeTotalItens() {
+    public void setTotalValor(double totalValor) {
+        this.totalValor = totalValor;
+    }
+
+    public double getTotalValor() { 
+        return totalValor; 
+    }
+    
+    public void setMetodo(String metodo) {
+        this.metodo = metodo;
+    }
+    
+    public String getMetodo() {
+        return metodo;
+    }
+    
+    public ArrayList<ItemVenda> getItensComprados() {
+        return itensComprados;
+    }
+
+    public void setItensComprados(ArrayList<ItemVenda> itensComprados) {
+        this.itensComprados = itensComprados;
+    }
+    
+    public int getItensTotal() {
         int soma = 0;
-        for (ItemVenda iv : itens) {
+        for (ItemVenda iv : itensComprados) {
             soma += iv.getQuantidade();
         }
         return soma;
     }
+    
 }

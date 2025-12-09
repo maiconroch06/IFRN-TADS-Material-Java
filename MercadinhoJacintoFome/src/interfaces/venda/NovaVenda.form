@@ -167,7 +167,6 @@
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btPesquisarActionPerformed"/>
-            <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="btPesquisarKeyPressed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btAdicionar">
@@ -280,7 +279,6 @@
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btPagamentoActionPerformed"/>
-            <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="btPagamentoKeyPressed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btRemover">

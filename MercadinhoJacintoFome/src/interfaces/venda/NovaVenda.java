@@ -3,18 +3,18 @@ package interfaces.venda;
 import classes.Gerenciamento;
 import classes.ItemVenda;
 import classes.Produto;
+import classes.RegistroVenda;
 import java.util.ArrayList;
-import java.util.List;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import javax.swing.JSpinner;
 import javax.swing.JSpinner.DefaultEditor;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
-import javax.swing.WindowConstants;
 import javax.swing.table.DefaultTableModel;
 import utilidades.tabela.Carregar;
 import utilidades.tabela.Atalhos;
+import utilidades.tabela.Pesquisar;
 
 public class NovaVenda extends javax.swing.JDialog {
 
@@ -41,61 +41,6 @@ public class NovaVenda extends javax.swing.JDialog {
 
         // Atalho F2 para o botão Pagamento (jButton4)
         Atalhos.atalho(btPagamento, "F2");
-    }
-    
-    // Pega na linha selecionada da tabela de produto o preço do produto.
-    private void atualizarTotalCompra() {
-        double total = 0.0;
-        for (int i = 0; i < modeloCarrinho.getRowCount(); i++) {
-            Object valObj = modeloCarrinho.getValueAt(i, 4);
-            
-            if (valObj == null) {
-                continue;
-            }
-            try {
-                total += Double.parseDouble(valObj.toString());
-            } catch (NumberFormatException ex) {
-                // ignora células inválidas
-            }
-        }
-        jLabelTotalDaCompra.setText(String.format("%.2f", total));
-    }
-    
-    public void limparCarrinho() {
-        modeloCarrinho.setRowCount(0); // remove todas as linhas da tabela;
-        jLabelTotalDaCompra.setText("0.00"); // reinicia o total da compra;
-    }
-    
-    private List<ItemVenda> montarVendasDoCarrinho() {
-        List<ItemVenda> lista = new ArrayList<>();
-        
-        for (int i = 0; i < modeloCarrinho.getRowCount(); i++) {
-            String codigo = String.valueOf(modeloCarrinho.getValueAt(i, 0)); // coluna: Código
-            String descricao = String.valueOf(modeloCarrinho.getValueAt(i, 1)); // coluna: Nome do Produto
-            int qtd = Integer.parseInt(String.valueOf(modeloCarrinho.getValueAt(i, 2))); // coluna: Quantidade
-            double valorUnitario = Double.parseDouble(String.valueOf(modeloCarrinho.getValueAt(i, 3))); // coluna: Valor Unitário
-
-            ItemVenda iv = new ItemVenda();
-            iv.setCodigoProduto(codigo);
-            iv.setDescricao(descricao);
-            iv.setQuantidade(qtd);
-            iv.setValorUnitario(valorUnitario);
-            lista.add(iv);
-        }
-        return lista;
-    }
-    
-    private void focarSpinner(JSpinner spinner) {
-        if (spinner == null) return;
-
-        JComponent editor = spinner.getEditor();
-        if (editor instanceof DefaultEditor) {
-            JTextField txt = ((DefaultEditor) editor).getTextField();
-            txt.requestFocusInWindow();
-            txt.selectAll(); // deixa o valor selecionado pra digitar por cima
-        } else {
-            spinner.requestFocusInWindow();
-        }
     }
     
     @SuppressWarnings("unchecked")
@@ -176,11 +121,6 @@ public class NovaVenda extends javax.swing.JDialog {
                 btPesquisarActionPerformed(evt);
             }
         });
-        btPesquisar.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                btPesquisarKeyPressed(evt);
-            }
-        });
 
         btAdicionar.setText("A. Carrinho");
         btAdicionar.addActionListener(new java.awt.event.ActionListener() {
@@ -251,11 +191,6 @@ public class NovaVenda extends javax.swing.JDialog {
         btPagamento.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btPagamentoActionPerformed(evt);
-            }
-        });
-        btPagamento.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                btPagamentoKeyPressed(evt);
             }
         });
 
@@ -388,87 +323,66 @@ public class NovaVenda extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(this, "Selecione um produto da lista!");
             return;
         }
-
-        // Converter índice visual para índice real do modelo da tabela ordenada
+        
+        // se a tabela estiver ordenada
         linhaSelecionada = jTProdutos.convertRowIndexToModel(linhaSelecionada);
 
         // quantidade desejada
         int quantidadeDesejada;
         try {
             quantidadeDesejada = Integer.parseInt(jSpQtdProduto.getValue().toString());
-            
-        } catch (Exception ex) {
+        } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Quantidade inválida!");
             return;
         }
 
         if (quantidadeDesejada <= 0) {
-            JOptionPane.showMessageDialog(this, "Informe uma quantidade válida!");
-            txtCodigo.setText("");
-            jSpQtdProduto.setValue(0);
+            JOptionPane.showMessageDialog(this, "A quantidade deve ser maior que zero!");
             return;
         }
 
-        // pega dados da linha selecionada
+        // dados da tabela
         String codigo = modeloProduto.getValueAt(linhaSelecionada, 0).toString();
         String descricao = modeloProduto.getValueAt(linhaSelecionada, 1).toString();
-        int estoque = Integer.parseInt(modeloProduto.getValueAt(linhaSelecionada, 2).toString());
+        int estoqueAtual = Integer.parseInt(modeloProduto.getValueAt(linhaSelecionada, 2).toString());
         double valorUnitario = Double.parseDouble(modeloProduto.getValueAt(linhaSelecionada, 3).toString());
 
-        if (quantidadeDesejada > estoque) {
-            JOptionPane.showMessageDialog(this, "Quantidade em estoque insuficiente!");
+        if (quantidadeDesejada > estoqueAtual) {
+            JOptionPane.showMessageDialog(this, "Quantidade maior que o estoque!");
             return;
         }
 
-        for (int i = 0; i < modeloCarrinho.getRowCount(); i++) {
-            String codExistente = modeloCarrinho.getValueAt(i, 0).toString();
+        Produto produto = new Produto();
+        produto.setCodigoProduto(codigo);
+        produto.setDescricao(descricao);
+        produto.setQuantidade(quantidadeDesejada);
+        produto.setValorUnitario(valorUnitario);
 
-            if (codExistente.equals(codigo)) {
+        // verifica se existe produto na tabela carrinho
+        boolean existe = verificarProdutoExistente(modeloCarrinho, produto);
 
-                // já existe → soma quantidade
-                int qtdAtual = Integer.parseInt(modeloCarrinho.getValueAt(i, 2).toString());
-                int novaQtd = qtdAtual + quantidadeDesejada;
-
-                modeloCarrinho.setValueAt(novaQtd, i, 2);
-                modeloCarrinho.setValueAt(novaQtd * valorUnitario, i, 4);
-
-                // reduz estoque visualmente
-                modeloProduto.setValueAt(estoque - quantidadeDesejada, linhaSelecionada, 2);
-
-                // limpa campos
-                txtCodigo.setText("");
-                jSpQtdProduto.setValue(0);
-
-                atualizarTotalCompra();
-                g.atualizarProdutoQuantidade(codigo, estoque - quantidadeDesejada);
-
-                return; // encerra aqui → NÃO cria nova linha, interroper o fluxo
-            }
+        if (existe) {
+            limparCamposProduto();
+            atualizarValorTotal();
+            return;
         }
-        double valorTotal = quantidadeDesejada * valorUnitario;
 
-        // adicionar ao carrinho visualmente
+        // se não existe o produto na tabela, então criar nova linha
+        int novoEstoque = estoqueAtual - quantidadeDesejada;
+        double valorTotal = quantidadeDesejada * valorUnitario;
         modeloCarrinho.addRow(new Object[]{codigo, descricao, quantidadeDesejada, valorUnitario, valorTotal});
 
-        // reduzir o estoque visualmente
-        modeloProduto.setValueAt(estoque - quantidadeDesejada, linhaSelecionada, 2);
-        g.atualizarProdutoQuantidade(codigo, estoque - quantidadeDesejada);
-
-        // limpa campos
-        txtCodigo.setText("");
-        jSpQtdProduto.setValue(0);
-
-        // atualiza total
-        atualizarTotalCompra();
+        modeloProduto.setValueAt(novoEstoque, linhaSelecionada, 2);
+        g.atualizarProdutoQuantidade(codigo, novoEstoque);
+        Carregar.tabelaProdutos(modeloProduto, g.getListaDeProdutos());
+        limparCamposProduto();
+        atualizarValorTotal();
     }//GEN-LAST:event_btAdicionarActionPerformed
 
     private void btVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btVoltarActionPerformed
         controlarEstoqueJanelaFechada();
         this.dispose();
     }//GEN-LAST:event_btVoltarActionPerformed
-
-    private void btPagamentoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btPagamentoKeyPressed
-    }//GEN-LAST:event_btPagamentoKeyPressed
 
     private void btPagamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btPagamentoActionPerformed
         double total = g.obterTotalDaCompra(jLabelTotalDaCompra.getText().trim());
@@ -477,27 +391,28 @@ public class NovaVenda extends javax.swing.JDialog {
         if (modeloCarrinho.getRowCount() == 0) {
             JOptionPane.showMessageDialog(this, 
                 "Adicione pelo menos um item antes de ir para o pagamento!");
-            return; // impede continuar
+            return;
         }
 
-        // se tiver item → abre a tela de pagamento
-        Pagamento pagGUI = new Pagamento(this, true, g, total);
+        RegistroVenda venda = new RegistroVenda();
+
+        venda.setIdVenda(g.gerarIdVenda());
+        venda.setItensComprados(montarVendasDoCarrinho());
+        venda.setTotalValor(total);
+
+
+        // abre tela de pagamento
+        Pagamento pagGUI = new Pagamento(this, true, g, venda);
         pagGUI.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         pagGUI.setVisible(true);
-        
-        if (pagGUI.isFinalizada()) {                                        // //
-            List<ItemVenda> itens = montarVendasDoCarrinho(); // //
-            String id = g.gerarIDVenda();                       // //
-            
-            String metodo = pagGUI.getMetodoPagamento(); 
-            g.cadastrarVendaCompleta(id, pagGUI.getNomeFunc(), pagGUI.getNomeClnt(), total, metodo, itens);        // //
-            limparCarrinho();                                              // //
+
+        if (pagGUI.isFinalizada()) {
+            g.cadastrarVenda(venda.getIdVenda(), venda);
+
+            limparCarrinho();
             Carregar.ordenacao(jTProdutos);
         }
     }//GEN-LAST:event_btPagamentoActionPerformed
-
-    private void btPesquisarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btPesquisarKeyPressed
-    }//GEN-LAST:event_btPesquisarKeyPressed
 
     private void btPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btPesquisarActionPerformed
         String codigo = txtCodigo.getText().trim();
@@ -507,16 +422,10 @@ public class NovaVenda extends javax.swing.JDialog {
             return;
         }
 
-        modeloProduto.setRowCount(0);
-
         Produto p = g.getListaDeProdutos().get(codigo);
+
         if (p != null) {
-            modeloProduto.addRow(new Object[]{
-                p.getCodigoProduto(),
-                p.getDescricao(),
-                p.getQuantidade(),
-                p.getValorUnitario()
-            });
+            Pesquisar.pesqProduto(codigo, modeloProduto, g);
 
             jTProdutos.setRowSelectionInterval(0, 0);
             int estoque = p.getQuantidade();
@@ -526,26 +435,28 @@ public class NovaVenda extends javax.swing.JDialog {
 
         } else {
             JOptionPane.showMessageDialog(this, "Produto não encontrado: " + codigo);
-            // opcional: recarrega tudo
             Carregar.tabelaProdutos(modeloProduto, g.getListaDeProdutos());
         }
     }//GEN-LAST:event_btPesquisarActionPerformed
 
     private void btRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btRemoverActionPerformed
-        int linha = jTCarrinho.getSelectedRow();
-        if (linha == -1) {
+        int linhaSelecionada = jTCarrinho.getSelectedRow();
+
+        if (linhaSelecionada == -1) {
             JOptionPane.showMessageDialog(this, "Selecione um item no carrinho para remover.");
-            txtCodigo.setText("");
-            jSpQtdRemover.setValue(0);
+            limparCamposProduto();
             return;
         }
 
-        // Converter índice visual para índice real do modelo da tabela ordenada
-        //linha = TableCarrinho.convertRowIndexToModel(linha); // Somente se tabela do carrinho estiver ordernada
+        // se a tabela estiver ordenada
+        linhaSelecionada = jTCarrinho.convertRowIndexToModel(linhaSelecionada);
+
+        // quantidade a remover
         int quantidadeRemover;
         try {
             quantidadeRemover = Integer.parseInt(jSpQtdRemover.getValue().toString());
-        } catch (Exception ex) {
+            
+        } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Quantidade inválida!");
             return;
         }
@@ -555,38 +466,44 @@ public class NovaVenda extends javax.swing.JDialog {
             return;
         }
 
-        // Dados do item selecionado no carrinho
-        String codigoCarrinho = modeloCarrinho.getValueAt(linha, 0).toString();
-        int quantidadeAtual = Integer.parseInt(modeloCarrinho.getValueAt(linha, 2).toString());
-        double valorUnitario = Double.parseDouble(modeloCarrinho.getValueAt(linha, 3).toString());
+        // dados do carrinho
+        String codigo = modeloCarrinho.getValueAt(linhaSelecionada, 0).toString();
+        int quantidadeAtual = Integer.parseInt(modeloCarrinho.getValueAt(linhaSelecionada, 2).toString());
+        double valorUnitario = Double.parseDouble(modeloCarrinho.getValueAt(linhaSelecionada, 3).toString());
 
+        // validação
         if (quantidadeRemover > quantidadeAtual) {
-            JOptionPane.showMessageDialog(this, "Quantidade inválida! favor selecionar corretamente!");
-        } // Atualiza o carrinho
-        else if (quantidadeRemover == quantidadeAtual) {
-            modeloCarrinho.removeRow(linha);
+            JOptionPane.showMessageDialog(this, "Quantidade inválida! Favor selecionar corretamente!");
+            return;
+        }
+
+        // atualiza carrinho
+        if (quantidadeRemover == quantidadeAtual) {
+            modeloCarrinho.removeRow(linhaSelecionada);
+            
         } else {
             int novaQuantidade = quantidadeAtual - quantidadeRemover;
             double novoTotal = novaQuantidade * valorUnitario;
-            modeloCarrinho.setValueAt(novaQuantidade, linha, 2);
-            modeloCarrinho.setValueAt(novoTotal, linha, 4);
+
+            modeloCarrinho.setValueAt(novaQuantidade, linhaSelecionada, 2);
+            modeloCarrinho.setValueAt(novoTotal, linhaSelecionada, 4);
         }
 
-        // Agora devolve ao estoque (tabela de produtos) - Quando o usuario decide tirar produto do carrinho.
+        // devolve ao estoque
         for (int i = 0; i < modeloProduto.getRowCount(); i++) {
-            String codigoEstoque = modeloProduto.getValueAt(i, 0).toString();
-            
-            if (codigoEstoque.equals(codigoCarrinho)) {
+            if (modeloProduto.getValueAt(i, 0).toString().equals(codigo)) {
+
                 int estoqueAtual = Integer.parseInt(modeloProduto.getValueAt(i, 2).toString());
-                modeloProduto.setValueAt(estoqueAtual + quantidadeRemover, i, 2);
-                g.atualizarProdutoQuantidade(codigoEstoque, estoqueAtual + quantidadeRemover);
+                int novoEstoque = estoqueAtual + quantidadeRemover;
+
+                modeloProduto.setValueAt(novoEstoque, i, 2);
+                g.atualizarProdutoQuantidade(codigo, novoEstoque);
                 break;
             }
         }
-
-        txtCodigo.setText("");
-        jSpQtdRemover.setValue(0);
-        atualizarTotalCompra();
+        
+        limparCamposProduto();
+        atualizarValorTotal();
     }//GEN-LAST:event_btRemoverActionPerformed
 
     private void jTProdutosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTProdutosMouseClicked
@@ -596,7 +513,6 @@ public class NovaVenda extends javax.swing.JDialog {
             int estoque = Integer.parseInt(jTProdutos.getModel().getValueAt(linha, 2).toString()); // Pega estoque do produto
             jSpQtdProduto.setModel(new SpinnerNumberModel(1, 1, estoque, 1)); // Define limite do spinner
             
-
             focarSpinner(jSpQtdProduto);
             getRootPane().setDefaultButton(btAdicionar); // Seta o enter como botão padrão do bt adicionar
         }
@@ -642,7 +558,7 @@ public class NovaVenda extends javax.swing.JDialog {
     // End of variables declaration//GEN-END:variables
 
     private void controlarEstoqueJanelaFechada() {
-        DefaultTableModel modeloCarrinho = (DefaultTableModel) jTCarrinho.getModel();
+//        DefaultTableModel modeloCarrinho = (DefaultTableModel) jTCarrinho.getModel();
         int linha = modeloCarrinho.getRowCount();
         if (linha > 0) {
             for (int i = 0; i < linha; i++) {
@@ -650,4 +566,98 @@ public class NovaVenda extends javax.swing.JDialog {
             }
         }
     }
+    
+    public boolean verificarProdutoExistente(DefaultTableModel modeloCarrinho, Produto produto) {
+        for (int i = 0; i < modeloCarrinho.getRowCount(); i++) {
+            String codigoCarrinho = modeloCarrinho.getValueAt(i, 0).toString();
+
+            if (codigoCarrinho.equals(produto.getCodigoProduto())) {
+
+                int qtdAtualCarrinho = Integer.parseInt(modeloCarrinho.getValueAt(i, 2).toString());
+                int novaQtdCarrinho = qtdAtualCarrinho + produto.getQuantidade();
+
+                // atualiza carrinho
+                modeloCarrinho.setValueAt(novaQtdCarrinho, i, 2);
+                modeloCarrinho.setValueAt(novaQtdCarrinho * produto.getValorUnitario(), i, 4);
+
+                // atualiza o estoque
+                int estoqueAtual = g.consultarProduto(produto.getCodigoProduto()).getQuantidade();
+                int novoEstoque = estoqueAtual - produto.getQuantidade();
+
+                g.atualizarProdutoQuantidade(produto.getCodigoProduto(), novoEstoque);
+
+                // atualiza tabela de produtos
+                Carregar.tabelaProdutos(modeloProduto, g.getListaDeProdutos());
+
+                return true; // o produto já existia
+            }
+        }
+
+        return false; // novo produto
+    }
+    
+    private void limparCamposProduto() {
+        txtCodigo.setText("");
+        jSpQtdProduto.setValue(0);
+    }
+
+    
+    // Pega na linha selecionada da tabela de produto o preço do produto.
+    private void atualizarValorTotal() {
+        double total = 0.0;
+        for (int i = 0; i < modeloCarrinho.getRowCount(); i++) {
+            Object valObj = modeloCarrinho.getValueAt(i, 4);
+            
+            if (valObj == null) {
+                continue;
+            }
+            try {
+                total += Double.parseDouble(valObj.toString());
+            } catch (NumberFormatException ex) {
+                // ignora células inválidas
+            }
+        }
+        jLabelTotalDaCompra.setText(String.format("%.2f", total));
+    }
+    
+    public void limparCarrinho() {
+        modeloCarrinho.setRowCount(0); // remove todas as linhas da tabela;
+        jLabelTotalDaCompra.setText("0.00"); // reinicia o total da compra;
+    }
+    
+    private ArrayList<ItemVenda> montarVendasDoCarrinho() {
+        ArrayList<ItemVenda> lista = new ArrayList<>();
+        
+        for (int i = 0; i < modeloCarrinho.getRowCount(); i++) {
+            String codigo = String.valueOf(modeloCarrinho.getValueAt(i, 0));
+            String descricao = String.valueOf(modeloCarrinho.getValueAt(i, 1));
+            int qtd = Integer.parseInt(String.valueOf(modeloCarrinho.getValueAt(i, 2)));
+            double valorUnitario = Double.parseDouble(String.valueOf(modeloCarrinho.getValueAt(i, 3)));
+            double valorTotalProduto = Double.parseDouble(String.valueOf(modeloCarrinho.getValueAt(i, 4)));
+
+            ItemVenda iv = new ItemVenda();
+            iv.setCodigoProduto(codigo);
+            iv.setDescricao(descricao);
+            iv.setQuantidade(qtd);
+            iv.setValorUnitario(valorUnitario);
+            iv.setValorTotalProduto(valorTotalProduto);
+            lista.add(iv);
+        }
+        return lista;
+    }
+    
+    private void focarSpinner(JSpinner spinner) {
+        if (spinner == null) return;
+
+        JComponent editor = spinner.getEditor();
+        if (editor instanceof DefaultEditor) {
+            JTextField txt = ((DefaultEditor) editor).getTextField();
+            txt.requestFocusInWindow();
+            txt.selectAll(); // deixa o valor selecionado pra digitar por cima
+            
+        } else {
+            spinner.requestFocusInWindow();
+        }
+    }
+    
 }

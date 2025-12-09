@@ -1,13 +1,28 @@
 package interfaces.venda;
 
-import classes.Gerenciamento;
+import java.awt.Window;
+import javax.swing.JOptionPane;
+import javax.swing.Timer;
 
 public class TelaPix extends javax.swing.JDialog {
-
-    public TelaPix(java.awt.Window parent, boolean modal, Gerenciamento g, double total) {
+     private double total;
+     
+    public TelaPix(Window parent, boolean modal, double total) {
         super(parent, ModalityType.APPLICATION_MODAL); 
         initComponents();
         this.setLocationRelativeTo(this);
+        
+        new Timer(8000, e -> {
+        this.dispose();
+            
+        }).start();
+        
+        Timer t = new Timer(5000, e -> {
+                JOptionPane.showMessageDialog(null, "Pagamento bem sucedido, compra efetuada!");
+                this.dispose(); // fecha a tela
+        });
+        t.setRepeats(false);
+        t.start();
     }
 
     @SuppressWarnings("unchecked")
@@ -46,17 +61,15 @@ public class TelaPix extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(89, 89, 89)
-                        .addComponent(jLabel2)
-                        .addContainerGap(171, Short.MAX_VALUE))
+                        .addComponent(jLabel2))
                     .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                        .addContainerGap())))
+                        .addComponent(jLabel4)))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;

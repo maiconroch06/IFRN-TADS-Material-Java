@@ -23,9 +23,9 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="jLabel1" alignment="0" pref="337" max="32767" attributes="0"/>
+          <Component id="jLabel1" alignment="0" max="32767" attributes="0"/>
           <Group type="102" alignment="1" attributes="0">
-              <EmptySpace max="32767" attributes="0"/>
+              <EmptySpace pref="19" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
                       <Group type="103" groupAlignment="1" attributes="0">
@@ -36,7 +36,7 @@
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="txtValor" max="32767" attributes="0"/>
+                          <Component id="txtValorUnitario" max="32767" attributes="0"/>
                           <Component id="txtQuantidade" max="32767" attributes="0"/>
                           <Component id="txtCodigo" alignment="0" max="32767" attributes="0"/>
                           <Component id="txtDescricao" alignment="0" min="-2" pref="158" max="-2" attributes="0"/>
@@ -45,9 +45,9 @@
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
                       <Component id="btAtualizar" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="67" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="52" max="-2" attributes="0"/>
                       <Component id="btCancelar" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="52" max="-2" attributes="0"/>
                   </Group>
               </Group>
           </Group>
@@ -76,9 +76,9 @@
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="txtValor" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="txtValorUnitario" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="32" max="32767" attributes="0"/>
+              <EmptySpace pref="21" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="btAtualizar" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="btCancelar" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -102,7 +102,6 @@
     <Component class="javax.swing.JFormattedTextField" name="txtCodigo">
       <Events>
         <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtCodigoFocusLost"/>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtCodigoActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel1">
@@ -117,10 +116,7 @@
         <EventHandler event="ancestorAdded" listener="javax.swing.event.AncestorListener" parameters="javax.swing.event.AncestorEvent" handler="jLabel1AncestorAdded"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JTextField" name="txtValor">
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtValorActionPerformed"/>
-      </Events>
+    <Component class="javax.swing.JTextField" name="txtValorUnitario">
     </Component>
     <Component class="javax.swing.JButton" name="btAtualizar">
       <Properties>

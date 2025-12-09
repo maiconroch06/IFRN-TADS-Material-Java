@@ -3,32 +3,35 @@ package interfaces.cadastrar;
 import classes.Cliente;
 import classes.Gerenciamento;
 import javax.swing.JOptionPane;
+import utilidades.tabela.Atalhos;
 
 public class CadCliente extends javax.swing.JDialog {
 
     private Gerenciamento g;
-    
-    public CadCliente(java.awt.Window parent, boolean modal, Gerenciamento g, String cpfIni, String nomeIni) {
-        super(parent, ModalityType.APPLICATION_MODAL);
-        this.g = g;
-        initComponents();
-        setLocationRelativeTo(parent);
-
-        if (nomeIni != null && !nomeIni.trim().isEmpty()) {
-            txtNome.setText(nomeIni.trim());
-        }
-
-        if (cpfIni != null && !cpfIni.trim().isEmpty()) {
-            txtCpf.setText(cpfIni);
-        }
-    }
     
     public CadCliente(Gerenciamento g) {
         this.g = g;
         initComponents();
         this.setLocationRelativeTo(null);
         
-        getRootPane().setDefaultButton(btCadastrar);
+        Atalhos.atalho(btCadastrar, "ENTER");
+    }
+    
+    public CadCliente(java.awt.Window parent, boolean modal, Gerenciamento g, String nome, String cpf) {
+        super(parent, ModalityType.APPLICATION_MODAL);
+        this.g = g;
+        initComponents();
+        setLocationRelativeTo(parent);
+
+        if (nome != null && !nome.trim().isEmpty()) {
+            txtNome.setText(nome.trim());
+        }
+
+        if (cpf != null && !cpf.trim().isEmpty()) {
+            txtCpf.setText(cpf);
+        }
+        
+        Atalhos.atalho(btCadastrar, "ENTER");
     }
 
     @SuppressWarnings("unchecked")
@@ -68,12 +71,6 @@ public class CadCliente extends javax.swing.JDialog {
             }
         });
 
-        txtNome.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtNomeActionPerformed(evt);
-            }
-        });
-
         jLabel2.setText("Nome:");
 
         jLabel3.setText("CPF:");
@@ -83,61 +80,46 @@ public class CadCliente extends javax.swing.JDialog {
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
-        txtCpf.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
-        txtEndereco.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtEnderecoActionPerformed(evt);
-            }
-        });
+        jLabel4.setText("Endereço:");
 
-        jLabel4.setText("Endereço");
-
-        jLabel5.setText("Telefone");
+        jLabel5.setText("Telefone:");
 
         try {
             txtTelefone.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("(##)#####-####")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
-        txtTelefone.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtTelefoneActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(37, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(btCadastrar)
-                        .addGap(18, 18, 18)
-                        .addComponent(btCancelar)
-                        .addContainerGap())
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtCpf, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(35, 35, 35))))
             .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addGap(23, 23, 23)
-                .addComponent(jLabel4)
+                .addGap(9, 9, 9)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel4))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtEndereco, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(txtCpf)
+                    .addComponent(txtEndereco, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE))
+                .addGap(4, 4, 4)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtTelefone)
-                .addGap(35, 35, 35))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtNome)
+                    .addComponent(txtTelefone))
+                .addGap(26, 26, 26))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(210, Short.MAX_VALUE)
+                .addComponent(btCadastrar)
+                .addGap(18, 18, 18)
+                .addComponent(btCancelar)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -146,21 +128,21 @@ public class CadCliente extends javax.swing.JDialog {
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2)
                     .addComponent(jLabel3)
-                    .addComponent(txtCpf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtCpf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtEndereco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4)
                     .addComponent(jLabel5)
                     .addComponent(txtTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btCancelar)
-                    .addComponent(btCadastrar))
-                .addContainerGap())
+                    .addComponent(btCadastrar)
+                    .addComponent(btCancelar))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -176,13 +158,11 @@ public class CadCliente extends javax.swing.JDialog {
         String endereco = txtEndereco.getText().trim();
         String telefone = txtTelefone.getText().trim();
 
-        // VALIDAÇÕES
-        if (nome.isEmpty() || cpf/*.replace(".", "").replace("-", "")*/.trim().isEmpty() || endereco.isEmpty() || telefone.isEmpty()) {
+        if (nome.isEmpty() || cpf.replace(".", "").replace("-", "").trim().isEmpty() || endereco.isEmpty() || telefone.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Preencha todos os campos!");
             return;
         }
 
-        // CRIA OBJETO FUNCIONARIO
         Cliente novoCliente = new Cliente();
         novoCliente.setNome(nome);
         novoCliente.setCPF(cpf);
@@ -190,12 +170,14 @@ public class CadCliente extends javax.swing.JDialog {
         novoCliente.setTelefone(telefone);
         
         if(!g.verificarCliente(cpf)){
-            JOptionPane.showMessageDialog(null, "Cliente cadastrado com sucesso!");
             g.cadastrarCliente(cpf, novoCliente);
+            
             txtNome.setText("");
             txtCpf.setText("");
             txtEndereco.setText("");
             txtTelefone.setText("");
+            
+            JOptionPane.showMessageDialog(null, "Cliente cadastrado com sucesso!");
             dispose();
             
         } else {
@@ -204,12 +186,6 @@ public class CadCliente extends javax.swing.JDialog {
        
     }//GEN-LAST:event_btCadastrarActionPerformed
 
-    private void txtNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNomeActionPerformed
-    }//GEN-LAST:event_txtNomeActionPerformed
-    private void txtEnderecoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEnderecoActionPerformed
-    }//GEN-LAST:event_txtEnderecoActionPerformed
-    private void txtTelefoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTelefoneActionPerformed
-    }//GEN-LAST:event_txtTelefoneActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btCadastrar;
     private javax.swing.JButton btCancelar;

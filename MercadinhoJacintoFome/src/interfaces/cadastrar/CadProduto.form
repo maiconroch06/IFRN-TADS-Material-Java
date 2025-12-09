@@ -23,30 +23,33 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="jLabel1" alignment="0" pref="348" max="32767" attributes="0"/>
           <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" pref="66" max="-2" attributes="0"/>
-              <Component id="btCadastrar" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="32767" attributes="0"/>
-              <Component id="btCancelar" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="61" max="-2" attributes="0"/>
+              <Component id="jLabel1" min="-2" pref="309" max="-2" attributes="0"/>
+              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
           </Group>
-          <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" pref="58" max="-2" attributes="0"/>
+          <Group type="102" attributes="0">
+              <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="1" attributes="0">
-                  <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
+                  <Component id="jLabel3" alignment="1" min="-2" max="-2" attributes="0"/>
+                  <Component id="jLabel4" alignment="1" min="-2" max="-2" attributes="0"/>
                   <Component id="jLabel2" alignment="1" min="-2" max="-2" attributes="0"/>
-                  <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
+                  <Component id="jLabel5" alignment="1" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="txtDescricao" pref="125" max="32767" attributes="0"/>
-                  <Component id="txtQuantidade" alignment="0" pref="125" max="32767" attributes="0"/>
-                  <Component id="txtValorUnitario" pref="125" max="32767" attributes="0"/>
+                  <Component id="txtValorUnitario" alignment="0" max="32767" attributes="0"/>
+                  <Component id="txtQuantidade" alignment="0" max="32767" attributes="0"/>
                   <Component id="txtCodigo" alignment="0" max="32767" attributes="0"/>
+                  <Component id="txtDescricao" alignment="0" min="-2" pref="158" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="32767" attributes="0"/>
+          </Group>
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace min="-2" pref="53" max="-2" attributes="0"/>
+              <Component id="btCadastrar" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
+              <Component id="btCancelar" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -55,15 +58,15 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="txtDescricao" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="txtCodigo" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="txtDescricao" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
@@ -75,12 +78,12 @@
                   <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="txtValorUnitario" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="39" max="32767" attributes="0"/>
+              <EmptySpace pref="26" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="btCadastrar" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="btCancelar" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -94,11 +97,6 @@
         <Property name="horizontalAlignment" type="int" value="0"/>
         <Property name="text" type="java.lang.String" value="Cadastrar Produto"/>
       </Properties>
-    </Component>
-    <Component class="javax.swing.JTextField" name="txtValorUnitario">
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtValorUnitarioActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btCadastrar">
       <Properties>
@@ -116,10 +114,21 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btCancelarActionPerformed"/>
       </Events>
     </Component>
+    <Component class="javax.swing.JTextField" name="txtValorUnitario">
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel5">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Valor Unit&#xe1;rio:"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel4">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Quantidade:"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="txtQuantidade">
+    </Component>
     <Component class="javax.swing.JTextField" name="txtDescricao">
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtDescricaoActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel2">
       <Properties>
@@ -131,24 +140,9 @@
         <Property name="text" type="java.lang.String" value="C&#xf3;digo:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="txtQuantidade">
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtQuantidadeActionPerformed"/>
-      </Events>
-    </Component>
-    <Component class="javax.swing.JLabel" name="jLabel4">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Quantidade:"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JLabel" name="jLabel5">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Valor Unit&#xe1;rio:"/>
-      </Properties>
-    </Component>
     <Component class="javax.swing.JFormattedTextField" name="txtCodigo">
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtCodigoActionPerformed"/>
+        <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtCodigoFocusLost"/>
       </Events>
     </Component>
   </SubComponents>

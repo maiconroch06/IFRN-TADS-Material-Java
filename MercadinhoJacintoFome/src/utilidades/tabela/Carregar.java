@@ -6,6 +6,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import classes.*;
+import java.util.ArrayList;
 
 public class Carregar {
     
@@ -33,6 +34,21 @@ public class Carregar {
                 p.getDescricao(),
                 p.getQuantidade(),
                 p.getValorUnitario()
+            });
+        }
+    }
+    
+    // CARREGAR PRODUTOS DA VENDA
+    public static void tabelaProdutosVenda(DefaultTableModel modelo, ArrayList<ItemVenda> itensComprados) {
+        modelo.setRowCount(0);
+
+        for (ItemVenda v : itensComprados) {
+            modelo.addRow(new Object[]{
+                v.getCodigoProduto(),
+                v.getDescricao(),
+                v.getQuantidade(),
+                v.getValorUnitario(),
+                v.getValorTotalProduto()
             });
         }
     }
@@ -69,12 +85,13 @@ public class Carregar {
 
         for(RegistroVenda v : vendas.values()) {
             modelo.addRow(new Object[]{
-                v.getId(),
+                v.getIdVenda(),
                 v.getNomeFuncionario(),
-                v.getNomeCliente(),
-                v.getQuantidadeTotalItens(),  // Quantidade Total de itens
-                String.format("R$ %.2f", v.getTotal())  // Valor Total
+                v.getCpfCliente(),
+                v.getItensTotal(),
+                String.format("R$ %.2f", v.getTotalValor())
             });
         }
     }
+    
 }

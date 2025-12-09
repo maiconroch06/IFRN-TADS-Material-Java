@@ -3,29 +3,26 @@ package interfaces.venda;
 import classes.Gerenciamento;
 import classes.Cliente;
 import classes.Funcionario;
+import classes.RegistroVenda;
 import interfaces.cadastrar.CadCliente;
 import java.awt.Window;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 
-
 public class Pagamento extends javax.swing.JDialog {
-    private String nomeFunc;
-    private String nomeClnt;
-    private String metodoPagamento;
     private boolean finalizada = false;
     private Gerenciamento g;
-    private double total;
+    private final RegistroVenda venda;
 
-    public Pagamento(Window parent, boolean modal, Gerenciamento g, double total) {
+    public Pagamento(Window parent, boolean modal, Gerenciamento g, RegistroVenda venda) {
         super(parent, ModalityType.APPLICATION_MODAL); 
-        this.g = g;
-        this.total = total;
-
         initComponents();
         this.setLocationRelativeTo(parent); // centraliza em relação à janela que abriu ela
+        
+        this.g = g;
+        this.venda = venda;
 
-        txtTotal.setText(String.format("R$ %.2f", total));
+        txtTotal.setText(String.format("R$ %.2f", venda.getTotalValor()));
         carregarFuncionariosNoCombo();
     }
     
@@ -49,7 +46,7 @@ public class Pagamento extends javax.swing.JDialog {
         opcCredito = new javax.swing.JRadioButton();
         opcEspecie = new javax.swing.JRadioButton();
         txtNomeCliente = new javax.swing.JTextField();
-        txtCpf = new javax.swing.JFormattedTextField();
+        txtCpfCliente = new javax.swing.JFormattedTextField();
         btnVoltar = new javax.swing.JButton();
         btnFinalizar = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
@@ -91,20 +88,14 @@ public class Pagamento extends javax.swing.JDialog {
         buttonGroup1.add(opcEspecie);
         opcEspecie.setText("Espécie");
 
-        txtNomeCliente.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtNomeClienteActionPerformed(evt);
-            }
-        });
-
         try {
-            txtCpf.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###.###.###-##")));
+            txtCpfCliente.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###.###.###-##")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
-        txtCpf.addFocusListener(new java.awt.event.FocusAdapter() {
+        txtCpfCliente.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
-                txtCpfFocusLost(evt);
+                txtCpfClienteFocusLost(evt);
             }
         });
 
@@ -141,81 +132,73 @@ public class Pagamento extends javax.swing.JDialog {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addGap(26, 26, 26)
+                .addGap(24, 24, 24)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(cbFuncionario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtNomeCliente)
+                            .addComponent(txtCpfCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cbFuncionario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel1)
+                        .addGap(131, 131, 131)
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtTotal))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel4)
-                                .addGap(18, 18, 18)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(opcPix)
                                 .addGap(18, 18, 18)
                                 .addComponent(opcDebito)
                                 .addGap(18, 18, 18)
-                                .addComponent(opcCredito)
-                                .addGap(18, 18, 18)
-                                .addComponent(opcEspecie))
+                                .addComponent(opcCredito))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtNomeCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jLabel2)
-                                .addGap(28, 28, 28)
-                                .addComponent(txtCpf, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addContainerGap(12, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtTotal)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnCadNCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnFinalizar)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnFinalizar)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnVoltar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addComponent(btnCadNCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(33, 33, 33))))
+                            .addComponent(opcEspecie, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnVoltar, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(32, Short.MAX_VALUE))
+            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(22, 22, 22)
+                .addGap(6, 6, 6)
                 .addComponent(jLabel3)
-                .addGap(47, 47, 47)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(txtCpfCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbFuncionario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(txtNomeCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2)
-                    .addComponent(txtCpf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(36, 36, 36)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel5)
+                    .addComponent(txtTotal))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(opcPix)
-                        .addComponent(opcDebito)
-                        .addComponent(opcCredito)
-                        .addComponent(opcEspecie)))
+                    .addComponent(opcPix)
+                    .addComponent(opcDebito)
+                    .addComponent(opcCredito)
+                    .addComponent(opcEspecie))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(47, 47, 47)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnVoltar)
-                            .addComponent(btnFinalizar))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnCadNCliente))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(25, 25, 25)
-                        .addComponent(cbFuncionario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel5)
-                            .addComponent(txtTotal))))
+                    .addComponent(btnCadNCliente, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btnVoltar)
+                        .addComponent(btnFinalizar)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -223,27 +206,7 @@ public class Pagamento extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnFinalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFinalizarActionPerformed
-        String metodo = null;
-        if (opcPix.isSelected()) metodo = "PIX";
-        else if (opcDebito.isSelected())  metodo = "DEBITO";
-        else if (opcCredito.isSelected()) metodo = "CREDITO";
-        else if (opcEspecie.isSelected()) metodo = "ESPECIE";
-
-        // Verifica se algum método de pagamento foi selecionado;
-        if (metodo == null) {
-            JOptionPane.showMessageDialog(this, "Selecione uma forma de pagamento.");
-            return;
-        }
-        
-        String funcSelect = (String) cbFuncionario.getSelectedItem();
-
-        if (funcSelect.equals("<Funcionários>")) {
-            JOptionPane.showMessageDialog(this, "Selecione um funcionário válido.");
-            return;
-        }
-        
-        // Pega todo o texto de cpf e deixa só os números/String;
-        String cpf = txtCpf.getText().trim();
+        String cpf = txtCpfCliente.getText().trim();
         
         // Verifica se cpf tá vazio ou com menos dígitos;
         if (cpf.isEmpty() || cpf.length() != 14) {
@@ -251,12 +214,62 @@ public class Pagamento extends javax.swing.JDialog {
             return;
         }
         
-        // Se esse CPF existir na lista finaliza a compra, caso não, Abre a tela de erro;
+        String funcionarioSelecionado = (String) cbFuncionario.getSelectedItem();
+
+        if (funcionarioSelecionado.equals("<Funcionários>")) {
+            JOptionPane.showMessageDialog(this, "Selecione um funcionário válido.");
+            return;
+        }
+        
+        String metodoPagemento = null;
+        if (opcPix.isSelected()) {
+            metodoPagemento = "PIX";
+            
+            TelaPix tPix = new TelaPix(this, true, venda.getTotalValor());
+            tPix.setLocationRelativeTo(this);
+            tPix.setVisible(true);
+            tPix.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+            
+        } else if (opcDebito.isSelected()) {
+            metodoPagemento = "DEBITO";
+            
+            TelaDebito tDeb = new TelaDebito(this, true, venda.getTotalValor());
+            tDeb.setLocationRelativeTo(this);
+            tDeb.setVisible(true);
+            tDeb.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+            
+        } else if (opcCredito.isSelected()) {
+            metodoPagemento = "CREDITO";
+            
+            TelaCredito tCred = new TelaCredito(this, true, venda.getTotalValor());
+            tCred.setLocationRelativeTo(this);
+            tCred.setVisible(true);
+            tCred.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+            
+        } else if (opcEspecie.isSelected()) {
+            metodoPagemento = "ESPECIE";
+            
+            TelaEspecie tEsp = new TelaEspecie(this, true, venda.getTotalValor());
+                tEsp.setLocationRelativeTo(this);
+                tEsp.setVisible(true);
+                tEsp.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        }
+
+        // Verifica se algum método de pagamento foi selecionado;
+        if (metodoPagemento == null) {
+            JOptionPane.showMessageDialog(this, "Selecione uma forma de pagamento.");
+            return;
+        }
+
         // Se esse CPF existir na lista finaliza a compra, caso não, Abre a tela de erro;
         if(g.verificarCliente(cpf)) {
-            nomeClnt = txtNomeCliente.getText().trim();
-            nomeFunc = funcSelect;
-            metodoPagamento = metodo;
+            String cpfCliente = txtCpfCliente.getText().trim();
+            String nomeFuncionario = funcionarioSelecionado;
+            
+            venda.setCpfCliente(cpfCliente);
+            venda.setNomeFuncionario(nomeFuncionario);
+            venda.setMetodo(metodoPagemento);
+            
             finalizada = true;
             dispose();
             
@@ -264,52 +277,22 @@ public class Pagamento extends javax.swing.JDialog {
             Object[] options = {"Cadastrar", "Tentar Novamente"};
             int escolha = JOptionPane.showOptionDialog(
                 this,
-                "Cliente Não Cadastrado ou CPF incorreto." + cpf,
+                "Cliente não Cadastrado ou CPF Incorreto." + cpf,
                 "Cliente",
                 JOptionPane.YES_NO_OPTION,         
-                JOptionPane.WARNING_MESSAGE,
+                JOptionPane.WARNING_MESSAGE, 
                 null,                              
                 options,                           
                 options[0]                         
             );
             
             if (escolha == 0) {
-                CadCliente cad = new CadCliente(this, true, g, cpf, txtNomeCliente.getText().trim());
+                String nome = txtNomeCliente.getText().trim();
+                CadCliente cad = new CadCliente(this, true, g, nome, cpf);
                 cad.setVisible(true);
-            } else {
-                return;
             }
         }
-            switch (metodo.toUpperCase()) {
-            case "PIX":
-                TelaPix tPix = new TelaPix(this, true, g, total);
-                tPix.setLocationRelativeTo(this);
-                tPix.setVisible(true);
-                tPix.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-                break;
-
-            case "DEBITO":
-                TelaDebito tDeb = new TelaDebito(this, true, g, total);
-                tDeb.setLocationRelativeTo(this);
-                tDeb.setVisible(true);
-                tDeb.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-                break;
-
-            case "CREDITO":
-                TelaCredito tCred = new TelaCredito(this, true, g, total);
-                tCred.setLocationRelativeTo(this);
-                tCred.setVisible(true);
-                tCred.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-                break;
-
-            case "ESPECIE":
-                TelaEspecie tEsp = new TelaEspecie(this, true, g, total);
-                tEsp.setLocationRelativeTo(this);
-                tEsp.setVisible(true);
-                tEsp.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-                break;
-        }
     }//GEN-LAST:event_btnFinalizarActionPerformed
 
     private void btnVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVoltarActionPerformed
@@ -317,48 +300,21 @@ public class Pagamento extends javax.swing.JDialog {
     }//GEN-LAST:event_btnVoltarActionPerformed
 
     private void btnCadNClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadNClienteActionPerformed
-        CadCliente cad = new CadCliente(this, true, g, txtCpf.getText().trim(), txtNomeCliente.getText().trim());
+        String nomeCliente = txtNomeCliente.getText().trim();
+        String cpfCliente = txtCpfCliente.getText().trim();
+        
+        CadCliente cad = new CadCliente(this, true, g, nomeCliente, cpfCliente);
         cad.setVisible(true);
     }//GEN-LAST:event_btnCadNClienteActionPerformed
 
-    private void txtCpfFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCpfFocusLost
+    private void txtCpfClienteFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCpfClienteFocusLost
         try {
-            Cliente cl = g.consultarCliente(txtCpf.getText().trim());
-            txtNomeCliente.setText(cl.getNome());
+            Cliente cliente = g.consultarCliente(txtCpfCliente.getText().trim());
+            txtNomeCliente.setText(cliente.getNome());
+            
         } catch (Exception e) {
         }
-    }//GEN-LAST:event_txtCpfFocusLost
-
-    private void txtNomeClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNomeClienteActionPerformed
-    }//GEN-LAST:event_txtNomeClienteActionPerformed
-
-    //Métodos
-    public String getMetodoPagamento() {
-        return metodoPagamento;
-    }
-    
-    public String getNomeFunc() {
-        return nomeFunc;
-    }
-    public String getNomeClnt() {
-        return nomeClnt;
-    }
-    
-    private void carregarFuncionariosNoCombo() {
-        DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>();
-
-        model.addElement("<Funcionários>"); // Primeiro item estético
-
-        for (Funcionario f : g.getListaDeFuncionarios().values()) {
-            model.addElement(f.getNome());
-        }
-
-        cbFuncionario.setModel(model);
-    }
-
-    public boolean isFinalizada() {
-        return finalizada;
-    }
+    }//GEN-LAST:event_txtCpfClienteFocusLost
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCadNCliente;
@@ -381,8 +337,25 @@ public class Pagamento extends javax.swing.JDialog {
     private javax.swing.JRadioButton opcDebito;
     private javax.swing.JRadioButton opcEspecie;
     private javax.swing.JRadioButton opcPix;
-    private javax.swing.JFormattedTextField txtCpf;
+    private javax.swing.JFormattedTextField txtCpfCliente;
     private javax.swing.JTextField txtNomeCliente;
     private javax.swing.JLabel txtTotal;
     // End of variables declaration//GEN-END:variables
+    
+    private void carregarFuncionariosNoCombo() {
+        DefaultComboBoxModel<String> modelo = new DefaultComboBoxModel<>();
+
+        modelo.addElement("<Funcionários>"); // Primeiro estado estético
+
+        for(Funcionario f : g.getListaDeFuncionarios().values()) {
+            modelo.addElement(f.getNome());
+        }
+
+        cbFuncionario.setModel(modelo);
+    }
+    
+    public boolean isFinalizada() {
+        return finalizada;
+    }
+
 }

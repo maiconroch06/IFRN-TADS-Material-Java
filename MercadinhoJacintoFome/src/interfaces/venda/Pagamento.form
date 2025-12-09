@@ -60,98 +60,87 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="jLabel3" max="32767" attributes="0"/>
           <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
+                      <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="txtNomeCliente" max="32767" attributes="0"/>
+                          <Component id="txtCpfCliente" min="-2" pref="128" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Component id="cbFuncionario" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
+                      <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="131" max="-2" attributes="0"/>
+                      <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="txtTotal" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                          <Group type="102" alignment="1" attributes="0">
                               <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="opcPix" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="opcDebito" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="opcCredito" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="opcEspecie" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="txtNomeCliente" min="-2" pref="123" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
-                              <Component id="txtCpf" min="-2" pref="123" max="-2" attributes="0"/>
-                          </Group>
-                      </Group>
-                      <EmptySpace pref="12" max="32767" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="txtTotal" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="32767" attributes="0"/>
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
+                          <Group type="102" alignment="1" attributes="0">
+                              <Component id="btnCadNCliente" min="-2" pref="181" max="-2" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
                               <Component id="btnFinalizar" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="btnVoltar" max="32767" attributes="0"/>
                           </Group>
-                          <Component id="btnCadNCliente" min="-2" pref="181" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="opcEspecie" max="32767" attributes="0"/>
+                          <Component id="btnVoltar" min="-2" pref="69" max="-2" attributes="0"/>
+                      </Group>
                   </Group>
               </Group>
+              <EmptySpace pref="32" max="32767" attributes="0"/>
           </Group>
+          <Component id="jLabel3" alignment="0" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
               <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="txtCpfCliente" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="cbFuncionario" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="txtNomeCliente" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="txtCpf" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="txtTotal" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="1" attributes="0">
-                  <Component id="jLabel4" alignment="1" min="-2" max="-2" attributes="0"/>
-                  <Group type="103" alignment="1" groupAlignment="3" attributes="0">
-                      <Component id="opcPix" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="opcDebito" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="opcCredito" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="opcEspecie" alignment="3" min="-2" max="-2" attributes="0"/>
-                  </Group>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="opcPix" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="opcDebito" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="opcCredito" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="opcEspecie" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
-                      <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="btnVoltar" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="btnFinalizar" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="btnCadNCliente" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
-                      <Component id="cbFuncionario" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="txtTotal" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
+                  <Component id="btnCadNCliente" alignment="1" min="-2" pref="23" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="btnVoltar" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnFinalizar" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace max="32767" attributes="0"/>
@@ -217,18 +206,15 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="txtNomeCliente">
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtNomeClienteActionPerformed"/>
-      </Events>
     </Component>
-    <Component class="javax.swing.JFormattedTextField" name="txtCpf">
+    <Component class="javax.swing.JFormattedTextField" name="txtCpfCliente">
       <Properties>
         <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor" preCode="try {" postCode="} catch (java.text.ParseException ex) {&#xa;ex.printStackTrace();&#xa;}">
           <Format format="###.###.###-##" subtype="-1" type="5"/>
         </Property>
       </Properties>
       <Events>
-        <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtCpfFocusLost"/>
+        <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtCpfClienteFocusLost"/>
       </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnVoltar">

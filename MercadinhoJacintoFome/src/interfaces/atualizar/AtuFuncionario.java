@@ -2,25 +2,27 @@ package interfaces.atualizar;
 
 import classes.Funcionario;
 import classes.Gerenciamento;
-import interfaces.Main;
 import javax.swing.JOptionPane;
+import utilidades.tabela.Atalhos;
 
 public class AtuFuncionario extends javax.swing.JDialog {
     
     private Gerenciamento g;
-    private Funcionario f;
+    private String cpf;
     
     public AtuFuncionario(Gerenciamento g) {
         initComponents();
         setLocationRelativeTo(null);
         this.g = g;
-        
+        Atalhos.atalho(btAtualizar, "ENTER");
     }
-    public AtuFuncionario(Gerenciamento g, Funcionario f) {
+    
+    public AtuFuncionario(Gerenciamento g, String cpf) {
         initComponents();
         setLocationRelativeTo(null);
         this.g = g;
-        this.f = f;
+        this.cpf = cpf;
+        Atalhos.atalho(btAtualizar, "ENTER");
     }
 
     @SuppressWarnings("unchecked")
@@ -44,12 +46,6 @@ public class AtuFuncionario extends javax.swing.JDialog {
             }
         });
 
-        txtNome.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtNomeActionPerformed(evt);
-            }
-        });
-
         jLabel2.setText("Nome:");
 
         jLabel3.setText("CPF:");
@@ -59,16 +55,15 @@ public class AtuFuncionario extends javax.swing.JDialog {
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
-        txtCpf.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Atualizar Funcionario");
         jLabel1.addAncestorListener(new javax.swing.event.AncestorListener() {
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+            }
             public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
                 jLabel1AncestorAdded(evt);
-            }
-            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
             }
             public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
             }
@@ -85,36 +80,36 @@ public class AtuFuncionario extends javax.swing.JDialog {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 408, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btAtualizar)
-                .addGap(18, 18, 18)
-                .addComponent(btCancelar)
-                .addContainerGap())
+            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addGap(37, 37, 37)
-                .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txtCpf, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(29, 29, 29)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btAtualizar)
+                        .addGap(18, 18, 18)
+                        .addComponent(btCancelar))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtCpf, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(18, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(txtCpf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
-                .addGap(24, 24, 24)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btCancelar)
                     .addComponent(btAtualizar))
@@ -128,46 +123,40 @@ public class AtuFuncionario extends javax.swing.JDialog {
         dispose();
     }//GEN-LAST:event_btCancelarActionPerformed
 
-    private void txtNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNomeActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtNomeActionPerformed
-
     private void btAtualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAtualizarActionPerformed
         String nome = txtNome.getText().trim();
-        String cpf = txtCpf.getText().trim();
+        cpf = txtCpf.getText().trim();
 
         // VALIDAÇÕES
         if (nome.isEmpty() || cpf.replace(".", "").replace("-", "").trim().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Preencha todos os campos!");
             return;
         }
-
         
-        Funcionario func = g.consultarFuncionario(cpf);
-       
-        func.setNome(nome);
-       
-       
-        txtNome.setText("");
-        txtCpf.setText("");
-       
-       
-        String mensagem = 
-        "Funcionario atualizado com sucesso!\n\n" +
-        "CPF: " + func.getCPF()+ "\n" +
-        "Nome: " + func.getNome();
+        Funcionario funcionario = g.consultarFuncionario(cpf);
+            
+        if(funcionario != null) {
+            funcionario.setNome(nome);
 
-        JOptionPane.showMessageDialog(null, mensagem);
+            txtNome.setText("");
+            txtCpf.setText("");
+
+            String mensagem = 
+            "Funcionario atualizado com sucesso!\n\n" +
+            "CPF: " + funcionario.getCPF()+ "\n" +
+            "Nome: " + funcionario.getNome();
+
+            JOptionPane.showMessageDialog(null, mensagem);
+        }
     }//GEN-LAST:event_btAtualizarActionPerformed
 
     private void jLabel1AncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_jLabel1AncestorAdded
         try {
-            if (f == null)
-                return;
-
-            if (f != null) {
-                txtNome.setText(f.getNome());
-                txtCpf.setText(f.getCPF());
+            Funcionario funcionario = g.consultarFuncionario(cpf);
+            
+            if (funcionario != null) {
+                txtNome.setText(funcionario.getNome());
+                txtCpf.setText(funcionario.getCPF());
             }
 
         } catch (Exception e) {

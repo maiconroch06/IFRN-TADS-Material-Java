@@ -3,6 +3,7 @@ package interfaces.cadastrar;
 import classes.Gerenciamento;
 import classes.Produto;
 import javax.swing.JOptionPane;
+import utilidades.tabela.Atalhos;
 
 public class CadProduto extends javax.swing.JDialog {
 
@@ -13,7 +14,7 @@ public class CadProduto extends javax.swing.JDialog {
         initComponents();
         this.setLocationRelativeTo(null);
         
-        getRootPane().setDefaultButton(btCadastrar);
+        Atalhos.atalho(btCadastrar, "ENTER");
     }
 
     @SuppressWarnings("unchecked")
@@ -21,15 +22,15 @@ public class CadProduto extends javax.swing.JDialog {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        txtValorUnitario = new javax.swing.JTextField();
         btCadastrar = new javax.swing.JButton();
         btCancelar = new javax.swing.JButton();
+        txtValorUnitario = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        txtQuantidade = new javax.swing.JTextField();
         txtDescricao = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        txtQuantidade = new javax.swing.JTextField();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
         txtCodigo = new javax.swing.JFormattedTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -37,12 +38,6 @@ public class CadProduto extends javax.swing.JDialog {
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Cadastrar Produto");
-
-        txtValorUnitario.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtValorUnitarioActionPerformed(evt);
-            }
-        });
 
         btCadastrar.setText("Cadastrar");
         btCadastrar.addActionListener(new java.awt.event.ActionListener() {
@@ -58,29 +53,17 @@ public class CadProduto extends javax.swing.JDialog {
             }
         });
 
-        txtDescricao.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtDescricaoActionPerformed(evt);
-            }
-        });
+        jLabel5.setText("Valor Unitário:");
+
+        jLabel4.setText("Quantidade:");
 
         jLabel2.setText("Descrição:");
 
         jLabel3.setText("Código:");
 
-        txtQuantidade.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtQuantidadeActionPerformed(evt);
-            }
-        });
-
-        jLabel4.setText("Quantidade:");
-
-        jLabel5.setText("Valor Unitário:");
-
-        txtCodigo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtCodigoActionPerformed(evt);
+        txtCodigo.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtCodigoFocusLost(evt);
             }
         });
 
@@ -88,15 +71,11 @@ public class CadProduto extends javax.swing.JDialog {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 348, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addGap(66, 66, 66)
-                .addComponent(btCadastrar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btCancelar)
-                .addGap(61, 61, 61))
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 309, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
-                .addGap(58, 58, 58)
+                .addGap(21, 21, 21)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel3)
                     .addComponent(jLabel4)
@@ -104,25 +83,31 @@ public class CadProduto extends javax.swing.JDialog {
                     .addComponent(jLabel5))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(txtDescricao, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE)
-                    .addComponent(txtQuantidade, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE)
-                    .addComponent(txtValorUnitario, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE)
-                    .addComponent(txtCodigo))
+                    .addComponent(txtValorUnitario)
+                    .addComponent(txtQuantidade)
+                    .addComponent(txtCodigo)
+                    .addComponent(txtDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(53, 53, 53)
+                .addComponent(btCadastrar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btCancelar)
+                .addGap(41, 41, 41))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(11, 11, 11)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
@@ -131,11 +116,11 @@ public class CadProduto extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(txtValorUnitario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btCadastrar)
                     .addComponent(btCancelar))
-                .addGap(22, 22, 22))
+                .addGap(24, 24, 24))
         );
 
         pack();
@@ -176,7 +161,6 @@ public class CadProduto extends javax.swing.JDialog {
             return;
         }
 
-        // CRIA OBJETO PRODUTO
         Produto novoProduto = new Produto();
         novoProduto.setDescricao(descricao);
         novoProduto.setCodigoProduto(codigo);
@@ -186,34 +170,26 @@ public class CadProduto extends javax.swing.JDialog {
         if (g.verificarProduto(codigo)) {
             g.cadastrarProduto(codigo, novoProduto);
 
-            // limpa campos
             txtDescricao.setText("");
             txtCodigo.setText("");
             txtQuantidade.setText("");
             txtValorUnitario.setText("");
         }
-
     }//GEN-LAST:event_btCadastrarActionPerformed
-
-    private void txtDescricaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDescricaoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtDescricaoActionPerformed
 
     private void btCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCancelarActionPerformed
         dispose();
     }//GEN-LAST:event_btCancelarActionPerformed
 
-    private void txtValorUnitarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtValorUnitarioActionPerformed
-
-    }//GEN-LAST:event_txtValorUnitarioActionPerformed
-
-    private void txtQuantidadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtQuantidadeActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtQuantidadeActionPerformed
-
-    private void txtCodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodigoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtCodigoActionPerformed
+    private void txtCodigoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCodigoFocusLost
+        try {
+            Produto p = g.consultarProduto(txtCodigo.getText().trim().replaceAll("\\D", ""));
+            txtDescricao.setText(p.getDescricao());
+            txtQuantidade.setText(String.valueOf(p.getQuantidade()));
+            txtValorUnitario.setText(String.valueOf(p.getValorUnitario()));
+        } catch (Exception e) {
+        }
+    }//GEN-LAST:event_txtCodigoFocusLost
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btCadastrar;
