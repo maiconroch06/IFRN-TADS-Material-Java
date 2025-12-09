@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import javax.swing.JSpinner;
-import javax.swing.JSpinner.DefaultEditor;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.table.DefaultTableModel;
@@ -40,7 +39,10 @@ public class NovaVenda extends javax.swing.JDialog {
         Atalhos.duploClique(jTCarrinho, () -> btRemover.doClick());
 
         // Atalho F2 para o botão Pagamento (jButton4)
-        Atalhos.atalho(btPagamento, "F2");
+        Atalhos.atalho(btPagamento, "F1");
+        Atalhos.atalho(btVoltar, "ESCAPE");
+        
+        Atalhos.atalhoLegenda(getRootPane());
     }
     
     @SuppressWarnings("unchecked")
@@ -187,7 +189,7 @@ public class NovaVenda extends javax.swing.JDialog {
             }
         });
 
-        btPagamento.setText("Pagamento (F2)");
+        btPagamento.setText("Pagamento (F1)");
         btPagamento.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btPagamentoActionPerformed(evt);
@@ -377,6 +379,8 @@ public class NovaVenda extends javax.swing.JDialog {
         Carregar.tabelaProdutos(modeloProduto, g.getListaDeProdutos());
         limparCamposProduto();
         atualizarValorTotal();
+        focar(txtCodigo);
+        Atalhos.enterGlobal(rootPane, btAdicionar);
     }//GEN-LAST:event_btAdicionarActionPerformed
 
     private void btVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btVoltarActionPerformed
@@ -430,8 +434,8 @@ public class NovaVenda extends javax.swing.JDialog {
             jTProdutos.setRowSelectionInterval(0, 0);
             int estoque = p.getQuantidade();
             jSpQtdProduto.setModel(new SpinnerNumberModel(1, 1, estoque, 1));
-            focarSpinner(jSpQtdProduto);
-            getRootPane().setDefaultButton(btAdicionar);
+            focar(jSpQtdProduto);
+            Atalhos.enterGlobal(rootPane, btAdicionar);
 
         } else {
             JOptionPane.showMessageDialog(this, "Produto não encontrado: " + codigo);
@@ -513,8 +517,8 @@ public class NovaVenda extends javax.swing.JDialog {
             int estoque = Integer.parseInt(jTProdutos.getModel().getValueAt(linha, 2).toString()); // Pega estoque do produto
             jSpQtdProduto.setModel(new SpinnerNumberModel(1, 1, estoque, 1)); // Define limite do spinner
             
-            focarSpinner(jSpQtdProduto);
-            getRootPane().setDefaultButton(btAdicionar); // Seta o enter como botão padrão do bt adicionar
+            focar(jSpQtdProduto);
+            Atalhos.enterGlobal(rootPane, btAdicionar);
         }
     }//GEN-LAST:event_jTProdutosMouseClicked
 
@@ -524,8 +528,8 @@ public class NovaVenda extends javax.swing.JDialog {
             int qtd = Integer.parseInt(modeloCarrinho.getValueAt(linha, 2).toString()); // Pega quantidade de produtos da tabela;
             jSpQtdRemover.setModel(new SpinnerNumberModel(1, 1, qtd, 1)); // Atualiza limite do Spinner;
             
-            focarSpinner(jSpQtdRemover);            
-            getRootPane().setDefaultButton(btRemover); // Mesma coisa do adicionar
+            focar(jSpQtdRemover);            
+            Atalhos.enterGlobal(rootPane, btRemover);
         }
     }//GEN-LAST:event_jTCarrinhoMouseClicked
 
@@ -646,18 +650,56 @@ public class NovaVenda extends javax.swing.JDialog {
         return lista;
     }
     
-    private void focarSpinner(JSpinner spinner) {
-        if (spinner == null) return;
+    public static void focar(JComponent comp) {
+        if (comp == null) return;
 
-        JComponent editor = spinner.getEditor();
-        if (editor instanceof DefaultEditor) {
-            JTextField txt = ((DefaultEditor) editor).getTextField();
-            txt.requestFocusInWindow();
-            txt.selectAll(); // deixa o valor selecionado pra digitar por cima
-            
-        } else {
-            spinner.requestFocusInWindow();
+        // spinner (Java 8 style)
+        if (comp instanceof JSpinner) {
+            JSpinner spinner = (JSpinner) comp;
+            JComponent editor = spinner.getEditor();
+            if (editor instanceof JSpinner.DefaultEditor) {
+                JTextField txt = ((JSpinner.DefaultEditor) editor).getTextField();
+                txt.requestFocusInWindow();
+                txt.selectAll();
+                return;
+            } else {
+                spinner.requestFocusInWindow();
+                return;
+            }
         }
+
+        // text field
+        if (comp instanceof JTextField) {
+            JTextField txt = (JTextField) comp;
+            txt.requestFocusInWindow();
+            txt.selectAll();
+            return;
+        }
+
+        // fallback
+        comp.requestFocusInWindow();
     }
+    
+//    public static void focar(JComponent comp) {
+//        if (comp == null) return;
+//
+//        if (comp instanceof JSpinner spinner) {
+//            JComponent editor = spinner.getEditor();
+//            if (editor instanceof JSpinner.DefaultEditor de) {
+//                JTextField txt = de.getTextField();
+//                txt.requestFocusInWindow();
+//                txt.selectAll();
+//                return;
+//            }
+//        }
+//
+//        if (comp instanceof JTextField txt) {
+//            txt.requestFocusInWindow();
+//            txt.selectAll();
+//            return;
+//        }
+//
+//        comp.requestFocusInWindow();
+//    }
     
 }

@@ -14,7 +14,10 @@ public class AtuFuncionario extends javax.swing.JDialog {
         initComponents();
         setLocationRelativeTo(null);
         this.g = g;
+        
         Atalhos.atalho(btAtualizar, "ENTER");
+        Atalhos.atalho(btCancelar, "ESCAPE");
+        Atalhos.atalhoLegenda(getRootPane());
     }
     
     public AtuFuncionario(Gerenciamento g, String cpf) {
@@ -22,7 +25,10 @@ public class AtuFuncionario extends javax.swing.JDialog {
         setLocationRelativeTo(null);
         this.g = g;
         this.cpf = cpf;
+        
         Atalhos.atalho(btAtualizar, "ENTER");
+        Atalhos.atalho(btCancelar, "ESCAPE");
+        Atalhos.atalhoLegenda(getRootPane());
     }
 
     @SuppressWarnings("unchecked")
@@ -38,6 +44,7 @@ public class AtuFuncionario extends javax.swing.JDialog {
         btAtualizar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Tela Atualizar - Funcionario");
 
         btCancelar.setText("Cancelar");
         btCancelar.addActionListener(new java.awt.event.ActionListener() {
@@ -60,10 +67,10 @@ public class AtuFuncionario extends javax.swing.JDialog {
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Atualizar Funcionario");
         jLabel1.addAncestorListener(new javax.swing.event.AncestorListener() {
-            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
-            }
             public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
                 jLabel1AncestorAdded(evt);
+            }
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
             }
             public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
             }

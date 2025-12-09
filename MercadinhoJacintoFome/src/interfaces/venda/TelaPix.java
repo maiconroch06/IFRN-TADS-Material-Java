@@ -3,26 +3,37 @@ package interfaces.venda;
 import java.awt.Window;
 import javax.swing.JOptionPane;
 import javax.swing.Timer;
+import utilidades.tabela.Atalhos;
 
 public class TelaPix extends javax.swing.JDialog {
-     private double total;
+    private double total;
+    private Timer timerFechar;
+    private Timer timerSucesso;
+    private boolean pago = false;  // <- indica se o pagamento foi completado
      
     public TelaPix(Window parent, boolean modal, double total) {
         super(parent, ModalityType.APPLICATION_MODAL); 
         initComponents();
         this.setLocationRelativeTo(this);
+        Atalhos.atalho(btVoltar, "ESPACE");
         
-        new Timer(8000, e -> {
-        this.dispose();
-            
-        }).start();
-        
-        Timer t = new Timer(5000, e -> {
-                JOptionPane.showMessageDialog(null, "Pagamento bem sucedido, compra efetuada!");
-                this.dispose(); // fecha a tela
+         // TIMER QUE FECHA SEM PAGAR
+        timerFechar = new Timer(8000, e -> {
+            cancelarTudo();
+            dispose();
         });
-        t.setRepeats(false);
-        t.start();
+        timerFechar.setRepeats(false);
+        timerFechar.start();
+
+        // TIMER DO PAGAMENTO
+        timerSucesso = new Timer(5000, e -> {
+            pago = true; // SÓ AQUI VALIDA O PAGAMENTO
+            JOptionPane.showMessageDialog(this, "Pagamento bem sucedido!");
+            cancelarTudo();
+            dispose();
+        });
+        timerSucesso.setRepeats(false);
+        timerSucesso.start();
     }
 
     @SuppressWarnings("unchecked")
@@ -32,14 +43,23 @@ public class TelaPix extends javax.swing.JDialog {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
+        btVoltar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jLabel1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Escaneie o QR CODE abaixo:");
 
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/interfaces/venda/qrcodepix.png"))); // NOI18N
+
+        btVoltar.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        btVoltar.setText("Precione BARRA DE ESPAÇO para voltar");
+        btVoltar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btVoltarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -47,9 +67,15 @@ public class TelaPix extends javax.swing.JDialog {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addGap(99, 99, 99)
-                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(86, 86, 86)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(99, 99, 99)
+                        .addComponent(btVoltar)
+                        .addGap(86, 86, 86))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel4)
+                        .addGap(109, 109, 109)))
                 .addComponent(jLabel2)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -65,15 +91,33 @@ public class TelaPix extends javax.swing.JDialog {
                     .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel4)))
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btVoltar, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(16, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btVoltarActionPerformed
+        cancelarTudo();
+        this.dispose();
+    }//GEN-LAST:event_btVoltarActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btVoltar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
     // End of variables declaration//GEN-END:variables
+
+    private void cancelarTudo() {
+        if (timerFechar != null) timerFechar.stop();
+        if (timerSucesso != null) timerSucesso.stop();
+    }
+
+        public boolean isPago() {
+            return pago;
+    }
+        
 }

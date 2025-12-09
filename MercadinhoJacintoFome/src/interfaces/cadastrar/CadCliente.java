@@ -15,6 +15,8 @@ public class CadCliente extends javax.swing.JDialog {
         this.setLocationRelativeTo(null);
         
         Atalhos.atalho(btCadastrar, "ENTER");
+        Atalhos.atalho(btCancelar, "ESCAPE");
+        Atalhos.atalhoLegenda(getRootPane());
     }
     
     public CadCliente(java.awt.Window parent, boolean modal, Gerenciamento g, String nome, String cpf) {
@@ -32,6 +34,8 @@ public class CadCliente extends javax.swing.JDialog {
         }
         
         Atalhos.atalho(btCadastrar, "ENTER");
+        Atalhos.atalho(btCancelar, "ESCAPE");
+        Atalhos.atalhoLegenda(getRootPane());
     }
 
     @SuppressWarnings("unchecked")

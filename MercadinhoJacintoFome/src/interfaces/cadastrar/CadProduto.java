@@ -15,6 +15,8 @@ public class CadProduto extends javax.swing.JDialog {
         this.setLocationRelativeTo(null);
         
         Atalhos.atalho(btCadastrar, "ENTER");
+        Atalhos.atalho(btCancelar, "ESCAPE");
+        Atalhos.atalhoLegenda(getRootPane());
     }
 
     @SuppressWarnings("unchecked")

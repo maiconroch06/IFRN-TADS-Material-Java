@@ -3,6 +3,7 @@
 <Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JDialogFormInfo">
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="2"/>
+    <Property name="title" type="java.lang.String" value="Tela Atualizar - Cliente"/>
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
@@ -60,7 +61,7 @@
                                       <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
                                       <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="txtTelefone" pref="126" max="32767" attributes="0"/>
+                                      <Component id="txtTelefone" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                           </Group>

@@ -16,6 +16,8 @@ public class AtuCliente extends javax.swing.JDialog {
         this.g = g;
         
         Atalhos.atalho(btAtualizar, "ENTER");
+        Atalhos.atalho(btCancelar, "ESCAPE");
+        Atalhos.atalhoLegenda(getRootPane());
     }
     
     public AtuCliente(Gerenciamento g, String cpf) {
@@ -23,8 +25,10 @@ public class AtuCliente extends javax.swing.JDialog {
         setLocationRelativeTo(null);
         this.g = g;
         this.cpf = cpf;
+        
         Atalhos.atalho(btAtualizar, "ENTER");
-
+        Atalhos.atalho(btCancelar, "ESCAPE");
+        Atalhos.atalhoLegenda(getRootPane());
     }
 
     @SuppressWarnings("unchecked")
@@ -44,6 +48,7 @@ public class AtuCliente extends javax.swing.JDialog {
         txtNome = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Tela Atualizar - Cliente");
 
         jLabel2.setText("Nome:");
 
@@ -74,10 +79,10 @@ public class AtuCliente extends javax.swing.JDialog {
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Atualizar Cliente");
         jLabel1.addAncestorListener(new javax.swing.event.AncestorListener() {
-            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
-            }
             public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
                 jLabel1AncestorAdded(evt);
+            }
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
             }
             public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
             }
@@ -133,7 +138,7 @@ public class AtuCliente extends javax.swing.JDialog {
                                         .addGap(6, 6, 6)
                                         .addComponent(jLabel5)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(txtTelefone, javax.swing.GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE)))))
+                                        .addComponent(txtTelefone)))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)))
                 .addContainerGap())
         );

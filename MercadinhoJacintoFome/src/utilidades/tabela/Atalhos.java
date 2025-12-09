@@ -9,6 +9,9 @@ import javax.swing.JComponent;
 import javax.swing.JRootPane;
 import javax.swing.JTable;
 import javax.swing.KeyStroke;
+import interfaces.Legenda;
+import javax.swing.JComboBox;
+import javax.swing.JRadioButton;
 
 public class Atalhos {
     
@@ -35,6 +38,36 @@ public class Atalhos {
             }
         });
     }
+    
+    // Tela de pagamento - metodos de pagamento
+    public static void atalho(JRadioButton botao, String tecla) {
+        botao.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+                .put(KeyStroke.getKeyStroke(tecla), tecla);
+
+        botao.getActionMap().put(tecla, new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                botao.doClick();
+            }
+        });
+    }
+    
+    // Tela de pagamento - combobox dos funcionarios
+    public static void atalho(JComboBox combo, String tecla) {
+        combo.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+                .put(KeyStroke.getKeyStroke(tecla), tecla);
+
+        combo.getActionMap().put(tecla, new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                combo.requestFocusInWindow();  // foco no combo
+                combo.showPopup();             // abre o dropdown
+
+                // força a navegação com setas imediatamente
+                combo.getEditor().getEditorComponent().requestFocus();
+            }
+        });
+    }
      
     public static void duploClique(JTable tabela, Runnable acao) {
         tabela.addMouseListener(new MouseAdapter() {
@@ -46,4 +79,18 @@ public class Atalhos {
             }
         });
     }
+    
+    public static void atalhoLegenda(JRootPane root) {
+        root.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+            .put(KeyStroke.getKeyStroke("F8"), "abrirLegenda");
+
+        root.getActionMap().put("abrirLegenda", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Legenda tela = new Legenda(null, true);
+                tela.setVisible(true);
+            }
+        });
+    }
+    
 }

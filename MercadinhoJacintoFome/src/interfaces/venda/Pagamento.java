@@ -8,6 +8,7 @@ import interfaces.cadastrar.CadCliente;
 import java.awt.Window;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
+import utilidades.tabela.Atalhos;
 
 public class Pagamento extends javax.swing.JDialog {
     private boolean finalizada = false;
@@ -21,6 +22,15 @@ public class Pagamento extends javax.swing.JDialog {
         
         this.g = g;
         this.venda = venda;
+        
+        Atalhos.enterGlobal(rootPane, btnFinalizar);
+        Atalhos.atalho(btnVoltar, "ESCAPE");
+        Atalhos.atalho(opcPix, "F1");
+        Atalhos.atalho(opcDebito, "F2");
+        Atalhos.atalho(opcCredito, "F3");
+        Atalhos.atalho(opcEspecie, "F4");
+        Atalhos.atalho(cbFuncionario, "F5");
+        Atalhos.atalhoLegenda(getRootPane());
 
         txtTotal.setText(String.format("R$ %.2f", venda.getTotalValor()));
         carregarFuncionariosNoCombo();
@@ -206,78 +216,27 @@ public class Pagamento extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnFinalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFinalizarActionPerformed
-        String cpf = txtCpfCliente.getText().trim();
+        String cpfCliente = txtCpfCliente.getText().trim();
+        String nomeCliente = txtNomeCliente.getText().trim();
         
         // Verifica se cpf tá vazio ou com menos dígitos;
-        if (cpf.isEmpty() || cpf.length() != 14) {
+        if (cpfCliente.isEmpty() || cpfCliente.length() != 14) {
             JOptionPane.showMessageDialog(this, "CPF inválido.");
             return;
         }
         
-        String funcionarioSelecionado = (String) cbFuncionario.getSelectedItem();
+        String nomeFuncionario = (String) cbFuncionario.getSelectedItem();
 
-        if (funcionarioSelecionado.equals("<Funcionários>")) {
+        if (nomeFuncionario.equals("<Funcionários>")) {
             JOptionPane.showMessageDialog(this, "Selecione um funcionário válido.");
             return;
         }
         
-        String metodoPagemento = null;
-        if (opcPix.isSelected()) {
-            metodoPagemento = "PIX";
-            
-            TelaPix tPix = new TelaPix(this, true, venda.getTotalValor());
-            tPix.setLocationRelativeTo(this);
-            tPix.setVisible(true);
-            tPix.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-            
-        } else if (opcDebito.isSelected()) {
-            metodoPagemento = "DEBITO";
-            
-            TelaDebito tDeb = new TelaDebito(this, true, venda.getTotalValor());
-            tDeb.setLocationRelativeTo(this);
-            tDeb.setVisible(true);
-            tDeb.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-            
-        } else if (opcCredito.isSelected()) {
-            metodoPagemento = "CREDITO";
-            
-            TelaCredito tCred = new TelaCredito(this, true, venda.getTotalValor());
-            tCred.setLocationRelativeTo(this);
-            tCred.setVisible(true);
-            tCred.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-            
-        } else if (opcEspecie.isSelected()) {
-            metodoPagemento = "ESPECIE";
-            
-            TelaEspecie tEsp = new TelaEspecie(this, true, venda.getTotalValor());
-                tEsp.setLocationRelativeTo(this);
-                tEsp.setVisible(true);
-                tEsp.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        }
-
-        // Verifica se algum método de pagamento foi selecionado;
-        if (metodoPagemento == null) {
-            JOptionPane.showMessageDialog(this, "Selecione uma forma de pagamento.");
-            return;
-        }
-
-        // Se esse CPF existir na lista finaliza a compra, caso não, Abre a tela de erro;
-        if(g.verificarCliente(cpf)) {
-            String cpfCliente = txtCpfCliente.getText().trim();
-            String nomeFuncionario = funcionarioSelecionado;
-            
-            venda.setCpfCliente(cpfCliente);
-            venda.setNomeFuncionario(nomeFuncionario);
-            venda.setMetodo(metodoPagemento);
-            
-            finalizada = true;
-            dispose();
-            
-        } else {
+        if (!g.getListaDeClientes().containsKey(cpfCliente)) {
             Object[] options = {"Cadastrar", "Tentar Novamente"};
             int escolha = JOptionPane.showOptionDialog(
                 this,
-                "Cliente não Cadastrado ou CPF Incorreto." + cpf,
+                "Cliente não Cadastrado ou CPF Incorreto." + cpfCliente,
                 "Cliente",
                 JOptionPane.YES_NO_OPTION,         
                 JOptionPane.WARNING_MESSAGE, 
@@ -287,12 +246,59 @@ public class Pagamento extends javax.swing.JDialog {
             );
             
             if (escolha == 0) {
-                String nome = txtNomeCliente.getText().trim();
-                CadCliente cad = new CadCliente(this, true, g, nome, cpf);
+                CadCliente cad = new CadCliente(this, true, g, nomeCliente, cpfCliente);
                 cad.setVisible(true);
             }
+            return;
+        }
+        
+        String metodoPagamento = null;
+        if (opcPix.isSelected()) {
+            metodoPagamento = "PIX";
+            
+            TelaPix tPix = new TelaPix(this, true, venda.getTotalValor());
+            tPix.setLocationRelativeTo(this);
+            tPix.setVisible(true);
+            tPix.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+            
+        } else if (opcDebito.isSelected()) {
+            metodoPagamento = "DEBITO";
+            
+            TelaDebito tDeb = new TelaDebito(this, true, venda.getTotalValor());
+            tDeb.setLocationRelativeTo(this);
+            tDeb.setVisible(true);
+            tDeb.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+            
+        } else if (opcCredito.isSelected()) {
+            metodoPagamento = "CREDITO";
+            
+            TelaCredito tCred = new TelaCredito(this, true, venda.getTotalValor());
+            tCred.setLocationRelativeTo(this);
+            tCred.setVisible(true);
+            tCred.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+            
+        } else if (opcEspecie.isSelected()) {
+            metodoPagamento = "ESPECIE";
+            
+            TelaEspecie tEsp = new TelaEspecie(this, true, venda.getTotalValor());
+                tEsp.setLocationRelativeTo(this);
+                tEsp.setVisible(true);
+                tEsp.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         }
 
+        // Verifica se algum método de pagamento foi selecionado;
+        if (metodoPagamento == null) {
+            JOptionPane.showMessageDialog(this, "Selecione uma forma de pagamento.");
+            return;
+        }
+        
+        // Finaliza venda
+        venda.setCpfCliente(cpfCliente);
+        venda.setNomeFuncionario(nomeFuncionario);
+        venda.setMetodo(metodoPagamento);
+
+        finalizada = true;
+        dispose();
     }//GEN-LAST:event_btnFinalizarActionPerformed
 
     private void btnVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVoltarActionPerformed
