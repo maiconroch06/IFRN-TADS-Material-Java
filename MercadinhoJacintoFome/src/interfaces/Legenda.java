@@ -167,13 +167,13 @@ public class Legenda extends javax.swing.JDialog {
 
         jLabel14.setText("Inserir no campo de cpf - Preenche campo do nome cliente.");
 
-        jLabel15.setText("F1 - Seleciona metodo de pagamento PIX.");
+        jLabel15.setText("F2 - Seleciona metodo de pagamento PIX.");
 
-        jLabel16.setText("F2 - Seleciona metodo de pagamento Debito.");
+        jLabel16.setText("F3 - Seleciona metodo de pagamento Debito.");
 
-        jLabel17.setText("F3 - Seleciona metodo de pagamento Credito.");
+        jLabel17.setText("F4 - Seleciona metodo de pagamento Credito.");
 
-        jLabel18.setText("F4 - Seleciona metodo de pagamento Especie.");
+        jLabel18.setText("F5 - Seleciona metodo de pagamento Especie.");
 
         jLabel20.setText("Enter - Botão de finalizar compra.");
 
@@ -185,7 +185,7 @@ public class Legenda extends javax.swing.JDialog {
         jLabel40.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel40.setText("Botões:");
 
-        jLabel43.setText("F5, Seta e Enter - Seleciona funcionario.");
+        jLabel43.setText("F1 - Seta e Enter - Selecionar funcionario.");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -203,13 +203,13 @@ public class Legenda extends javax.swing.JDialog {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(6, 6, 6)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel15)
                             .addComponent(jLabel14)
-                            .addComponent(jLabel16)
                             .addComponent(jLabel20)
+                            .addComponent(jLabel23)
+                            .addComponent(jLabel15)
+                            .addComponent(jLabel16)
                             .addComponent(jLabel17)
                             .addComponent(jLabel18)
-                            .addComponent(jLabel23)
                             .addComponent(jLabel43))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -225,6 +225,8 @@ public class Legenda extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel40)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel43)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel15)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel16)
@@ -232,8 +234,6 @@ public class Legenda extends javax.swing.JDialog {
                 .addComponent(jLabel17)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel18)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel43)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel20)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -397,7 +397,7 @@ public class Legenda extends javax.swing.JDialog {
 
         jLabel22.setText("F8 - Fechar Tela.");
 
-        jLabel24.setText("Esta tela está disponivel para todas estas telas.");
+        jLabel24.setText("obs*: Esta tela está disponivel para todas estas telas pelo mesmo atalho.");
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -413,7 +413,7 @@ public class Legenda extends javax.swing.JDialog {
                             .addGroup(jPanel5Layout.createSequentialGroup()
                                 .addGap(17, 17, 17)
                                 .addComponent(jLabel22)))
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addGap(0, 164, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jLabel24)))

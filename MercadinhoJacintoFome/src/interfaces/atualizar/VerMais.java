@@ -207,4 +207,6 @@ public class VerMais extends javax.swing.JDialog {
         txtMetodoPagamento.setText(venda.getMetodo());
     }
     
+    
+    
 }

@@ -6,15 +6,15 @@ import javax.swing.Timer;
 import utilidades.tabela.Atalhos;
 
 public class TelaPix extends javax.swing.JDialog {
-    private double total;
     private Timer timerFechar;
     private Timer timerSucesso;
-    private boolean pago = false;  // <- indica se o pagamento foi completado
-     
-    public TelaPix(Window parent, boolean modal, double total) {
+    private boolean pago = false;
+    
+    public TelaPix(Window parent, boolean modal) {
         super(parent, ModalityType.APPLICATION_MODAL); 
         initComponents();
         this.setLocationRelativeTo(this);
+        
         Atalhos.atalho(btVoltar, "ESPACE");
         
          // TIMER QUE FECHA SEM PAGAR
@@ -116,8 +116,8 @@ public class TelaPix extends javax.swing.JDialog {
         if (timerSucesso != null) timerSucesso.stop();
     }
 
-        public boolean isPago() {
-            return pago;
+    public boolean isPago() {
+        return pago;
     }
         
 }

@@ -11,25 +11,26 @@ import javax.swing.JOptionPane;
 import utilidades.tabela.Atalhos;
 
 public class Pagamento extends javax.swing.JDialog {
-    private boolean finalizada = false;
+    
     private Gerenciamento g;
     private final RegistroVenda venda;
+    private boolean finalizada = false;
 
     public Pagamento(Window parent, boolean modal, Gerenciamento g, RegistroVenda venda) {
         super(parent, ModalityType.APPLICATION_MODAL); 
         initComponents();
-        this.setLocationRelativeTo(parent); // centraliza em relação à janela que abriu ela
+        this.setLocationRelativeTo(parent);
         
         this.g = g;
         this.venda = venda;
         
         Atalhos.enterGlobal(rootPane, btnFinalizar);
         Atalhos.atalho(btnVoltar, "ESCAPE");
-        Atalhos.atalho(opcPix, "F1");
-        Atalhos.atalho(opcDebito, "F2");
-        Atalhos.atalho(opcCredito, "F3");
-        Atalhos.atalho(opcEspecie, "F4");
-        Atalhos.atalho(cbFuncionario, "F5");
+        Atalhos.atalho(cbFuncionario, "F1");
+        Atalhos.atalho(opcPix, "F2");
+        Atalhos.atalho(opcDebito, "F3");
+        Atalhos.atalho(opcCredito, "F4");
+        Atalhos.atalho(opcEspecie, "F5");
         Atalhos.atalhoLegenda(getRootPane());
 
         txtTotal.setText(String.format("R$ %.2f", venda.getTotalValor()));
@@ -146,20 +147,6 @@ public class Pagamento extends javax.swing.JDialog {
                 .addGap(24, 24, 24)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtNomeCliente)
-                            .addComponent(txtCpfCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cbFuncionario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(131, 131, 131)
-                        .addComponent(jLabel5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtTotal))
-                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel4)
@@ -176,7 +163,23 @@ public class Pagamento extends javax.swing.JDialog {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(opcEspecie, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnVoltar, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(btnVoltar, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(txtNomeCliente)
+                                    .addComponent(txtCpfCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jLabel1))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel5)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtTotal))
+                            .addComponent(cbFuncionario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(32, Short.MAX_VALUE))
             .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
@@ -189,13 +192,13 @@ public class Pagamento extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(txtCpfCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cbFuncionario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel5)
+                    .addComponent(txtTotal))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(txtNomeCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5)
-                    .addComponent(txtTotal))
+                    .addComponent(cbFuncionario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
@@ -252,44 +255,64 @@ public class Pagamento extends javax.swing.JDialog {
             return;
         }
         
-        String metodoPagamento = null;
-        if (opcPix.isSelected()) {
-            metodoPagamento = "PIX";
-            
-            TelaPix tPix = new TelaPix(this, true, venda.getTotalValor());
-            tPix.setLocationRelativeTo(this);
-            tPix.setVisible(true);
-            tPix.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-            
-        } else if (opcDebito.isSelected()) {
-            metodoPagamento = "DEBITO";
-            
-            TelaDebito tDeb = new TelaDebito(this, true, venda.getTotalValor());
-            tDeb.setLocationRelativeTo(this);
-            tDeb.setVisible(true);
-            tDeb.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-            
-        } else if (opcCredito.isSelected()) {
-            metodoPagamento = "CREDITO";
-            
-            TelaCredito tCred = new TelaCredito(this, true, venda.getTotalValor());
-            tCred.setLocationRelativeTo(this);
-            tCred.setVisible(true);
-            tCred.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-            
-        } else if (opcEspecie.isSelected()) {
-            metodoPagamento = "ESPECIE";
-            
-            TelaEspecie tEsp = new TelaEspecie(this, true, venda.getTotalValor());
+        String metodoPagamento =
+            opcPix.isSelected() ? "PIX" :
+            opcDebito.isSelected() ? "DEBITO" :
+            opcCredito.isSelected() ? "CREDITO" :
+            opcEspecie.isSelected() ? "ESPECIE" :
+            null;
+
+        switch (metodoPagamento) {
+            case "PIX":
+                TelaPix tPix = new TelaPix(this, true);
+                tPix.setLocationRelativeTo(this);
+                tPix.setVisible(true);
+                tPix.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+                
+                if(!tPix.isPago()){
+                    return;
+                }
+                
+                break;
+
+            case "DEBITO":
+                TelaDebito tDeb = new TelaDebito(this, true, venda.getTotalValor());
+                tDeb.setLocationRelativeTo(this);
+                tDeb.setVisible(true);
+                tDeb.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+                
+                if(!tDeb.isPago()){
+                    return;
+                }
+                
+                break;
+
+            case "CREDITO":
+                TelaCredito tCred = new TelaCredito(this, true, venda.getTotalValor());
+                tCred.setLocationRelativeTo(this);
+                tCred.setVisible(true);
+                tCred.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+                
+                if(!tCred.isPago()){
+                    return;
+                }
+                
+                break;
+
+            case "ESPECIE":
+                TelaEspecie tEsp = new TelaEspecie(this, true, venda.getTotalValor());
                 tEsp.setLocationRelativeTo(this);
                 tEsp.setVisible(true);
                 tEsp.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        }
+                
+                if(!tEsp.isPago()){
+                    return;
+                }
+                break;
 
-        // Verifica se algum método de pagamento foi selecionado;
-        if (metodoPagamento == null) {
-            JOptionPane.showMessageDialog(this, "Selecione uma forma de pagamento.");
-            return;
+            default:
+                JOptionPane.showMessageDialog(this, "Selecione uma forma de pagamento.");
+                return;
         }
         
         // Finaliza venda
@@ -298,11 +321,11 @@ public class Pagamento extends javax.swing.JDialog {
         venda.setMetodo(metodoPagamento);
 
         finalizada = true;
-        dispose();
+        this.dispose();
     }//GEN-LAST:event_btnFinalizarActionPerformed
 
     private void btnVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVoltarActionPerformed
-        dispose();
+        this.dispose();
     }//GEN-LAST:event_btnVoltarActionPerformed
 
     private void btnCadNClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadNClienteActionPerformed
@@ -363,5 +386,5 @@ public class Pagamento extends javax.swing.JDialog {
     public boolean isFinalizada() {
         return finalizada;
     }
-
+    
 }

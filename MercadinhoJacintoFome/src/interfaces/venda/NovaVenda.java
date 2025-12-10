@@ -680,26 +680,5 @@ public class NovaVenda extends javax.swing.JDialog {
         comp.requestFocusInWindow();
     }
     
-//    public static void focar(JComponent comp) {
-//        if (comp == null) return;
-//
-//        if (comp instanceof JSpinner spinner) {
-//            JComponent editor = spinner.getEditor();
-//            if (editor instanceof JSpinner.DefaultEditor de) {
-//                JTextField txt = de.getTextField();
-//                txt.requestFocusInWindow();
-//                txt.selectAll();
-//                return;
-//            }
-//        }
-//
-//        if (comp instanceof JTextField txt) {
-//            txt.requestFocusInWindow();
-//            txt.selectAll();
-//            return;
-//        }
-//
-//        comp.requestFocusInWindow();
-//    }
     
 }

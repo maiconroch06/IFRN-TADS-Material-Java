@@ -2,14 +2,18 @@ package interfaces.venda;
 
 import java.awt.Window;
 import javax.swing.JOptionPane;
+import utilidades.tabela.Atalhos;
 
 public class TelaDebito extends javax.swing.JDialog {
-     private double total;
+    private boolean pago = false;
 
     public TelaDebito(Window parent, boolean modal, double total) {
         super(parent, ModalityType.APPLICATION_MODAL); 
         initComponents();
-        this.setLocationRelativeTo(parent); 
+        this.setLocationRelativeTo(parent);
+        
+        Atalhos.enterGlobal(rootPane, btConfirmar);
+        Atalhos.atalho(btVoltar, "ESCAPE");
         
         txtTotal.setText(String.format("R$ %.2f", total));
     }
@@ -22,7 +26,7 @@ public class TelaDebito extends javax.swing.JDialog {
         jLabel10 = new javax.swing.JLabel();
         txtTotal = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
-        ButtonConfirmar = new javax.swing.JButton();
+        btConfirmar = new javax.swing.JButton();
         jFormattedTextField3 = new javax.swing.JFormattedTextField();
         jTextField2 = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
@@ -32,7 +36,7 @@ public class TelaDebito extends javax.swing.JDialog {
         jFormattedTextField4 = new javax.swing.JFormattedTextField();
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        btVoltar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -46,10 +50,10 @@ public class TelaDebito extends javax.swing.JDialog {
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel1.setText("Valor Total: R$");
 
-        ButtonConfirmar.setText("Confirmar Pedido");
-        ButtonConfirmar.addActionListener(new java.awt.event.ActionListener() {
+        btConfirmar.setText("Confirmar Pedido");
+        btConfirmar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ButtonConfirmarActionPerformed(evt);
+                btConfirmarActionPerformed(evt);
             }
         });
 
@@ -78,10 +82,10 @@ public class TelaDebito extends javax.swing.JDialog {
         jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel13.setText("CVV");
 
-        jButton1.setText("Voltar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btVoltar.setText("Voltar");
+        btVoltar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btVoltarActionPerformed(evt);
             }
         });
 
@@ -117,9 +121,9 @@ public class TelaDebito extends javax.swing.JDialog {
                                         .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addComponent(jFormattedTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jButton1)
+                                .addComponent(btVoltar)
                                 .addGap(18, 18, 18)
-                                .addComponent(ButtonConfirmar)
+                                .addComponent(btConfirmar)
                                 .addGap(20, 20, 20)))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
@@ -152,8 +156,8 @@ public class TelaDebito extends javax.swing.JDialog {
                     .addComponent(jLabel13))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(ButtonConfirmar)
-                    .addComponent(jButton1))
+                    .addComponent(btConfirmar)
+                    .addComponent(btVoltar))
                 .addGap(58, 58, 58))
         );
 
@@ -171,7 +175,7 @@ public class TelaDebito extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void ButtonConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonConfirmarActionPerformed
+    private void btConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btConfirmarActionPerformed
         String numero = jFormattedTextField3.getText().trim();
         String nome = jTextField2.getText().trim();
         String cvv = jFormattedTextField4.getText().trim();
@@ -190,17 +194,17 @@ public class TelaDebito extends javax.swing.JDialog {
                 JOptionPane.INFORMATION_MESSAGE
             );
         }
-  
+        pago = true;
         this.dispose();
-    }//GEN-LAST:event_ButtonConfirmarActionPerformed
+    }//GEN-LAST:event_btConfirmarActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btVoltarActionPerformed
         dispose();      
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btVoltarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton ButtonConfirmar;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btConfirmar;
+    private javax.swing.JButton btVoltar;
     private javax.swing.JComboBox<String> jComboBox3;
     private javax.swing.JComboBox<String> jComboBox4;
     private javax.swing.JFormattedTextField jFormattedTextField3;
@@ -215,4 +219,9 @@ public class TelaDebito extends javax.swing.JDialog {
     private javax.swing.JTextField jTextField2;
     private javax.swing.JLabel txtTotal;
     // End of variables declaration//GEN-END:variables
+    
+    public boolean isPago() {
+        return pago;
+    }
+
 }

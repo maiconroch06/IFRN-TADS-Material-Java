@@ -2,15 +2,20 @@ package interfaces.venda;
 
 import java.awt.Window;
 import javax.swing.JOptionPane;
+import utilidades.tabela.Atalhos;
 
 public class TelaCredito extends javax.swing.JDialog {
     private double total;
+    private boolean pago = false;
 
     public TelaCredito(Window parent, boolean modal, double total) {
         super(parent, ModalityType.APPLICATION_MODAL); 
         this.total = total;
         initComponents();
-        this.setLocationRelativeTo(parent); 
+        this.setLocationRelativeTo(parent);
+        
+        Atalhos.atalho(btVoltar, "ESCAPE");
+        Atalhos.enterGlobal(rootPane, btConfirmar);
         
         txtTotal.setText(String.format("R$ %.2f", total));
         carregarParcelas();
@@ -34,12 +39,12 @@ public class TelaCredito extends javax.swing.JDialog {
         jFormattedTextField4 = new javax.swing.JFormattedTextField();
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
-        ButtonConfirmar = new javax.swing.JButton();
+        btConfirmar = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         ComboBoxParcelas = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
         txtTotal = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        btVoltar = new javax.swing.JButton();
 
         jLabel2.setText("jLabel2");
 
@@ -78,10 +83,10 @@ public class TelaCredito extends javax.swing.JDialog {
         jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel13.setText("CVV");
 
-        ButtonConfirmar.setText("Confirmar Pedido");
-        ButtonConfirmar.addActionListener(new java.awt.event.ActionListener() {
+        btConfirmar.setText("Confirmar Pedido");
+        btConfirmar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ButtonConfirmarActionPerformed(evt);
+                btConfirmarActionPerformed(evt);
             }
         });
 
@@ -96,10 +101,10 @@ public class TelaCredito extends javax.swing.JDialog {
         txtTotal.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         txtTotal.setText("00.00");
 
-        jButton1.setText("Voltar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btVoltar.setText("Voltar");
+        btVoltar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btVoltarActionPerformed(evt);
             }
         });
 
@@ -136,9 +141,9 @@ public class TelaCredito extends javax.swing.JDialog {
                             .addComponent(ComboBoxParcelas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(109, 109, 109)
-                        .addComponent(jButton1)
+                        .addComponent(btVoltar)
                         .addGap(35, 35, 35)
-                        .addComponent(ButtonConfirmar)))
+                        .addComponent(btConfirmar)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -175,8 +180,8 @@ public class TelaCredito extends javax.swing.JDialog {
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(ButtonConfirmar))
+                    .addComponent(btVoltar)
+                    .addComponent(btConfirmar))
                 .addGap(20, 20, 20))
         );
 
@@ -194,7 +199,7 @@ public class TelaCredito extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void ButtonConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonConfirmarActionPerformed
+    private void btConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btConfirmarActionPerformed
         String numero = jFormattedTextField3.getText().trim();
         String nome = jTextField2.getText().trim();
         String cvv = jFormattedTextField4.getText().trim();
@@ -214,17 +219,18 @@ public class TelaCredito extends javax.swing.JDialog {
                 JOptionPane.INFORMATION_MESSAGE
             );  
         }
+        pago = true;
         this.dispose();
-    }//GEN-LAST:event_ButtonConfirmarActionPerformed
+    }//GEN-LAST:event_btConfirmarActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btVoltarActionPerformed
         dispose();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btVoltarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton ButtonConfirmar;
     private javax.swing.JComboBox<String> ComboBoxParcelas;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btConfirmar;
+    private javax.swing.JButton btVoltar;
     private javax.swing.JComboBox<String> jComboBox3;
     private javax.swing.JComboBox<String> jComboBox4;
     private javax.swing.JFormattedTextField jFormattedTextField3;
@@ -259,6 +265,10 @@ public class TelaCredito extends javax.swing.JDialog {
                 ComboBoxParcelas.addItem(i + "x de R$ " + String.format("%.2f", valorParcela) + " c/ juros");
             }
         }
+    }
+    
+    public boolean isPago() {
+        return pago;
     }
 
 }
