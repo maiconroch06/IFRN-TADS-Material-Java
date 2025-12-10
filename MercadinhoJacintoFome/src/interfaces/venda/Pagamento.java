@@ -20,8 +20,7 @@ public class Pagamento extends javax.swing.JDialog {
     private final RegistroVenda venda;
     private boolean finalizada = false;
 
-    public Pagamento(Window parent, boolean modal, VendaService vendas, ClienteService clientes,
-            FuncionarioService funcionarios, RegistroVenda venda) {
+    public Pagamento(Window parent, boolean modal, VendaService vendas, RegistroVenda venda) {
         
         super(parent, ModalityType.APPLICATION_MODAL); 
         initComponents();
