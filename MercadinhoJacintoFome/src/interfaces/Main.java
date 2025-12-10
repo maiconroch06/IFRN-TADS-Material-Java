@@ -479,7 +479,7 @@ public class Main extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void mnNovaVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnNovaVendaActionPerformed
-        NovaVenda vendaGUI = new NovaVenda(g.vendas(), g.clientes(), g.funcionarios());
+        NovaVenda vendaGUI = new NovaVenda(g.vendas());
         vendaGUI.setModal(true);
         vendaGUI.setVisible(true);
         
@@ -547,7 +547,7 @@ public class Main extends javax.swing.JFrame {
                     Carregar.tabelaProdutos(modeloTableProduto , g.produtos().listarTodos());
                     return;
                 }
-                Pesquisar.pesqProduto(chave, modeloTableProduto, g);
+                Pesquisar.pesqProduto(chave, modeloTableProduto, g.produtos());
                 txtReferencia.setText("");
                 break;
 
@@ -557,7 +557,7 @@ public class Main extends javax.swing.JFrame {
                     Carregar.tabelaClientes(modeloTableCliente, g.clientes().listarTodos());
                     return;
                 }
-                Pesquisar.pesqCliente(chave, modeloTableCliente, g);
+                Pesquisar.pesqCliente(chave, modeloTableCliente, g.clientes());
                 txtReferencia.setText("");
                 break;
 
@@ -567,7 +567,7 @@ public class Main extends javax.swing.JFrame {
                     Carregar.tabelaFuncionarios(modeloTableFuncionario, g.funcionarios().listarTodos());
                     return;
                 }
-                Pesquisar.pesqFuncionario(chave, modeloTableFuncionario, g);
+                Pesquisar.pesqFuncionario(chave, modeloTableFuncionario, g.funcionarios());
                 txtReferencia.setText("");
                 break;
 
@@ -577,7 +577,7 @@ public class Main extends javax.swing.JFrame {
                     Carregar.tabelaVendas(modeloTabelaVenda, g.vendas().listarTodas());
                     return;
                 }
-                Pesquisar.pesqVenda(chave, modeloTabelaVenda, g);
+                Pesquisar.pesqVenda(chave, modeloTabelaVenda, g.vendas());
                 txtReferencia.setText("");
                 break;
         }
@@ -601,7 +601,7 @@ public class Main extends javax.swing.JFrame {
                 // Pega chave (codigo do produto) da 1ª coluna
                 chave = jTProdutos.getValueAt(linha, 0).toString();
 
-                Deletar.deletarProduto(modeloTableProduto, linha, chave, g);
+                Deletar.deletarProduto(modeloTableProduto, linha, chave, g.produtos());
                 
                 break;
 
@@ -617,7 +617,7 @@ public class Main extends javax.swing.JFrame {
                 // chave = CPF (2ª coluna)
                 chave = jTClientes.getValueAt(linha, 1).toString();
                 
-                Deletar.deletarCliente(modeloTableCliente, linha, chave, g);
+                Deletar.deletarCliente(modeloTableCliente, linha, chave, g.clientes());
                 
                 break;
 
@@ -633,7 +633,7 @@ public class Main extends javax.swing.JFrame {
                 // chave = CPF (2ª coluna)
                 chave = jTFuncionarios.getValueAt(linha, 1).toString();
 
-                Deletar.deletarFuncionario(modeloTableFuncionario, linha, chave, g);
+                Deletar.deletarFuncionario(modeloTableFuncionario, linha, chave, g.funcionarios());
                 
                 break;
 
@@ -649,7 +649,7 @@ public class Main extends javax.swing.JFrame {
                 // chave = ID_Venda (1ª coluna)
                 chave = jTVendas.getValueAt(linha, 0).toString();
 
-                Deletar.deletarVenda(modeloTabelaVenda, linha, chave, g);
+                Deletar.deletarVenda(modeloTabelaVenda, linha, chave, g.vendas());
                 break;
         }
     }//GEN-LAST:event_btExcluirActionPerformed

@@ -15,11 +15,15 @@ public class VendaService {
     private int seqVenda = 1; // auto-incremento de ID
 
     private ProdutoService produtoService;
+    private ClienteService clienteService;
+    private FuncionarioService funcionarioService;
     
     public VendaService() {}
 
-    public VendaService(ProdutoService produtoService) {
+    public VendaService(ProdutoService produtoService, ClienteService clienteService, FuncionarioService funcionarioService) {
         this.produtoService = produtoService;
+        this.clienteService = clienteService;
+        this.funcionarioService = funcionarioService;
     }
 
     // ----------- 1. CADASTRAR VENDA -----------

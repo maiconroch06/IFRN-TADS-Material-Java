@@ -20,13 +20,11 @@ import utilidades.tabela.Pesquisar;
 public class NovaVenda extends javax.swing.JDialog {
 
     private VendaService vendas;
-    private ClienteService clientes;
-    private FuncionarioService funcionarios;
     
     private DefaultTableModel modeloProduto;
     private DefaultTableModel modeloCarrinho;
 
-    public NovaVenda(VendaService vendas, ClienteService clientes, FuncionarioService funcionarios) {
+    public NovaVenda(VendaService vendas) {
         initComponents();
         this.setLocationRelativeTo(this);
         
@@ -34,8 +32,6 @@ public class NovaVenda extends javax.swing.JDialog {
         this.modeloCarrinho = (DefaultTableModel) jTCarrinho.getModel();
         
         this.vendas = vendas;
-        this.clientes = clientes;
-        this.funcionarios = funcionarios;
         
         Carregar.ordenacao(jTProdutos);
         
@@ -398,8 +394,7 @@ public class NovaVenda extends javax.swing.JDialog {
     }//GEN-LAST:event_btVoltarActionPerformed
 
     private void btPagamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btPagamentoActionPerformed
-        
-        double total = vendas.obterTotalDaCompra(jLabelTotalDaCompra.getText().trim());
+        double total = obterTotalDaCompra(jLabelTotalDaCompra.getText().trim());
 
         // verifica se tem zero itens
         if (modeloCarrinho.getRowCount() == 0) {
@@ -416,7 +411,7 @@ public class NovaVenda extends javax.swing.JDialog {
 
 
         // abre tela de pagamento
-        Pagamento pagGUI = new Pagamento(this, true, vendas, clientes, funcionarios, venda);
+        Pagamento pagGUI = new Pagamento(this, true, vendas, venda);
         pagGUI.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         pagGUI.setVisible(true);
 
@@ -639,6 +634,15 @@ public class NovaVenda extends javax.swing.JDialog {
     public void limparCarrinho() {
         modeloCarrinho.setRowCount(0); // remove todas as linhas da tabela;
         jLabelTotalDaCompra.setText("0.00"); // reinicia o total da compra;
+    }
+    
+    public double obterTotalDaCompra(String valorUnitario) {
+        valorUnitario = valorUnitario.replace("R$", "").trim().replace(".", "").replace(",", ".");
+        try {
+            return Double.parseDouble(valorUnitario);
+        } catch (Exception e) {
+            return 0.0;
+        }
     }
     
     private ArrayList<ItemVenda> montarVendasDoCarrinho() {

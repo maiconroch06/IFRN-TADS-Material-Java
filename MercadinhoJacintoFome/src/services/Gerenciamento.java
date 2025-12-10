@@ -5,7 +5,7 @@ public class Gerenciamento {
     private final ProdutoService produtoService = new ProdutoService();
     private final ClienteService clienteService = new ClienteService();
     private final FuncionarioService funcionarioService = new FuncionarioService();
-    private final VendaService vendaService = new VendaService(produtoService);
+    private final VendaService vendaService = new VendaService(produtoService, clienteService, funcionarioService);
 
     public ProdutoService produtos() {
         return produtoService;
