@@ -1,16 +1,17 @@
 package interfaces.cadastrar;
 
 import classes.Cliente;
-import classes.Gerenciamento;
+import java.awt.Window;
+import services.ClienteService;
 import javax.swing.JOptionPane;
 import utilidades.tabela.Atalhos;
 
 public class CadCliente extends javax.swing.JDialog {
 
-    private Gerenciamento g;
+    private ClienteService clientes;
     
-    public CadCliente(Gerenciamento g) {
-        this.g = g;
+    public CadCliente(ClienteService clientes) {
+        this.clientes = clientes;
         initComponents();
         this.setLocationRelativeTo(null);
         
@@ -19,9 +20,9 @@ public class CadCliente extends javax.swing.JDialog {
         Atalhos.atalhoLegenda(getRootPane());
     }
     
-    public CadCliente(java.awt.Window parent, boolean modal, Gerenciamento g, String nome, String cpf) {
+    public CadCliente(Window parent, boolean modal, ClienteService clientes, String nome, String cpf) {
         super(parent, ModalityType.APPLICATION_MODAL);
-        this.g = g;
+        this.clientes = clientes;
         initComponents();
         setLocationRelativeTo(parent);
 
@@ -167,14 +168,16 @@ public class CadCliente extends javax.swing.JDialog {
             return;
         }
 
-        Cliente novoCliente = new Cliente();
-        novoCliente.setNome(nome);
-        novoCliente.setCPF(cpf);
-        novoCliente.setEndereco(endereco);
-        novoCliente.setTelefone(telefone);
+        Cliente novoCliente = clientes.consultar(cpf);
         
-        if(!g.verificarCliente(cpf)){
-            g.cadastrarCliente(cpf, novoCliente);
+        
+        if(novoCliente != null) {
+            novoCliente.setNome(nome);
+            novoCliente.setCPF(cpf);
+            novoCliente.setEndereco(endereco);
+            novoCliente.setTelefone(telefone);
+            
+            clientes.cadastrar(cpf, novoCliente);
             
             txtNome.setText("");
             txtCpf.setText("");

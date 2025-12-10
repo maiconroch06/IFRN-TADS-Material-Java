@@ -1,16 +1,16 @@
 package interfaces.cadastrar;
 
-import classes.Gerenciamento;
+import services.ProdutoService;
 import classes.Produto;
 import javax.swing.JOptionPane;
 import utilidades.tabela.Atalhos;
 
 public class CadProduto extends javax.swing.JDialog {
 
-    private Gerenciamento g;
+    private ProdutoService produtos;
     
-    public CadProduto(Gerenciamento g) {
-        this.g = g;
+    public CadProduto(ProdutoService produtos) {
+        this.produtos = produtos;
         initComponents();
         this.setLocationRelativeTo(null);
         
@@ -141,36 +141,39 @@ public class CadProduto extends javax.swing.JDialog {
             return;
         }
 
-        // Verifica se quantidade é um inteiro válido
         int quantidade;
+        double valorUnitario;
+        // Valida quantidade e valor em um único try/catch
         try {
             quantidade = Integer.parseInt(quantidadeS);
-            if (quantidade < 0) throw new NumberFormatException(); // evitar negativos se quiser
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(null, "Quantidade deve ser um número inteiro válido!");
-            txtQuantidade.requestFocus();
-            return;
-        }
+            if (quantidade < 0) {
+                JOptionPane.showMessageDialog(null, "Quantidade não pode ser negativa!");
+                txtQuantidade.requestFocus();
+                return;
+            }
 
-        // Verifica se valor unitário é um double válido
-        double valorUnitario;
-        try {
+            // Aceita valor com vírgula ou ponto
             valorUnitario = Double.parseDouble(valorUnitarioS.replace(",", "."));
-            if (valorUnitario < 0) throw new NumberFormatException();
+            if (valorUnitario < 0) {
+                JOptionPane.showMessageDialog(null, "Valor unitário não pode ser negativo!");
+                txtValorUnitario.requestFocus();
+                return;
+            }
+
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(null, "Valor unitário deve ser um número válido!");
-            txtValorUnitario.requestFocus();
+            JOptionPane.showMessageDialog(null, "Quantidade e valor devem ser números válidos!");
             return;
         }
 
-        Produto novoProduto = new Produto();
-        novoProduto.setDescricao(descricao);
-        novoProduto.setCodigoProduto(codigo);
-        novoProduto.setQuantidade(quantidade);
-        novoProduto.setValorUnitario(valorUnitario);
+        Produto novoProduto = produtos.consultar(codigo);
 
-        if (g.verificarProduto(codigo)) {
-            g.cadastrarProduto(codigo, novoProduto);
+        if (novoProduto != null) {
+            novoProduto.setDescricao(descricao);
+            novoProduto.setCodigoProduto(codigo);
+            novoProduto.setQuantidade(quantidade);
+            novoProduto.setValorUnitario(valorUnitario);
+            
+            produtos.cadastrar(codigo, novoProduto);
 
             txtDescricao.setText("");
             txtCodigo.setText("");
@@ -185,7 +188,7 @@ public class CadProduto extends javax.swing.JDialog {
 
     private void txtCodigoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCodigoFocusLost
         try {
-            Produto p = g.consultarProduto(txtCodigo.getText().trim().replaceAll("\\D", ""));
+            Produto p = produtos.consultar(txtCodigo.getText().trim().replaceAll("\\D", ""));
             txtDescricao.setText(p.getDescricao());
             txtQuantidade.setText(String.valueOf(p.getQuantidade()));
             txtValorUnitario.setText(String.valueOf(p.getValorUnitario()));

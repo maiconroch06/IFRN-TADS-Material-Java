@@ -1,6 +1,6 @@
 package interfaces.venda;
 
-import classes.Gerenciamento;
+import services.VendaService;
 import classes.Cliente;
 import classes.Funcionario;
 import classes.RegistroVenda;
@@ -8,20 +8,28 @@ import interfaces.cadastrar.CadCliente;
 import java.awt.Window;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
+import services.ClienteService;
+import services.FuncionarioService;
 import utilidades.tabela.Atalhos;
 
 public class Pagamento extends javax.swing.JDialog {
     
-    private Gerenciamento g;
+    private VendaService vendas;
+    private ClienteService clientes;
+    private FuncionarioService funcionarios;
     private final RegistroVenda venda;
     private boolean finalizada = false;
 
-    public Pagamento(Window parent, boolean modal, Gerenciamento g, RegistroVenda venda) {
+    public Pagamento(Window parent, boolean modal, VendaService vendas, ClienteService clientes,
+            FuncionarioService funcionarios, RegistroVenda venda) {
+        
         super(parent, ModalityType.APPLICATION_MODAL); 
         initComponents();
         this.setLocationRelativeTo(parent);
         
-        this.g = g;
+        this.vendas = vendas;
+        this.clientes = clientes;
+        this.vendas = vendas;
         this.venda = venda;
         
         Atalhos.enterGlobal(rootPane, btnFinalizar);
@@ -64,6 +72,7 @@ public class Pagamento extends javax.swing.JDialog {
         txtTotal = new javax.swing.JLabel();
         btnCadNCliente = new javax.swing.JButton();
         cbFuncionario = new javax.swing.JComboBox<>();
+        jLabel6 = new javax.swing.JLabel();
 
         jCheckBoxMenuItem1.setSelected(true);
         jCheckBoxMenuItem1.setText("jCheckBoxMenuItem1");
@@ -79,7 +88,7 @@ public class Pagamento extends javax.swing.JDialog {
 
         jLabel1.setText("Nome Cliente: ");
 
-        jLabel2.setText("CPF Cliente:");
+        jLabel2.setText("Atendente:");
 
         jLabel3.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -139,14 +148,16 @@ public class Pagamento extends javax.swing.JDialog {
 
         cbFuncionario.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
+        jLabel6.setText("CPF Cliente:");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(24, 24, 24)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(24, 24, 24)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel4)
@@ -165,21 +176,23 @@ public class Pagamento extends javax.swing.JDialog {
                             .addComponent(opcEspecie, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(btnVoltar, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(txtNomeCliente)
-                                    .addComponent(txtCpfCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(15, 15, 15)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel6)
                             .addComponent(jLabel1))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtNomeCliente)
+                            .addComponent(txtCpfCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(6, 6, 6)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jLabel5)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel5)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtTotal))
-                            .addComponent(cbFuncionario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(cbFuncionario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtTotal)))
                 .addContainerGap(32, Short.MAX_VALUE))
             .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
@@ -192,13 +205,14 @@ public class Pagamento extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(txtCpfCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5)
-                    .addComponent(txtTotal))
+                    .addComponent(cbFuncionario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(txtNomeCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cbFuncionario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtTotal)
+                    .addComponent(jLabel5))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
@@ -235,7 +249,9 @@ public class Pagamento extends javax.swing.JDialog {
             return;
         }
         
-        if (!g.getListaDeClientes().containsKey(cpfCliente)) {
+        Cliente cliente = clientes.consultar(cpfCliente);
+        
+        if (cliente != null) {
             Object[] options = {"Cadastrar", "Tentar Novamente"};
             int escolha = JOptionPane.showOptionDialog(
                 this,
@@ -249,7 +265,7 @@ public class Pagamento extends javax.swing.JDialog {
             );
             
             if (escolha == 0) {
-                CadCliente cad = new CadCliente(this, true, g, nomeCliente, cpfCliente);
+                CadCliente cad = new CadCliente(this, true, clientes, nomeCliente, cpfCliente);
                 cad.setVisible(true);
             }
             return;
@@ -332,13 +348,13 @@ public class Pagamento extends javax.swing.JDialog {
         String nomeCliente = txtNomeCliente.getText().trim();
         String cpfCliente = txtCpfCliente.getText().trim();
         
-        CadCliente cad = new CadCliente(this, true, g, nomeCliente, cpfCliente);
+        CadCliente cad = new CadCliente(this, true, clientes, nomeCliente, cpfCliente);
         cad.setVisible(true);
     }//GEN-LAST:event_btnCadNClienteActionPerformed
 
     private void txtCpfClienteFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCpfClienteFocusLost
         try {
-            Cliente cliente = g.consultarCliente(txtCpfCliente.getText().trim());
+            Cliente cliente = clientes.consultar(txtCpfCliente.getText().trim());
             txtNomeCliente.setText(cliente.getNome());
             
         } catch (Exception e) {
@@ -357,6 +373,7 @@ public class Pagamento extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JPopupMenu jPopupMenu2;
     private java.awt.Menu menu1;
@@ -376,7 +393,7 @@ public class Pagamento extends javax.swing.JDialog {
 
         modelo.addElement("<Funcionários>"); // Primeiro estado estético
 
-        for(Funcionario f : g.getListaDeFuncionarios().values()) {
+        for(Funcionario f : funcionarios.listarTodos().values()) {
             modelo.addElement(f.getNome());
         }
 

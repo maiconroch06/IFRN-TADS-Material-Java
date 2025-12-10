@@ -1,29 +1,29 @@
 package interfaces.atualizar;
 
-import classes.Gerenciamento;
+import services.ProdutoService;
 import classes.Produto;
 import javax.swing.JOptionPane;
 import utilidades.tabela.Atalhos;
 
 public class AtuProduto extends javax.swing.JDialog {
     
-    private Gerenciamento g;
+    private ProdutoService produtos;
     private String codigo;
     
-    public AtuProduto(Gerenciamento g) {
+    public AtuProduto(ProdutoService produtos) {
         initComponents();
         setLocationRelativeTo(null);
-        this.g = g;
+        this.produtos = produtos;
         
         Atalhos.atalho(btAtualizar, "ENTER");
         Atalhos.atalho(btCancelar, "ESCAPE");
         Atalhos.atalhoLegenda(getRootPane());
     }
     
-    public AtuProduto(Gerenciamento g, String codigo) {
+    public AtuProduto(ProdutoService produtos, String codigo) {
         initComponents();
         setLocationRelativeTo(null);
-        this.g = g;
+        this.produtos = produtos;
         this.codigo = codigo;
         
         Atalhos.atalho(btAtualizar, "ENTER");
@@ -87,21 +87,9 @@ public class AtuProduto extends javax.swing.JDialog {
             }
         });
 
-        txtDescricao.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtDescricaoActionPerformed(evt);
-            }
-        });
-
         jLabel2.setText("Descrição:");
 
         jLabel3.setText("Código:");
-
-        txtQuantidade.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtQuantidadeActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -174,35 +162,39 @@ public class AtuProduto extends javax.swing.JDialog {
             return;
         }
 
-        // Verifica se quantidade é um inteiro válido
         int quantidade;
+        double valorUnitario;
+
+        // Valida quantidade e valor em um único try/catch
         try {
             quantidade = Integer.parseInt(quantidadeS);
-            if (quantidade < 0) throw new NumberFormatException();
-            
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(null, "Quantidade deve ser um número inteiro válido!");
-            txtQuantidade.requestFocus();
-            return;
-        }
+            if (quantidade < 0) {
+                JOptionPane.showMessageDialog(null, "Quantidade não pode ser negativa!");
+                txtQuantidade.requestFocus();
+                return;
+            }
 
-        // Verifica se valor unitário é um double válido
-        double valorUnitario;
-        try {
+            // Aceita valor com vírgula ou ponto
             valorUnitario = Double.parseDouble(valorUnitarioS.replace(",", "."));
-            if (valorUnitario < 0) throw new NumberFormatException();
+            if (valorUnitario < 0) {
+                JOptionPane.showMessageDialog(null, "Valor unitário não pode ser negativo!");
+                txtValorUnitario.requestFocus();
+                return;
+            }
+
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(null, "Valor unitário deve ser um número válido!");
-            txtValorUnitario.requestFocus();
+            JOptionPane.showMessageDialog(null, "Quantidade e valor devem ser números válidos!");
             return;
         }
 
-        Produto produto = g.consultarProduto(codigo);
+        Produto produto = produtos.consultar(codigo);
         
         if(produto != null) {
             produto.setDescricao(descricao);
             produto.setQuantidade(quantidade);
             produto.setValorUnitario(valorUnitario);
+            
+            produtos.cadastrar(codigo, produto);
 
             txtCodigo.setText("");
             txtDescricao.setText("");
@@ -224,15 +216,9 @@ public class AtuProduto extends javax.swing.JDialog {
         this.dispose();
     }//GEN-LAST:event_btCancelarActionPerformed
 
-    private void txtDescricaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDescricaoActionPerformed
-    }//GEN-LAST:event_txtDescricaoActionPerformed
-
-    private void txtQuantidadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtQuantidadeActionPerformed
-    }//GEN-LAST:event_txtQuantidadeActionPerformed
-
     private void jLabel1AncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_jLabel1AncestorAdded
         try {
-            Produto produto = g.consultarProduto(codigo);
+            Produto produto = produtos.consultar(codigo);
 
             if (produto != null) {
                 txtCodigo.setText(produto.getCodigoProduto());
@@ -248,7 +234,7 @@ public class AtuProduto extends javax.swing.JDialog {
 
     private void txtCodigoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCodigoFocusLost
         try {
-            Produto p = g.consultarProduto(txtCodigo.getText().trim().replaceAll("\\D", ""));
+            Produto p = produtos.consultar(codigo);
             txtDescricao.setText(p.getDescricao());
             txtQuantidade.setText(String.valueOf(p.getQuantidade())); 
             txtValorUnitario.setText(String.valueOf(p.getValorUnitario()));

@@ -1,29 +1,29 @@
 package interfaces.atualizar;
 
 import classes.Cliente;
-import classes.Gerenciamento;
 import javax.swing.JOptionPane;
+import services.ClienteService;
 import utilidades.tabela.Atalhos;
 
 public class AtuCliente extends javax.swing.JDialog {
     
-    private Gerenciamento g;
+    private ClienteService clientes;
     private String cpf;
     
-    public AtuCliente(Gerenciamento g) {
+    public AtuCliente(ClienteService clientes) {
         initComponents();
         setLocationRelativeTo(null);
-        this.g = g;
+        this.clientes = clientes;
         
         Atalhos.atalho(btAtualizar, "ENTER");
         Atalhos.atalho(btCancelar, "ESCAPE");
         Atalhos.atalhoLegenda(getRootPane());
     }
     
-    public AtuCliente(Gerenciamento g, String cpf) {
+    public AtuCliente(ClienteService clientes, String cpf) {
         initComponents();
         setLocationRelativeTo(null);
-        this.g = g;
+        this.clientes = clientes;
         this.cpf = cpf;
         
         Atalhos.atalho(btAtualizar, "ENTER");
@@ -180,13 +180,15 @@ public class AtuCliente extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(this, "Preencha todos os campos!");
             return;
         }
-
-        Cliente cliente = g.consultarCliente(cpf);
+        
+        Cliente cliente = clientes.consultar(cpf);
 
         if(cliente != null) {
             cliente.setNome(nome);
             cliente.setEndereco(endereco);
             cliente.setTelefone(telefone);
+            
+            clientes.cadastrar(cpf, cliente);
 
             txtCpf.setText("");
             txtEndereco.setText("");
@@ -210,7 +212,7 @@ public class AtuCliente extends javax.swing.JDialog {
 
     private void jLabel1AncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_jLabel1AncestorAdded
         try {
-            Cliente cliente = g.consultarCliente(cpf);
+            Cliente cliente = clientes.consultar(cpf);
             
             if (cliente != null) {
                 txtNome.setText(cliente.getNome());
@@ -226,7 +228,7 @@ public class AtuCliente extends javax.swing.JDialog {
 
     private void txtCpfFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCpfFocusLost
         try {
-            Cliente c = g.consultarCliente(txtCpf.getText().trim());
+            Cliente c = clientes.consultar(cpf);
             txtEndereco.setText(c.getEndereco());
             txtNome.setText(c.getNome()); 
             txtTelefone.setText(String.valueOf(c.getTelefone()));

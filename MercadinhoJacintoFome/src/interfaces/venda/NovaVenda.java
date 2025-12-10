@@ -1,6 +1,8 @@
 package interfaces.venda;
 
-import classes.Gerenciamento;
+import services.FuncionarioService;
+import services.ClienteService;
+import services.VendaService;
 import classes.ItemVenda;
 import classes.Produto;
 import classes.RegistroVenda;
@@ -17,22 +19,27 @@ import utilidades.tabela.Pesquisar;
 
 public class NovaVenda extends javax.swing.JDialog {
 
-    private Gerenciamento g;
+    private VendaService vendas;
+    private ClienteService clientes;
+    private FuncionarioService funcionarios;
+    
     private DefaultTableModel modeloProduto;
     private DefaultTableModel modeloCarrinho;
 
-    public NovaVenda(Gerenciamento g) {
+    public NovaVenda(VendaService vendas, ClienteService clientes, FuncionarioService funcionarios) {
         initComponents();
         this.setLocationRelativeTo(this);
         
         this.modeloProduto = (DefaultTableModel) jTProdutos.getModel();
         this.modeloCarrinho = (DefaultTableModel) jTCarrinho.getModel();
         
-        this.g = g;
+        this.vendas = vendas;
+        this.clientes = clientes;
+        this.funcionarios = funcionarios;
         
         Carregar.ordenacao(jTProdutos);
         
-        Carregar.tabelaProdutos(modeloProduto, g.getListaDeProdutos());
+        Carregar.tabelaProdutos(modeloProduto, vendas.getProdutoService().listarTodos());
 
         // permite duplo-clique para adicionar ao carrinho
         Atalhos.duploClique(jTProdutos, () -> btAdicionar.doClick());
@@ -375,8 +382,10 @@ public class NovaVenda extends javax.swing.JDialog {
         modeloCarrinho.addRow(new Object[]{codigo, descricao, quantidadeDesejada, valorUnitario, valorTotal});
 
         modeloProduto.setValueAt(novoEstoque, linhaSelecionada, 2);
-        g.atualizarProdutoQuantidade(codigo, novoEstoque);
-        Carregar.tabelaProdutos(modeloProduto, g.getListaDeProdutos());
+        vendas.getProdutoService().atualizarQuantidade(codigo, novoEstoque);
+        
+        Carregar.tabelaProdutos(modeloProduto, vendas.getProdutoService().listarTodos());
+        
         limparCamposProduto();
         atualizarValorTotal();
         focar(txtCodigo);
@@ -389,7 +398,8 @@ public class NovaVenda extends javax.swing.JDialog {
     }//GEN-LAST:event_btVoltarActionPerformed
 
     private void btPagamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btPagamentoActionPerformed
-        double total = g.obterTotalDaCompra(jLabelTotalDaCompra.getText().trim());
+        
+        double total = vendas.obterTotalDaCompra(jLabelTotalDaCompra.getText().trim());
 
         // verifica se tem zero itens
         if (modeloCarrinho.getRowCount() == 0) {
@@ -400,18 +410,18 @@ public class NovaVenda extends javax.swing.JDialog {
 
         RegistroVenda venda = new RegistroVenda();
 
-        venda.setIdVenda(g.gerarIdVenda());
+        venda.setIdVenda(vendas.gerarIdVenda());
         venda.setItensComprados(montarVendasDoCarrinho());
         venda.setTotalValor(total);
 
 
         // abre tela de pagamento
-        Pagamento pagGUI = new Pagamento(this, true, g, venda);
+        Pagamento pagGUI = new Pagamento(this, true, vendas, clientes, funcionarios, venda);
         pagGUI.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         pagGUI.setVisible(true);
 
         if (pagGUI.isFinalizada()) {
-            g.cadastrarVenda(venda.getIdVenda(), venda);
+            vendas.cadastrar(venda.getIdVenda(), venda);
 
             limparCarrinho();
             Carregar.ordenacao(jTProdutos);
@@ -422,14 +432,14 @@ public class NovaVenda extends javax.swing.JDialog {
         String codigo = txtCodigo.getText().trim();
         if (codigo.isEmpty()) {
             // mostra todos novamente
-            Carregar.tabelaProdutos(modeloProduto, g.getListaDeProdutos());
+            Carregar.tabelaProdutos(modeloProduto, vendas.getProdutoService().listarTodos());
             return;
         }
 
-        Produto p = g.getListaDeProdutos().get(codigo);
+        Produto p = vendas.getProdutoService().consultar(codigo);
 
         if (p != null) {
-            Pesquisar.pesqProduto(codigo, modeloProduto, g);
+            Pesquisar.pesqProduto(codigo, modeloProduto, vendas);
 
             jTProdutos.setRowSelectionInterval(0, 0);
             int estoque = p.getQuantidade();
@@ -439,7 +449,7 @@ public class NovaVenda extends javax.swing.JDialog {
 
         } else {
             JOptionPane.showMessageDialog(this, "Produto não encontrado: " + codigo);
-            Carregar.tabelaProdutos(modeloProduto, g.getListaDeProdutos());
+            Carregar.tabelaProdutos(modeloProduto, vendas.getProdutoService().listarTodos());
         }
     }//GEN-LAST:event_btPesquisarActionPerformed
 
@@ -501,7 +511,7 @@ public class NovaVenda extends javax.swing.JDialog {
                 int novoEstoque = estoqueAtual + quantidadeRemover;
 
                 modeloProduto.setValueAt(novoEstoque, i, 2);
-                g.atualizarProdutoQuantidade(codigo, novoEstoque);
+                vendas.getProdutoService().atualizarQuantidade(codigo, novoEstoque);
                 break;
             }
         }
@@ -566,7 +576,9 @@ public class NovaVenda extends javax.swing.JDialog {
         int linha = modeloCarrinho.getRowCount();
         if (linha > 0) {
             for (int i = 0; i < linha; i++) {
-                g.atualizarProdutoQuantidade(modeloCarrinho.getValueAt(i, 0).toString(), Integer.parseInt(modeloCarrinho.getValueAt(i, 2).toString()) + g.consultarProduto(modeloCarrinho.getValueAt(i, 0).toString()).getQuantidade());
+                vendas.getProdutoService().atualizarQuantidade(modeloCarrinho.getValueAt(i, 0).toString(),
+                        Integer.parseInt(modeloCarrinho.getValueAt(i, 2).toString()) +
+                        vendas.getProdutoService().consultar(modeloCarrinho.getValueAt(i, 0).toString()).getQuantidade());
             }
         }
     }
@@ -585,13 +597,13 @@ public class NovaVenda extends javax.swing.JDialog {
                 modeloCarrinho.setValueAt(novaQtdCarrinho * produto.getValorUnitario(), i, 4);
 
                 // atualiza o estoque
-                int estoqueAtual = g.consultarProduto(produto.getCodigoProduto()).getQuantidade();
+                int estoqueAtual = vendas.getProdutoService().consultar(produto.getCodigoProduto()).getQuantidade();
                 int novoEstoque = estoqueAtual - produto.getQuantidade();
 
-                g.atualizarProdutoQuantidade(produto.getCodigoProduto(), novoEstoque);
+                vendas.getProdutoService().atualizarQuantidade(produto.getCodigoProduto(), novoEstoque);
 
                 // atualiza tabela de produtos
-                Carregar.tabelaProdutos(modeloProduto, g.getListaDeProdutos());
+                Carregar.tabelaProdutos(modeloProduto, vendas.getProdutoService().listarTodos());
 
                 return true; // o produto já existia
             }

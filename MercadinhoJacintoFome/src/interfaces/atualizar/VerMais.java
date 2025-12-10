@@ -1,22 +1,22 @@
 package interfaces.atualizar;
 
 import classes.RegistroVenda;
-import classes.Gerenciamento;
+import services.VendaService;
 import javax.swing.table.DefaultTableModel;
 import utilidades.tabela.Atalhos;
 import utilidades.tabela.Carregar;
 
 public class VerMais extends javax.swing.JDialog {    
     
-    private Gerenciamento g;
+    private VendaService vendas;
     private String idVenda;
 
-    public VerMais(java.awt.Frame parent, boolean modal, String idVenda, Gerenciamento g) {
+    public VerMais(java.awt.Frame parent, boolean modal, String idVenda, VendaService vendas) {
         super(parent, modal);
         initComponents(); 
         this.setLocationRelativeTo(this);
         this.idVenda = idVenda;
-        this.g = g;
+        this.vendas = vendas;
         carregarDados();
         Atalhos.enterGlobal(rootPane, btVoltar);
     }
@@ -193,7 +193,7 @@ public class VerMais extends javax.swing.JDialog {
 
     //Métodos
     private void carregarDados() {
-        RegistroVenda venda = g.consultarVenda(idVenda);
+        RegistroVenda venda = vendas.consultar(idVenda);
         
         txtIdVenda.setText(venda.getIdVenda());
         txtTotalCompra.setText(String.format("R$ %.2f", venda.getTotalValor()));

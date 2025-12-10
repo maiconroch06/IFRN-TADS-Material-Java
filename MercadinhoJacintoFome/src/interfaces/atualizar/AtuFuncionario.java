@@ -1,29 +1,29 @@
 package interfaces.atualizar;
 
 import classes.Funcionario;
-import classes.Gerenciamento;
+import services.FuncionarioService;
 import javax.swing.JOptionPane;
 import utilidades.tabela.Atalhos;
 
 public class AtuFuncionario extends javax.swing.JDialog {
     
-    private Gerenciamento g;
+    private FuncionarioService funcionarios;
     private String cpf;
     
-    public AtuFuncionario(Gerenciamento g) {
+    public AtuFuncionario(FuncionarioService funcionarios) {
         initComponents();
         setLocationRelativeTo(null);
-        this.g = g;
+        this.funcionarios = funcionarios;
         
         Atalhos.atalho(btAtualizar, "ENTER");
         Atalhos.atalho(btCancelar, "ESCAPE");
         Atalhos.atalhoLegenda(getRootPane());
     }
     
-    public AtuFuncionario(Gerenciamento g, String cpf) {
+    public AtuFuncionario(FuncionarioService funcionarios, String cpf) {
         initComponents();
         setLocationRelativeTo(null);
-        this.g = g;
+        this.funcionarios = funcionarios;
         this.cpf = cpf;
         
         Atalhos.atalho(btAtualizar, "ENTER");
@@ -140,10 +140,12 @@ public class AtuFuncionario extends javax.swing.JDialog {
             return;
         }
         
-        Funcionario funcionario = g.consultarFuncionario(cpf);
+        Funcionario funcionario = funcionarios.consultar(cpf);
             
         if(funcionario != null) {
             funcionario.setNome(nome);
+            
+            funcionarios.cadastrar(cpf, funcionario);
 
             txtNome.setText("");
             txtCpf.setText("");
@@ -159,7 +161,7 @@ public class AtuFuncionario extends javax.swing.JDialog {
 
     private void jLabel1AncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_jLabel1AncestorAdded
         try {
-            Funcionario funcionario = g.consultarFuncionario(cpf);
+            Funcionario funcionario = funcionarios.consultar(cpf);
             
             if (funcionario != null) {
                 txtNome.setText(funcionario.getNome());

@@ -1,27 +1,34 @@
-package classes;
+package services;
 
+public class Gerenciamento {
+
+    private final ProdutoService produtoService = new ProdutoService();
+    private final ClienteService clienteService = new ClienteService();
+    private final FuncionarioService funcionarioService = new FuncionarioService();
+    private final VendaService vendaService = new VendaService(produtoService);
+
+    public ProdutoService produtos() {
+        return produtoService;
+    }
+
+    public ClienteService clientes() {
+        return clienteService;
+    }
+
+    public FuncionarioService funcionarios() {
+        return funcionarioService;
+    }
+
+    public VendaService vendas() {
+        return vendaService;
+    }
+}
+
+/*
 import java.util.HashMap;
 import java.util.List;
 import javax.swing.JOptionPane;
 
-/* Sumario:
-Funcionalidades
-    1.Metodos de verificar
-    2.Metodos de cadastro
-    3.Metodos de remover
-    4.Metodos de consultar
-    5.Metodos de atualizar
-Extras
-    Lista de produtos
-    96.Predefinição dos Clientes
-    97.Predefinição dos Funcionarios
-    98.Predefinição dos produtos
-    99.Metodos Acessores
-*/
-
-/* Algumas pendencias:
-    Metodos para tela "Nova Compra" e "Pagamento"
-*/
 
 public class Gerenciamento {
     private final HashMap<String, Funcionario> listaDeFuncionarios = new HashMap<>();
@@ -37,19 +44,6 @@ public class Gerenciamento {
     private boolean vendasAtualizadas = false;
     
 // 1.Metodos para verificar
-    public boolean verificarFuncionario(String CPF) {
-        if (listaDeFuncionarios.containsKey(CPF)) {
-            JOptionPane.showMessageDialog(null, "Funcionário já cadastrado!");
-            return false;
-        }
-        JOptionPane.showMessageDialog(null, "Funcionário cadastrado com sucesso!");
-        return true;
-    }
-    
-    public boolean verificarCliente(String CPF){
-        return listaDeClientes.containsKey(CPF);
-    }
-    
     public boolean verificarProduto(String codigo) {
         if(listaDeProdutos.containsKey(codigo)) {
             JOptionPane.showMessageDialog(null, "Produto já cadastrado!");
@@ -59,6 +53,20 @@ public class Gerenciamento {
         return true;
     }
     
+    public boolean verificarCliente(String CPF){
+        return listaDeClientes.containsKey(CPF);
+    }
+    
+    public boolean verificarFuncionario(String CPF) {
+        if (listaDeFuncionarios.containsKey(CPF)) {
+            JOptionPane.showMessageDialog(null, "Funcionário já cadastrado!");
+            return false;
+        }
+        JOptionPane.showMessageDialog(null, "Funcionário cadastrado com sucesso!");
+        return true;
+    }
+    
+    
     public boolean verificarVenda(String ID_Venda){        
         if(historicoVendas.containsKey(ID_Venda)){
             JOptionPane.showMessageDialog(null, "Venda já cadastrada!");
@@ -67,6 +75,7 @@ public class Gerenciamento {
         JOptionPane.showMessageDialog(null, "Venda cadastrada com sucesso!");
         return true;
     }
+    
     
 // 2.Metodos para cadastro
     public void cadastrarProduto(String codigo, Produto produto) {
@@ -89,6 +98,8 @@ public class Gerenciamento {
         setVendasAtualizadas(true);
     }
     
+    
+    
 // 3.Metodos para remover
     public void removerProduto(String codigo){
         listaDeProdutos.remove(codigo);
@@ -105,13 +116,14 @@ public class Gerenciamento {
         funcionariosAtualizados = true;
     }
     
+
 // 4.Metodos para consultar
-    public Funcionario consultarFuncionario(String CPF){
-        if(!listaDeFuncionarios.containsKey(CPF)){
-            JOptionPane.showMessageDialog(null, "Funcionario não encontrado!");
+    public Produto consultarProduto(String codigo){
+        if(!listaDeProdutos.containsKey(codigo)){
+            JOptionPane.showMessageDialog(null, "Produto não encontrado!");
             return null;
         }
-        return listaDeFuncionarios.get(CPF);
+        return listaDeProdutos.get(codigo);
     }
     
     public Cliente consultarCliente(String CPF){
@@ -122,12 +134,12 @@ public class Gerenciamento {
         return listaDeClientes.get(CPF);
     }
     
-    public Produto consultarProduto(String codigo){
-        if(!listaDeProdutos.containsKey(codigo)){
-            JOptionPane.showMessageDialog(null, "Produto não encontrado!");
+    public Funcionario consultarFuncionario(String CPF){
+        if(!listaDeFuncionarios.containsKey(CPF)){
+            JOptionPane.showMessageDialog(null, "Funcionario não encontrado!");
             return null;
         }
-        return listaDeProdutos.get(codigo);
+        return listaDeFuncionarios.get(CPF);
     }
     
     public RegistroVenda consultarVenda(String id) {
@@ -138,27 +150,8 @@ public class Gerenciamento {
         return historicoVendas.get(id);
     }
     
-// 5.Metodos para atualizar
-    public boolean atualizarFuncionario(String CPF, Funcionario funcionario){        
-        if(!listaDeFuncionarios.containsKey(CPF)){
-            JOptionPane.showMessageDialog(null, "Dados não encontrado!");
-            return false;
-        } 
-        listaDeFuncionarios.put(CPF, funcionario);
-        produtosAtualizados = true;
-        return true;
-    }
-
-    public boolean atualizarCliente(String CPF, Cliente cliente){        
-        if(!listaDeClientes.containsKey(CPF)){
-            JOptionPane.showMessageDialog(null, "Dados não encontrado!");
-            return false;
-        } 
-        listaDeClientes.put(CPF, cliente);
-        clientesAtualizados = true;
-        return true;
-    }
     
+// 5.Metodos para atualizar
     public boolean atualizarProduto(String codigo, Produto atualizado){
         if(!listaDeProdutos.containsKey(codigo)){
             JOptionPane.showMessageDialog(null, "Dados não encontrado!");
@@ -172,6 +165,27 @@ public class Gerenciamento {
     public void atualizarProdutoQuantidade(String codigo, int quantidade){
         listaDeProdutos.get(codigo).setQuantidade(quantidade);
     }
+    
+    public boolean atualizarCliente(String CPF, Cliente cliente){        
+        if(!listaDeClientes.containsKey(CPF)){
+            JOptionPane.showMessageDialog(null, "Dados não encontrado!");
+            return false;
+        } 
+        listaDeClientes.put(CPF, cliente);
+        clientesAtualizados = true;
+        return true;
+    }
+    
+    public boolean atualizarFuncionario(String CPF, Funcionario funcionario){        
+        if(!listaDeFuncionarios.containsKey(CPF)){
+            JOptionPane.showMessageDialog(null, "Dados não encontrado!");
+            return false;
+        } 
+        listaDeFuncionarios.put(CPF, funcionario);
+        produtosAtualizados = true;
+        return true;
+    }
+    
     
     public void atualizarEstoque(List<ItemVenda> itens) {
         for (ItemVenda v : itens) {
@@ -206,10 +220,10 @@ public class Gerenciamento {
         return String.valueOf(seqVenda++);
     }
     
-    public double obterTotalDaCompra(String s) {
-        s = s.replace("R$", "").trim().replace(".", "").replace(",", ".");
+    public double obterTotalDaCompra(String valoTotal) {
+        valoTotal = valoTotal.replace("R$", "").trim().replace(".", "").replace(",", ".");
         try {
-            return Double.parseDouble(s);
+            return Double.parseDouble(valoTotal);
         } catch (Exception e) {
             return 0.0;
         }
@@ -324,3 +338,4 @@ public class Gerenciamento {
         this.vendasAtualizadas = vendasAtualizadas;
     }
 }
+*/
