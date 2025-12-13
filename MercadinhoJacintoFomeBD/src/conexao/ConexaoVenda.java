@@ -16,10 +16,10 @@ public class ConexaoVenda extends ConexaoBD {
     private boolean vendasAtualizadas = false;
 
     public void cadastrarVenda(RegistroVenda v) {
-        String sql = "INSERT INTO historicoVenda (cpfFuncionario, cpfCliente, metodo, "
-                + "quantidadeTotalItens, totalValor) VALUES (?,?,?,?,?)";
+        String sql = "INSERT INTO historicoVenda (id_funcionario, id_cliente, metodo, "
+            + "quantidadeTotalItens, totalValor) VALUES (?,?,?,?,?)";
         conectar();
-        
+
         try {
             estado = con.prepareStatement(sql);
             estado.setString(1, v.getCpfFuncionario());
@@ -27,9 +27,9 @@ public class ConexaoVenda extends ConexaoBD {
             estado.setString(3, v.getMetodo());
             estado.setInt(4, v.getQuantidadeTotalItens());
             estado.setDouble(5, v.getTotalValor());
-            
+
             estado.execute();
-            
+
             setVendasAtualizadas(true);
             JOptionPane.showMessageDialog(null, "Inserido com sucesso");
             

@@ -134,6 +134,9 @@
   </NonVisualComponents>
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
+    <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+      <Dimension value="[65, 22]"/>
+    </Property>
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="menuBar" type="java.lang.String" value="jMenuBar2"/>
@@ -155,14 +158,14 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="painelImagem" alignment="0" max="32767" attributes="0"/>
+          <Component id="painelImagem" alignment="0" pref="66" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <Component id="painelImagem" max="32767" attributes="0"/>
-              <EmptySpace min="0" pref="8" max="32767" attributes="0"/>
+              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -173,34 +176,11 @@
         <Property name="toolTipText" type="java.lang.String" value=""/>
       </Properties>
       <AuxValues>
-        <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="painelImagem = new javax.swing.JPanel() {&#xa;        @Override&#xa;        protected void paintComponent(java.awt.Graphics g) {&#xa;            super.paintComponent(g);&#xa;            java.awt.Image img = new javax.swing.ImageIcon(&#xa;                getClass().getResource(&quot;/interfaces/fundinhoAR.jpg&quot;)&#xa;            ).getImage();&#xa;            g.drawImage(img, 0, 0, getWidth(), getHeight(), this);&#xa;        }&#xa;    };"/>
+        <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="painelImagem = new javax.swing.JPanel() {&#xa;    // carrega a imagem uma vez&#xa;    private final java.awt.Image img = new javax.swing.ImageIcon(&#xa;        getClass().getResource(&quot;/interfaces/fundinhoAR.jpg&quot;)&#xa;    ).getImage();&#xa;&#xa;    @Override&#xa;protected void paintComponent(java.awt.Graphics g) {&#xa;    super.paintComponent(g);&#xa;&#xa;    if (img == null) return;&#xa;&#xa;    int pw = getWidth();&#xa;    int ph = getHeight();&#xa;&#xa;    int iw = img.getWidth(null);&#xa;    int ih = img.getHeight(null);&#xa;    if (iw &lt;= 0 || ih &lt;= 0) return;&#xa;&#xa;    // ESCALA TIPO COVER&#xa;    double scale = Math.max((double) pw / iw, (double) ph / ih);&#xa;    int nw = (int) (iw * scale);&#xa;    int nh = (int) (ih * scale);&#xa;&#xa;    int x = (pw - nw) / 2;&#xa;    int y = (ph - nh) / 2;&#xa;&#xa;    // desenha a imagem&#xa;    g.drawImage(img, x, y, nw, nh, this);&#xa;&#xa;    // -----------------------------&#xa;// CENTRALIZA TEXTO DOS LABELS&#xa;// -----------------------------&#xa;int centroPainel = pw / 2;&#xa;&#xa;// posi&#xe7;&#xf5;es verticais&#xa;int y1 = 40;&#xa;int y2 = 105;&#xa;&#xa;// centraliza o LABEL (bloco)&#xa;jLabel1.setLocation(centroPainel - jLabel1.getWidth() / 2, y1);&#xa;jLabel2.setLocation(centroPainel - jLabel2.getWidth() / 2, y2);&#xa;&#xa;// centraliza o TEXTO dentro do label&#xa;jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);&#xa;jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);&#xa;&#xa;    // -----------------------------&#xa;    // CENTRALIZAR A TABELA (jPanel1)&#xa;    // -----------------------------&#xa;&#xa;    int larguraP1 = jPanel1.getPreferredSize().width;&#xa;    int novaX = centroPainel - larguraP1 / 2;&#xa;&#xa;    jPanel1.setLocation(novaX, jPanel1.getY());&#xa;}&#xa;};"/>
       </AuxValues>
 
-      <Layout>
-        <DimensionLayout dim="0">
-          <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" attributes="0">
-                  <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                      <Component id="jLabel2" alignment="0" max="32767" attributes="0"/>
-                      <Component id="jLabel1" alignment="0" pref="1338" max="32767" attributes="0"/>
-                  </Group>
-                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-              </Group>
-              <Component id="jPanel1" max="32767" attributes="0"/>
-          </Group>
-        </DimensionLayout>
-        <DimensionLayout dim="1">
-          <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
-                  <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jLabel2" min="-2" pref="39" max="-2" attributes="0"/>
-                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                  <Component id="jPanel1" max="32767" attributes="0"/>
-              </Group>
-          </Group>
-        </DimensionLayout>
+      <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
+        <Property name="useNullLayout" type="boolean" value="true"/>
       </Layout>
       <SubComponents>
         <Component class="javax.swing.JLabel" name="jLabel1">
@@ -214,6 +194,11 @@
             <Property name="horizontalAlignment" type="int" value="0"/>
             <Property name="text" type="java.lang.String" value="Controle de Estoque"/>
           </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="0" y="47" width="1338" height="-1"/>
+            </Constraint>
+          </Constraints>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel2">
           <Properties>
@@ -226,21 +211,31 @@
             <Property name="horizontalAlignment" type="int" value="0"/>
             <Property name="text" type="java.lang.String" value="Mercadinho Jacinto Fome"/>
           </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="0" y="111" width="1338" height="39"/>
+            </Constraint>
+          </Constraints>
         </Component>
         <Container class="javax.swing.JPanel" name="jPanel1">
           <Properties>
             <Property name="toolTipText" type="java.lang.String" value="Tela Principal"/>
             <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
-              <Color id="Default Cursor"/>
+              <Color id="Cursor Padr&#xe3;o"/>
             </Property>
             <Property name="opaque" type="boolean" value="false"/>
           </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="0" y="161" width="-1" height="-1"/>
+            </Constraint>
+          </Constraints>
 
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
-                      <EmptySpace pref="105" max="32767" attributes="0"/>
+                      <EmptySpace pref="93" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="1" attributes="0">
@@ -254,7 +249,7 @@
                               <Component id="Abas" min="-2" pref="1141" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace pref="117" max="32767" attributes="0"/>
+                      <EmptySpace pref="104" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -272,7 +267,7 @@
                       <Component id="Abas" min="-2" pref="398" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="127" max="32767" attributes="0"/>
+                      <EmptySpace pref="86" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -501,12 +496,23 @@
             <Component class="javax.swing.JButton" name="btPesquisar">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Pesquisar"/>
+                <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                  <Dimension value="[85, 22]"/>
+                </Property>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btPesquisarActionPerformed"/>
               </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="txtReferencia">
+              <Properties>
+                <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                  <Dimension value="[6, 40]"/>
+                </Property>
+                <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                  <Dimension value="[6, 45]"/>
+                </Property>
+              </Properties>
             </Component>
             <Component class="javax.swing.JButton" name="btExcluir">
               <Properties>

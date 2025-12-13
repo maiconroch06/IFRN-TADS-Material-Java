@@ -21,51 +21,19 @@ public class Main extends javax.swing.JFrame {
     DefaultTableModel modeloTableFuncionario;
     DefaultTableModel modeloTabelaVenda;
 
-    
     public Main() {
 
-            // O painel com imagem de fundo deve ser o contentPane ANTES do initComponents()
-            painelImagem = new javax.swing.JPanel() {};
-            setContentPane(painelImagem);
-
-        // Não mova o codigo referente a imagem de local, principalmente esse a baixo!
         initComponents();
+        
+        jLabel1.setSize(800, 60);
+        jLabel2.setSize(800, 40);
+        
         setLocationRelativeTo(null);      
         setExtendedState(MAXIMIZED_BOTH);
+        
+        painelImagem.setLayout(null); // importante!
 
-
-            javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-            getContentPane().setLayout(layout);
-
-            layout.setHorizontalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(painelImagem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            );
-            layout.setVerticalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(painelImagem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            );
-
-
-             javax.swing.GroupLayout painelImagemLayout = new javax.swing.GroupLayout(painelImagem);
-            painelImagem.setLayout(painelImagemLayout);
-
-            painelImagemLayout.setHorizontalGroup(
-                painelImagemLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 1420, Short.MAX_VALUE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 1420, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            );
-            painelImagemLayout.setVerticalGroup(
-                painelImagemLayout.createSequentialGroup()
-                    .addGap(40)
-                    .addComponent(jLabel1)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(jLabel2)
-                    .addGap(20)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(200, Short.MAX_VALUE)
-            );
+        this.setContentPane(painelImagem);
 
         // Pega os modelos das tabelas e define como global para todo codigo.
         this.modeloTableProduto = (DefaultTableModel)jTProdutos.getModel();
@@ -84,6 +52,7 @@ public class Main extends javax.swing.JFrame {
         duploClick(jTVendas);
         
         Atalhos.atalhoLegenda(getRootPane());
+        Atalhos.enterGlobal(rootPane, btPesquisar);
         
         // Sempre ao executar o main, carrega os dados do HashMap na primeira tabela
         Carregar.tabelaProdutos(modeloTableProduto, g.getListaDeProdutos());
@@ -177,28 +146,81 @@ public class Main extends javax.swing.JFrame {
         jMenu5.setText("jMenu5");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(65, 22));
 
         painelImagem = new javax.swing.JPanel() {
+            // carrega a imagem uma vez
+            private final java.awt.Image img = new javax.swing.ImageIcon(
+                getClass().getResource("/interfaces/fundinhoAR.jpg")
+            ).getImage();
+
             @Override
             protected void paintComponent(java.awt.Graphics g) {
                 super.paintComponent(g);
-                java.awt.Image img = new javax.swing.ImageIcon(
-                    getClass().getResource("/interfaces/fundinhoAR.jpg")
-                ).getImage();
-                g.drawImage(img, 0, 0, getWidth(), getHeight(), this);
+
+                if (img == null) return;
+
+                int pw = getWidth();
+                int ph = getHeight();
+
+                int iw = img.getWidth(null);
+                int ih = img.getHeight(null);
+                if (iw <= 0 || ih <= 0) return;
+
+                // ESCALA TIPO COVER
+                double scale = Math.max((double) pw / iw, (double) ph / ih);
+                int nw = (int) (iw * scale);
+                int nh = (int) (ih * scale);
+
+                int x = (pw - nw) / 2;
+                int y = (ph - nh) / 2;
+
+                // desenha a imagem
+                g.drawImage(img, x, y, nw, nh, this);
+
+                // -----------------------------
+                // CENTRALIZA TEXTO DOS LABELS
+                // -----------------------------
+                int centroPainel = pw / 2;
+
+                // posições verticais
+                int y1 = 40;
+                int y2 = 105;
+
+                // centraliza o LABEL (bloco)
+                jLabel1.setLocation(centroPainel - jLabel1.getWidth() / 2, y1);
+                jLabel2.setLocation(centroPainel - jLabel2.getWidth() / 2, y2);
+
+                // centraliza o TEXTO dentro do label
+                jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+                jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
+                // -----------------------------
+                // CENTRALIZAR A TABELA (jPanel1)
+                // -----------------------------
+
+                int larguraP1 = jPanel1.getPreferredSize().width;
+                int novaX = centroPainel - larguraP1 / 2;
+
+                jPanel1.setLocation(novaX, jPanel1.getY());
             }
         };
         painelImagem.setToolTipText("");
+        painelImagem.setLayout(null);
 
         jLabel1.setBackground(new java.awt.Color(255, 255, 255));
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 48)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Controle de Estoque");
+        painelImagem.add(jLabel1);
+        jLabel1.setBounds(0, 47, 1338, 58);
 
         jLabel2.setBackground(new java.awt.Color(255, 255, 255));
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("Mercadinho Jacinto Fome");
+        painelImagem.add(jLabel2);
+        jLabel2.setBounds(0, 111, 1338, 39);
 
         jPanel1.setToolTipText("Tela Principal");
         jPanel1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -295,11 +317,15 @@ public class Main extends javax.swing.JFrame {
         Abas.addTab("Tabela de Vendas", jScrollPane4);
 
         btPesquisar.setText("Pesquisar");
+        btPesquisar.setPreferredSize(new java.awt.Dimension(85, 22));
         btPesquisar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btPesquisarActionPerformed(evt);
             }
         });
+
+        txtReferencia.setMinimumSize(new java.awt.Dimension(6, 40));
+        txtReferencia.setPreferredSize(new java.awt.Dimension(6, 45));
 
         btExcluir.setText("Excluir");
         btExcluir.addActionListener(new java.awt.event.ActionListener() {
@@ -338,18 +364,18 @@ public class Main extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(105, Short.MAX_VALUE)
+                .addContainerGap(93, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addGroup(jPanel1Layout.createSequentialGroup()
                             .addComponent(txtReferencia, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(btPesquisar)
+                            .addComponent(btPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                             .addComponent(btExcluir, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addComponent(Abas, javax.swing.GroupLayout.PREFERRED_SIZE, 1141, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(117, Short.MAX_VALUE))
+                .addContainerGap(104, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -363,30 +389,11 @@ public class Main extends javax.swing.JFrame {
                 .addComponent(Abas, javax.swing.GroupLayout.PREFERRED_SIZE, 398, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(127, Short.MAX_VALUE))
+                .addContainerGap(86, Short.MAX_VALUE))
         );
 
-        javax.swing.GroupLayout painelImagemLayout = new javax.swing.GroupLayout(painelImagem);
-        painelImagem.setLayout(painelImagemLayout);
-        painelImagemLayout.setHorizontalGroup(
-            painelImagemLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(painelImagemLayout.createSequentialGroup()
-                .addGroup(painelImagemLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 1338, Short.MAX_VALUE))
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        painelImagemLayout.setVerticalGroup(
-            painelImagemLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(painelImagemLayout.createSequentialGroup()
-                .addGap(47, 47, 47)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+        painelImagem.add(jPanel1);
+        jPanel1.setBounds(0, 161, 1338, 559);
 
         jMenu7.setText("Operações");
 
@@ -469,13 +476,13 @@ public class Main extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(painelImagem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(painelImagem, javax.swing.GroupLayout.DEFAULT_SIZE, 66, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(painelImagem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(0, 8, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();

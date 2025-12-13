@@ -190,7 +190,7 @@ public class CadCliente extends javax.swing.JDialog {
         String telefone = txtTelefone.getText().trim();
 
         // VALIDAÇÕES
-        if (nome.isEmpty() || cpf/*.replace(".", "").replace("-", "")*/.trim().isEmpty() || endereco.isEmpty() || telefone.isEmpty()) {
+        if (nome.isEmpty() || cpf.replace(".", "").replace("-", "").trim().isEmpty() || endereco.isEmpty() || telefone.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Preencha todos os campos!");
             return;
         }

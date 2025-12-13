@@ -415,6 +415,7 @@ public class NovaVenda extends javax.swing.JDialog {
 
             limparCarrinho();
             Carregar.ordenacao(jTProdutos);
+            focar(txtCodigo);
         }
     }//GEN-LAST:event_btPagamentoActionPerformed
 
