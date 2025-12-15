@@ -32,10 +32,9 @@ public class NovaVenda extends javax.swing.JDialog {
         this.vendas = vendas;
         
         Carregar.ordenacao(jTProdutos);
-        
         Carregar.tabelaProdutos(modeloTableProduto, vendas.getProdutoService().listarTodos());
 
-        // permite duplo-clique para adicionar ao carrinho
+        // permite duplo-clique para adicionar ao carrinho e remover do carriho
         Atalhos.duploClique(jTProdutos, () -> btAdicionar.doClick());
         Atalhos.duploClique(jTCarrinho, () -> btRemover.doClick());
 
@@ -418,6 +417,7 @@ public class NovaVenda extends javax.swing.JDialog {
 
             limparCarrinho();
             Carregar.ordenacao(jTProdutos);
+            focar(txtCodigo);
         }
     }//GEN-LAST:event_btPagamentoActionPerformed
 
