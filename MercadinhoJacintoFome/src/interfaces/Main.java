@@ -40,8 +40,8 @@ public class Main extends javax.swing.JFrame {
         duploClick(jTProdutos);
         duploClick(jTVendas);
         
-        Atalhos.atalhoLegenda(getRootPane());
         Atalhos.enterGlobal(rootPane, btPesquisar);
+        Atalhos.atalhoLegenda(getRootPane());
         
         // Sempre ao executar o main, carrega os dados do HashMap na primeira tabela
         Carregar.tabelaProdutos(modeloTableProduto, g.produtos().listarTodos());
