@@ -3,15 +3,18 @@ package interfaces;
 import classes.ContaCorrente;
 import classes.ContaPoupanca;
 import classes.ContaBancaria;
+import classes.service.ContaBancariaService;
 import javax.swing.JOptionPane;
 
-public class CadastrarContasGUI extends javax.swing.JDialog {
+public class CadastrarConta extends javax.swing.JDialog {
 
-    private ContaBancaria cadastro = null;
+    private ContaBancaria contaCadastrada = null;
+    private ContaBancariaService operaçaoConta;
     
-    public CadastrarContasGUI(java.awt.Frame parent, boolean modal) {
+    public CadastrarConta(java.awt.Frame parent, boolean modal, ContaBancariaService operaçaoConta) {
         initComponents();
         this.setLocationRelativeTo(null);
+        this.operaçaoConta = operaçaoConta;
     }
     
     @SuppressWarnings("unchecked")
@@ -38,19 +41,9 @@ public class CadastrarContasGUI extends javax.swing.JDialog {
 
         buttonGroup1.add(BtrContaCorrente);
         BtrContaCorrente.setText("Conta Corrente");
-        BtrContaCorrente.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BtrContaCorrenteActionPerformed(evt);
-            }
-        });
 
         buttonGroup1.add(BtrContaPoupanca);
         BtrContaPoupanca.setText("Conta Poupança");
-        BtrContaPoupanca.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BtrContaPoupancaActionPerformed(evt);
-            }
-        });
 
         BtCancelar.setText("Cancelar");
         BtCancelar.addActionListener(new java.awt.event.ActionListener() {
@@ -74,32 +67,27 @@ public class CadastrarContasGUI extends javax.swing.JDialog {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(BtCadastrar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(BtCancelar))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel4)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(BtrContaCorrente)
-                                .addGap(18, 18, 18)
-                                .addComponent(BtrContaPoupanca)
-                                .addGap(12, 12, 12))
+                                .addGap(14, 14, 14))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addContainerGap(36, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                                .addGap(18, 18, 18)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(BtCadastrar)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(BtCancelar)
-                                .addGap(6, 6, 6))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addGap(66, 66, 66))))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(BtrContaCorrente)
+                                .addGap(18, 18, 18)
+                                .addComponent(BtrContaPoupanca))
+                            .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3))))
+                .addContainerGap(26, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -137,34 +125,33 @@ public class CadastrarContasGUI extends javax.swing.JDialog {
             // Caso o Usuário escolha o tipo Conta Corrente
             if (BtrContaCorrente.isSelected()) {
                 
-                // Cria/(Atribui) o objeto (a) cadastro
-                cadastro = new ContaCorrente();
+                // Cria/(Atribui) o objeto (a) contaCadastrada
+                contaCadastrada = new ContaCorrente();
 
                 double saldoInicial = 0.0;
 
-                cadastro = new ContaCorrente();
+                contaCadastrada = new ContaCorrente();
                 
                 // Adiciona valores importantes para o objeto "cadastrar"
-                cadastro.setNome(nome);
-                cadastro.setNumConta(Main.gerarNumeroContaCorrente());
-                cadastro.setSaldo(saldoInicial);
+                contaCadastrada.setNome(nome);
+                contaCadastrada.setNumero(operaçaoConta.gerarNumeroContaCorrente());
+                contaCadastrada.setSaldo(saldoInicial);
 
                 // Fecha a janela Cadastro Corrente
                 this.dispose();
                 
             } else if (BtrContaPoupanca.isSelected()) {
 
-                // Cria/(Atribui) o objeto (a) cadastro
-                cadastro = new ContaPoupanca();
+                // Cria/(Atribui) o objeto (a) contaCadastrada
+                contaCadastrada = new ContaPoupanca();
 
                 double saldoInicial = 0.0;
 
                 // Adiciona valores importantes para o objeto "cadastrar"
-                cadastro.setNumConta(Main.gerarNumeroContaPoupanca());
-                cadastro.setNome(nome);
-                cadastro.setSaldo(saldoInicial);
+                contaCadastrada.setNumero(operaçaoConta.gerarNumeroContaPoupanca());
+                contaCadastrada.setNome(nome);
+                contaCadastrada.setSaldo(saldoInicial);
 
-                // Fecha a janela Cadastro Corrente
                 this.dispose();
                 
             // Caso o Usuário não tenha selecionado um tipo de conta
@@ -179,13 +166,6 @@ public class CadastrarContasGUI extends javax.swing.JDialog {
      
     }//GEN-LAST:event_BtCadastrarActionPerformed
 
-    private void BtrContaCorrenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtrContaCorrenteActionPerformed
-    }//GEN-LAST:event_BtrContaCorrenteActionPerformed
-
-    private void BtrContaPoupancaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtrContaPoupancaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_BtrContaPoupancaActionPerformed
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BtCadastrar;
     private javax.swing.JButton BtCancelar;
@@ -199,10 +179,10 @@ public class CadastrarContasGUI extends javax.swing.JDialog {
     // End of variables declaration//GEN-END:variables
 
     public ContaBancaria getContaCadastrada() {
-        return cadastro;
+        return contaCadastrada;
     }
 
-    public void setCadastrarContaGUI(ContaBancaria cadastro) {
-        this.cadastro = cadastro;
+    public void setCadastrarContaGUI(ContaBancaria contaCadastrada) {
+        this.contaCadastrada = contaCadastrada;
     }
 }

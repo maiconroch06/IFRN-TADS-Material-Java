@@ -1,19 +1,16 @@
 package interfaces;
 
-import java.util.HashMap;
 import javax.swing.JOptionPane;
-import classes.ContaCorrente;
-import classes.ContaPoupanca;
-import classes.OperacoesBancarias;
-
+import classes.service.ContaBancariaService;
+ 
 public class TranferPoupancaGUI extends javax.swing.JDialog {
 
-    private final HashMap<String, ContaPoupanca> listaContasPoupanca;
+    private final ContaBancariaService operacoesConta;
     
-    public TranferPoupancaGUI(HashMap<String, ContaPoupanca> listaContasPoupanca) {
+    public TranferPoupancaGUI(ContaBancariaService operacoesConta) {
         initComponents();
         this.setLocationRelativeTo(null);
-        this.listaContasPoupanca = listaContasPoupanca;
+        this.operacoesConta = operacoesConta;
     }
 
     @SuppressWarnings("unchecked")
@@ -146,67 +143,46 @@ public class TranferPoupancaGUI extends javax.swing.JDialog {
     private void BtTransferirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtTransferirActionPerformed
         String origem = txtOrigem.getText().trim();
         String destino = txtDestino.getText().trim();
-        
         String valorStr = txtValor.getText().replace("R$", "").replace(",", ".").trim();
-        
+
         if (origem.isEmpty() || destino.isEmpty() || valorStr.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Preencha todos os campos!");
             return;
         }
 
-        
         if (origem.equals(destino)) {
-            JOptionPane.showMessageDialog(this, 
-                "Não é permitido transferir para a mesma conta!", 
-                "Erro", JOptionPane.ERROR_MESSAGE);
-            return; // interrompe o processo para transferencia de uma conta para ela mesma
+            JOptionPane.showMessageDialog(this,
+                    "Não é permitido transferir para a mesma conta!",
+                    "Erro", JOptionPane.ERROR_MESSAGE);
+            return;
         }
-        
+
         try {
             double valor = Double.parseDouble(valorStr);
-            
+
             if (valor <= 0) {
-                JOptionPane.showMessageDialog(this, 
-                        "O valor deve ser maior que zero!", 
+                JOptionPane.showMessageDialog(this,
+                        "O valor deve ser maior que zero!",
                         "Erro", JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
-            // Verifica se a conta origem existe
-            if (listaContasPoupanca.containsKey(origem)) {
-                
-                // Verifica se a conta destino existe
-                if (listaContasPoupanca.containsKey(destino)) {
-                    ContaPoupanca contaOrigem = listaContasPoupanca.get(origem);
-                    ContaPoupanca contaDestino = listaContasPoupanca.get(destino);
+            boolean sucesso = operacoesConta.transferir(origem, destino, valor);
 
-                    OperacoesBancarias operacoes = new OperacoesBancarias();
-                    operacoes.setListaContasPoupanca(listaContasPoupanca);
-                    
-                    operacoes.transferenciaBancaria(contaOrigem, contaDestino, valor);
-
-                } else {
-                    JOptionPane.showMessageDialog(this, "Conta 'DESTINO' não encontrado!",
-                            "Erro", JOptionPane.ERROR_MESSAGE);
-                }
-                
+            if (sucesso) {
+                JOptionPane.showMessageDialog(this, "Transferência realizada com sucesso!");
+                dispose();
             } else {
-                JOptionPane.showMessageDialog(this, 
-                        "Conta 'ORIGEM' não encontrada!", 
+                JOptionPane.showMessageDialog(this,
+                        "Erro ao transferir. Verifique as contas e o saldo.",
                         "Erro", JOptionPane.ERROR_MESSAGE);
             }
 
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, 
-                    "Valor inválido! Digite apenas números (ex: 1000 ou 1000.50).", 
-                    "Erro", JOptionPane.ERROR_MESSAGE);
-            
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, 
-                    "Erro ao transferir: " + e.getMessage(), 
+            JOptionPane.showMessageDialog(this,
+                    "Valor inválido! Digite apenas números.",
                     "Erro", JOptionPane.ERROR_MESSAGE);
         }
-        
     }//GEN-LAST:event_BtTransferirActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

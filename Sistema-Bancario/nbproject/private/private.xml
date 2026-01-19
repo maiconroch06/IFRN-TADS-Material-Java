@@ -2,6 +2,17 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/C:/Users/maico/Documents/MyProjects/IFRN-TADS-Material-Java/Sistema-Bancario/src/classes/ContaBancaria.java</file>
+            <file>file:/C:/Users/maico/Documents/MyProjects/IFRN-TADS-Material-Java/Sistema-Bancario/src/interfaces/ContaPoupancaGUI.java</file>
+            <file>file:/C:/Users/maico/Documents/MyProjects/IFRN-TADS-Material-Java/Sistema-Bancario/src/classes/ContaPoupanca.java</file>
+            <file>file:/C:/Users/maico/Documents/MyProjects/IFRN-TADS-Material-Java/Sistema-Bancario/src/classes/service/ContaBancariaService.java</file>
+            <file>file:/C:/Users/maico/Documents/MyProjects/IFRN-TADS-Material-Java/Sistema-Bancario/src/interfaces/DebitarPoupançaGUI.java</file>
+            <file>file:/C:/Users/maico/Documents/MyProjects/IFRN-TADS-Material-Java/Sistema-Bancario/src/interfaces/TranferPoupancaGUI.java</file>
+            <file>file:/C:/Users/maico/Documents/MyProjects/IFRN-TADS-Material-Java/Sistema-Bancario/src/classes/ContaCorrente.java</file>
+            <file>file:/C:/Users/maico/Documents/MyProjects/IFRN-TADS-Material-Java/Sistema-Bancario/src/interfaces/DebitarCorrenteGUI.java</file>
+            <file>file:/C:/Users/maico/Documents/MyProjects/IFRN-TADS-Material-Java/Sistema-Bancario/src/interfaces/CreditarCorrenteGUI.java</file>
+            <file>file:/C:/Users/maico/Documents/MyProjects/IFRN-TADS-Material-Java/Sistema-Bancario/src/interfaces/CreditarPoupancaGUI.java</file>
+        </group>
     </open-files>
 </project-private>

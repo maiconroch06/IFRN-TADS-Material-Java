@@ -3,6 +3,15 @@ package classes;
 public class ContaCorrente extends ContaBancaria {
     
     private final double LIMITE_CREDITO = 100;
+    
+    @Override
+    public boolean sacar(double valor) {
+        if (getSaldo() + LIMITE_CREDITO >= valor) {
+            debitar(valor);
+            return true;
+        }
+        return false;
+    }
 
     public double getLimiteCredito() {
         return LIMITE_CREDITO;

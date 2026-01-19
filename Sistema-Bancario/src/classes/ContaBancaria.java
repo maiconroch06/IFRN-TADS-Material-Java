@@ -1,14 +1,31 @@
 package classes;
 
-import javax.swing.JOptionPane;
-
-
-public class ContaBancaria {
+public abstract class ContaBancaria {
     private String nome;
-    private String numConta;
+    private String numero;
     private double saldo;
     
     public ContaBancaria(){}
+    
+    public abstract boolean sacar(double valor);
+    
+    public void depositar(double valor){
+        if (valor > 0) {
+            saldo += valor;
+        }
+    }
+    
+    public void creditar(double valor) {
+        saldo += valor;
+    }
+
+    public void debitar(double valor) {
+        saldo -= valor;
+    }
+
+    public void show() {
+        System.out.println("Olá " + nome + ", seu saldo é: " + saldo + " reais.");
+    }
  
     public String getNome() {
         return nome;
@@ -18,12 +35,12 @@ public class ContaBancaria {
         this.nome = nome;
     }
 
-    public String getNumConta() {
-        return numConta;
+    public String getNumero() {
+        return numero;
     }
 
-    public void setNumConta(String numConta) {
-        this.numConta = numConta;
+    public void setNumero(String numero) {
+        this.numero = numero;
     }
     
     public double getSaldo() {
@@ -34,23 +51,5 @@ public class ContaBancaria {
         this.saldo = saldo;
     }
 
-    public void show() {
-        System.out.println("Olá " + nome + ", seu saldo é: " + saldo + " reais.");
-    }
-
-    public void creditar(double valor) {
-        if(valor > saldo) {
-            saldo += valor;
-        } else {
-            //JOptionPane.showMessageDialog(null, "Deposite um valor acima do numero 0(zero)!");
-        }
-    }
-
-    public void debitar(double valor) {
-        if (valor <= saldo) {
-            saldo -= valor;
-        } else {
-            //JOptionPane.showMessageDialog(null, "Saldo insuficiente!");
-        }
-    }
+    
 }

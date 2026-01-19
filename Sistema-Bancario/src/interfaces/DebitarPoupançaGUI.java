@@ -1,18 +1,18 @@
 package interfaces;
 
-import java.util.HashMap;
 import javax.swing.JOptionPane;
 import classes.ContaPoupanca;
 import classes.OperacoesBancarias;
+import classes.service.ContaBancariaService;
 
 public class DebitarPoupançaGUI extends javax.swing.JDialog {
 
-    private final HashMap<String, ContaPoupanca> listaContasPoupanca; 
+    private final ContaBancariaService operacoesConta; 
     
-    public DebitarPoupançaGUI(HashMap<String, ContaPoupanca> listaContasPoupanca) {
+    public DebitarPoupançaGUI(ContaBancariaService operacoesConta) {
         initComponents();
         this.setLocationRelativeTo(null);
-        this.listaContasPoupanca = listaContasPoupanca;
+        this.operacoesConta = operacoesConta;
     }
  
     @SuppressWarnings("unchecked")

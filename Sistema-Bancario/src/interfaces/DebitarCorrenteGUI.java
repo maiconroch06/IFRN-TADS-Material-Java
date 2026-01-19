@@ -1,18 +1,18 @@
 package interfaces;
 
-import java.util.HashMap;
 import javax.swing.JOptionPane;
 import classes.ContaCorrente;
 import classes.OperacoesBancarias;
+import classes.service.ContaBancariaService;
 
 public class DebitarCorrenteGUI extends javax.swing.JDialog {
 
-    private final HashMap<String, ContaCorrente> listaContasCorrente; 
+    private ContaBancariaService operacoesConta; 
     
-    public DebitarCorrenteGUI(HashMap <String, ContaCorrente> listaContasCorrente) {
+    public DebitarCorrenteGUI(ContaBancariaService operacoesConta) {
         initComponents();
         setLocationRelativeTo(null);
-        this.listaContasCorrente = listaContasCorrente;
+        this.operacoesConta = operacoesConta;
     }
 
     @SuppressWarnings("unchecked")
@@ -40,11 +40,6 @@ public class DebitarCorrenteGUI extends javax.swing.JDialog {
         jLabel3.setText("Valor:");
 
         txtValor.setText("R$ ");
-        txtValor.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtValorActionPerformed(evt);
-            }
-        });
 
         BtDebitar.setText("Debitar");
         BtDebitar.addActionListener(new java.awt.event.ActionListener() {
@@ -116,9 +111,6 @@ public class DebitarCorrenteGUI extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void txtValorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtValorActionPerformed
-    }//GEN-LAST:event_txtValorActionPerformed
 
     private void BtDebitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtDebitarActionPerformed
         String numConta = txtNumConta.getText().trim();

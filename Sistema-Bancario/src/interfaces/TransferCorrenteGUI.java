@@ -3,16 +3,16 @@ package interfaces;
 import java.util.HashMap;
 import javax.swing.JOptionPane;
 import classes.ContaCorrente;
-import classes.OperacoesBancarias;
+import classes.service.ContaBancariaService;
 
 public class TransferCorrenteGUI extends javax.swing.JDialog {
     
-    private final HashMap<String, ContaCorrente> listaContasCorrente; 
+    private final ContaBancariaService operacoesConta; 
     
-    public TransferCorrenteGUI(HashMap <String, ContaCorrente> listaContasCorrente) {
+    public TransferCorrenteGUI(ContaBancariaService operacoesConta) {
         initComponents();
         setLocationRelativeTo(null);
-        this.listaContasCorrente = listaContasCorrente;
+        this.operacoesConta = operacoesConta;
     }
 
     @SuppressWarnings("unchecked")
@@ -141,7 +141,6 @@ public class TransferCorrenteGUI extends javax.swing.JDialog {
     private void BtTransferirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtTransferirActionPerformed
         String origem = txtOrigem.getText().trim();
         String destino = txtDestino.getText().trim();
-        
         String valorStr = txtValor.getText().replace("R$", "").replace(",", ".").trim();
         
         if (origem.isEmpty() || destino.isEmpty() || valorStr.isEmpty()) {
@@ -166,36 +165,29 @@ public class TransferCorrenteGUI extends javax.swing.JDialog {
                 return;
             }
 
-            // Verifica se a conta origem existe
-            if (listaContasCorrente.containsKey(origem)) {
-                
-                // Verifica se a conta destino existe
-                if (listaContasCorrente.containsKey(destino)) {
-                    ContaCorrente contaOrigem = listaContasCorrente.get(origem);
-                    ContaCorrente contaDestino = listaContasCorrente.get(destino);
-
-                    OperacoesBancarias operacoes = new OperacoesBancarias();
-                    operacoes.setListaContasCorrente(listaContasCorrente);
+            ContaCorrente contaOrigem = (ContaCorrente) operacoesConta.buscar(origem);
+            ContaCorrente contaDestino = (ContaCorrente) operacoesConta.buscar(destino);
+            
+            // Verifica se a conta origem e conta destino existe
+            if(contaOrigem != null || contaDestino != null) {
+                operacoesConta.transferir(contaOrigem, contaDestino, valor);
                     
-                    operacoes.transferenciaBancaria(contaOrigem, contaDestino, valor);
-
-                } else {
-                    JOptionPane.showMessageDialog(this, "Conta 'DESTINO' não encontrado!",
-                            "Erro", JOptionPane.ERROR_MESSAGE);
-                }
-                
+            } else if(contaDestino == null) {
+                JOptionPane.showMessageDialog(this,
+                        "Conta 'DESTINO' não encontrado!",
+                        "Erro", JOptionPane.ERROR_MESSAGE);
             } else {
                 JOptionPane.showMessageDialog(this, 
                         "Conta 'ORIGEM' não encontrada!", 
                         "Erro", JOptionPane.ERROR_MESSAGE);
             }
 
-        } catch (NumberFormatException e) {
+        } catch(NumberFormatException e) {
             JOptionPane.showMessageDialog(this, 
                     "Valor inválido! Digite apenas números (ex: 1000 ou 1000.50).", 
                     "Erro", JOptionPane.ERROR_MESSAGE);
             
-        } catch (Exception e) {
+        } catch(Exception e) {
             JOptionPane.showMessageDialog(this, 
                     "Erro ao transferir: " + e.getMessage(), 
                     "Erro", JOptionPane.ERROR_MESSAGE);

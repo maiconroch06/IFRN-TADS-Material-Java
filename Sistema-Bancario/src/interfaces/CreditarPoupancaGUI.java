@@ -1,18 +1,16 @@
 package interfaces;
 
-import java.util.HashMap;
 import javax.swing.JOptionPane;
-import classes.ContaPoupanca;
-import classes.OperacoesBancarias;
+import classes.service.ContaBancariaService;
 
 public class CreditarPoupancaGUI extends javax.swing.JDialog {
 
-    private final HashMap<String, ContaPoupanca> listaContasPoupanca; 
+    private final ContaBancariaService operacoesConta; 
     
-    public CreditarPoupancaGUI(HashMap<String, ContaPoupanca> listaContasPoupanca) {
+    public CreditarPoupancaGUI(ContaBancariaService operacoesConta) {
         initComponents();
         this.setLocationRelativeTo(null);
-        this.listaContasPoupanca = listaContasPoupanca;
+        this.operacoesConta = operacoesConta;
     }
    
     @SuppressWarnings("unchecked")
@@ -57,11 +55,6 @@ public class CreditarPoupancaGUI extends javax.swing.JDialog {
         jLabel4.setText("Onde:");
 
         txtValor.setText("R$ ");
-        txtValor.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtValorActionPerformed(evt);
-            }
-        });
 
         BtCreditar.setText("Creditar");
         BtCreditar.addActionListener(new java.awt.event.ActionListener() {
@@ -178,62 +171,36 @@ public class CreditarPoupancaGUI extends javax.swing.JDialog {
 
         try {
             double valor = Double.parseDouble(valorStr);
-            
-            if (valor <= 0) {
-                JOptionPane.showMessageDialog(this, 
-                        "O valor deve ser maior que zero!", 
+
+            boolean naCaixinha = BtrCaixinha.isSelected();
+
+            if (!BtrConta.isSelected() && !BtrCaixinha.isSelected()) {
+                JOptionPane.showMessageDialog(this,
+                        "Selecione onde deseja creditar (Conta ou Caixinha).",
                         "Erro", JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
-            // Verifica se a conta existe
-            if (listaContasPoupanca.containsKey(numConta)) {
-                ContaPoupanca contaP = listaContasPoupanca.get(numConta);
+            boolean sucesso = operacoesConta.creditarPoupanca(numConta, valor, naCaixinha);
 
-                OperacoesBancarias operacoes = new OperacoesBancarias();
-                operacoes.setListaContasPoupanca(listaContasPoupanca);
-                
-                if (BtrConta.isSelected()) {
-                    operacoes.creditarContaPoupanca(contaP, valor);
-
-                    JOptionPane.showMessageDialog(this, 
-                            "Valor creditado com sucesso!\nNovo saldo: R$ " + contaP.saldoAtual());
-                } else if (BtrCaixinha.isSelected()) {
-                    operacoes.creditarEmPoupanca(contaP, valor);
-
-                    JOptionPane.showMessageDialog(this, 
-                            "Valor creditado com sucesso na Caixinha!\nNovo saldo: R$ " + contaP.getSaldoPoupanca());
-                } else {
-                    JOptionPane.showMessageDialog(this, 
-                    "Selecione onde deseja creditar (Conta ou Caixinha).", 
-                    "Erro", JOptionPane.ERROR_MESSAGE);
-                }
-
+            if (sucesso) {
+                JOptionPane.showMessageDialog(this, "Valor creditado com sucesso!");
             } else {
-                JOptionPane.showMessageDialog(this, 
-                        "Conta não encontrada!", 
+                JOptionPane.showMessageDialog(this,
+                        "Conta não encontrada ou valor inválido!",
                         "Erro", JOptionPane.ERROR_MESSAGE);
             }
 
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, 
-                    "Valor inválido! Digite apenas números (ex: 1000 ou 1000.50).", 
-                    "Erro", JOptionPane.ERROR_MESSAGE);
-
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, 
-                    "Erro ao creditar: " + e.getMessage(), 
+            JOptionPane.showMessageDialog(this,
+                    "Valor inválido! Digite apenas números.",
                     "Erro", JOptionPane.ERROR_MESSAGE);
         }
-        
     }//GEN-LAST:event_BtCreditarActionPerformed
 
     private void BtVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtVoltarActionPerformed
         dispose();
     }//GEN-LAST:event_BtVoltarActionPerformed
-
-    private void txtValorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtValorActionPerformed
-    }//GEN-LAST:event_txtValorActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BtCreditar;

@@ -1,20 +1,20 @@
 package interfaces;
+import classes.ContaBancaria;
 import classes.ContaPoupanca;
+import classes.service.ContaBancariaService;
 import java.util.HashMap;
 import javax.swing.JOptionPane;
 
 public class ContaPoupancaGUI extends javax.swing.JDialog {
 
-    private HashMap<String, ContaPoupanca> listaContasPoupanca;
+    private ContaBancariaService operacaoConta;
     
-    public ContaPoupancaGUI(HashMap<String, ContaPoupanca> listaContasPoupanca) {
+    public ContaPoupancaGUI(ContaBancariaService operacaoConta) {
         initComponents();
         setLocationRelativeTo(null);
-        this.listaContasPoupanca = listaContasPoupanca;
+        this.operacaoConta = operacaoConta;
     }
     
-   
-
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -29,7 +29,7 @@ public class ContaPoupancaGUI extends javax.swing.JDialog {
         txtSaldo = new javax.swing.JTextField();
         txtCaixa = new javax.swing.JTextField();
         txtNome = new javax.swing.JTextField();
-        txtNumConta = new javax.swing.JFormattedTextField();
+        txtNumero = new javax.swing.JFormattedTextField();
         BtPesquisa = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
@@ -71,14 +71,9 @@ public class ContaPoupancaGUI extends javax.swing.JDialog {
         txtCaixa.setEditable(false);
 
         txtNome.setEditable(false);
-        txtNome.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtNomeActionPerformed(evt);
-            }
-        });
 
         try {
-            txtNumConta.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("####")));
+            txtNumero.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("####")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
@@ -143,7 +138,7 @@ public class ContaPoupancaGUI extends javax.swing.JDialog {
                         .addGap(4, 4, 4)
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(txtNumConta, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(txtNumero, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -172,7 +167,7 @@ public class ContaPoupancaGUI extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(txtNumConta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtNumero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -194,45 +189,44 @@ public class ContaPoupancaGUI extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNomeActionPerformed
-    }//GEN-LAST:event_txtNomeActionPerformed
-
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         dispose();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void BtPesquisaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtPesquisaActionPerformed
-        ContaPoupanca conta = listaContasPoupanca.get(txtNumConta.getText());
+        ContaBancaria conta = operacaoConta.buscar(txtNumero.getText());
        
-        if (conta!= null){
-            txtNumConta.setText(conta.getNumConta());
+        if (conta != null) {
+            txtNumero.setText(conta.getNumero());
             txtNome.setText(conta.getNome());
-            txtSaldo.setText("R$ " + String.valueOf(conta.getSaldo()));
-            txtCaixa.setText("R$ " + String.valueOf(conta.getSaldoPoupanca()));
+            txtSaldo.setText("R$ " + conta.getSaldo());
+
+            if (conta instanceof ContaPoupanca) {
+                ContaPoupanca cc = (ContaPoupanca) conta;
+                txtCaixa.setText("R$ " + cc.getSaldoPoupanca());
+            } else {
+                txtCaixa.setText("—");
+            }
+
         } else {
             JOptionPane.showMessageDialog(this, "Conta não encontrada!");
         }
-        
     }//GEN-LAST:event_BtPesquisaActionPerformed
 
     private void pTransferirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pTransferirActionPerformed
-        TranferPoupancaGUI tp = new TranferPoupancaGUI(listaContasPoupanca);
+        TranferPoupancaGUI tp = new TranferPoupancaGUI(operacaoConta);
         tp.setModal(true);
         tp.setVisible(true);
-        
-        
     }//GEN-LAST:event_pTransferirActionPerformed
 
     private void pCreditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pCreditarActionPerformed
-        CreditarPoupancaGUI credP = new CreditarPoupancaGUI(listaContasPoupanca);
+        CreditarPoupancaGUI credP = new CreditarPoupancaGUI(operacaoConta);
         credP.setModal(true);
         credP.setVisible(true);
-        
-        
     }//GEN-LAST:event_pCreditarActionPerformed
 
     private void pDebitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pDebitarActionPerformed
-        DebitarPoupançaGUI debP = new DebitarPoupançaGUI(listaContasPoupanca);
+        DebitarPoupançaGUI debP = new DebitarPoupançaGUI(operacaoConta);
         debP.setModal(true);
         debP.setVisible(true);      
     }//GEN-LAST:event_pDebitarActionPerformed
@@ -255,11 +249,7 @@ public class ContaPoupancaGUI extends javax.swing.JDialog {
     private javax.swing.JMenuItem pTransferir;
     private javax.swing.JTextField txtCaixa;
     private javax.swing.JTextField txtNome;
-    private javax.swing.JFormattedTextField txtNumConta;
+    private javax.swing.JFormattedTextField txtNumero;
     private javax.swing.JTextField txtSaldo;
     // End of variables declaration//GEN-END:variables
-    
-    public void setListaContaPoupanca(HashMap<String, ContaPoupanca> ListaContasPoupanca) {
-       this.listaContasPoupanca = ListaContasPoupanca;
-    }
 }

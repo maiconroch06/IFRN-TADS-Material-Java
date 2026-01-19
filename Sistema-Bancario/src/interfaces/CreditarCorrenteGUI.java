@@ -1,18 +1,17 @@
 package interfaces;
 
-import java.util.HashMap;
 import javax.swing.JOptionPane;
 import classes.ContaCorrente;
-import classes.OperacoesBancarias;
+import classes.service.ContaBancariaService;
 
 public class CreditarCorrenteGUI extends javax.swing.JDialog {
 
-    private final HashMap<String, ContaCorrente> listaContasCorrente; 
+    private ContaBancariaService operacoesConta;
     
-    public CreditarCorrenteGUI(HashMap <String, ContaCorrente> listaContasCorrente) {
+    public CreditarCorrenteGUI(ContaBancariaService operacoesConta) {
         initComponents();
-        setLocationRelativeTo(null);
-        this.listaContasCorrente = listaContasCorrente;
+        this.setLocationRelativeTo(null);
+        this.operacoesConta = operacoesConta;
     }
 
     @SuppressWarnings("unchecked")
@@ -32,11 +31,6 @@ public class CreditarCorrenteGUI extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         txtValor.setText("R$ ");
-        txtValor.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtValorActionPerformed(evt);
-            }
-        });
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -125,25 +119,18 @@ public class CreditarCorrenteGUI extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtValorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtValorActionPerformed
-    }//GEN-LAST:event_txtValorActionPerformed
-
     private void BtCreditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtCreditarActionPerformed
-        String numConta = txtNumConta.getText().trim();
+        String numero = txtNumConta.getText().trim();
         String valorStr = txtValor.getText().replace("R$", "").replace(",", ".").trim();
          
         try {
             double valor = Double.parseDouble(valorStr);
 
+            ContaCorrente contaC = (ContaCorrente) operacoesConta.buscar(numero);
+            
             // Verifica se a conta existe no HashMap
-            if (listaContasCorrente.containsKey(numConta)) {
-                ContaCorrente contaC = listaContasCorrente.get(numConta);
-                
-                OperacoesBancarias operacoes = new OperacoesBancarias();
-                operacoes.setListaContasCorrente(listaContasCorrente);
-
-                operacoes.creditarContaCorrente(contaC, valor);
-
+            if(contaC != null) {
+                operacoesConta.depositar(numero, valor);
                 JOptionPane.showMessageDialog(this, "Valor creditado com sucesso!\nNovo saldo: R$ " + contaC.mostrarSaldoTotal());
             
             } else {
