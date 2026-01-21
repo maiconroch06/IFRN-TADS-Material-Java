@@ -1,49 +1,68 @@
 package Dados;
 
-import classes.ContaBancaria;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 public class Gravador {
     
-    File diretorio;
-      File arquivoTXT;
+    private File pasta;
+    private File arquivo;
 
-      public void criarDiretorios(){
+    public Gravador() {
+        pasta = new File(System.getProperty("user.dir"), "dados");
+        pasta.mkdirs();
 
-        diretorio = new File("C:Dados/contas.txt");
+        arquivo = new File(pasta, "contas.txt");
+    }
 
-        if(diretorio.mkdirs()){
-          JOptionPane.showMessageDialog(null, "Diretório criado com sucesso");
-          
-        }else{
+    public void escritaEmArquivo(String texto){
 
-          if(diretorio.exists()){
-            JOptionPane.showMessageDialog(null, "O diretório já existe");
-          }else{
-            JOptionPane.showMessageDialog(null, "O diretório não foi criado");
-          }
+        try {
 
+          FileWriter escrita = new FileWriter(arquivo);
+          PrintWriter saida = new PrintWriter(escrita);
+
+          saida.write(texto);
+
+          saida.close();
+          escrita.close();
+
+        } catch (IOException ex) {
+          //Logger.getLogger(Arquivos.class.getName()).log(Level.SEVERE, null, ex);
         }
 
       }
 
+    public void criarDiretorios(){
+
+        pasta = new File("C:\\\\Dados\\\\contas.txt");
+
+        if(pasta.mkdirs()){
+          JOptionPane.showMessageDialog(null, "Diretório criado com sucesso");
+        }else{
+          if(pasta.exists()){
+            JOptionPane.showMessageDialog(null, "O diretório já existe");
+          }else{
+            JOptionPane.showMessageDialog(null, "O diretório não foi criado");
+          }
+        }
+      }
+
       public void criarArquivo(){
 
-        arquivoTXT = new File(diretorio,"teste.txt");
+        arquivo = new File(pasta,"teste.txt");
 
         try {
 
-          if(arquivoTXT.createNewFile()){
+          if(arquivo.createNewFile()){
             JOptionPane.showMessageDialog(null, "arquivo criado com sucesso");
           }else{
-            if(arquivoTXT.exists()){
+            if(arquivo.exists()){
               JOptionPane.showMessageDialog(null, "O arquivo já existe");
             }else{
               JOptionPane.showMessageDialog(null, "O arquivo não foi criado");
@@ -51,28 +70,9 @@ public class Gravador {
           }
 
         } catch (IOException ex) {
-          Logger.getLogger(Arquivos.class.getName()).log(Level.SEVERE, null, ex);
+          //Logger.getLogger(Arquivos.class.getName()).log(Level.SEVERE, null, ex);
         }
 
       }
-
-      public void escritaEmArquivo(String mensagem){
-
-        try {
-
-          FileWriter escrita = new FileWriter(arquivoTXT);
-          PrintWriter saida = new PrintWriter(escrita);
-
-          saida.write(mensagem);
-
-          saida.close();
-          escrita.close();
-
-        } catch (IOException ex) {
-          Logger.getLogger(Arquivos.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-      }
-    
     
 }
