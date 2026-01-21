@@ -22,6 +22,20 @@ public class ContaPoupanca extends ContaBancaria {
     public double mostrarSaldo() {
         return getSaldo();
     }
+    
+    public void debitarPoupanca(double valor){
+        if(valor <= getSaldoPoupanca()) {
+            creditar(valor);
+            setSaldoPoupanca(getSaldoPoupanca()- valor);
+        }
+    }
+    
+    public void creditarPoupanca(double valor){
+        if(valor > 0) {
+            debitar(valor);
+            setSaldoPoupanca(getSaldoPoupanca() + valor);
+        }
+    }
 
     public double getSaldoPoupanca() {
         return poupanca;
