@@ -172,16 +172,22 @@ public class CreditarPoupancaGUI extends javax.swing.JDialog {
         try {
             double valor = Double.parseDouble(valorStr);
 
-            boolean naCaixinha = BtrCaixinha.isSelected();
-
             if (!BtrConta.isSelected() && !BtrCaixinha.isSelected()) {
                 JOptionPane.showMessageDialog(this,
                         "Selecione onde deseja creditar (Conta ou Caixinha).",
                         "Erro", JOptionPane.ERROR_MESSAGE);
                 return;
             }
+            
+            if (BtrCaixinha.isSelected() ) {
+                boolean sucesso = operacoesConta.creditarPoupanca(numConta, valor);
+                
+            } else {
+                boolean sucesso = operacoesConta.creditarPoupanca(numConta, valor);
+                
+            }
 
-            boolean sucesso = operacoesConta.creditarPoupanca(numConta, valor, naCaixinha);
+
 
             if (sucesso) {
                 JOptionPane.showMessageDialog(this, "Valor creditado com sucesso!");
