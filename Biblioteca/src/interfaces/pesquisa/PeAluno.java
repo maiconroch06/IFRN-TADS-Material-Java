@@ -13,7 +13,7 @@ public class PeAluno extends javax.swing.JDialog {
         DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
         jTable1.setRowSorter(new TableRowSorter(modelo));
         
-        readJTable();
+        //readJTable();
         
     }
     

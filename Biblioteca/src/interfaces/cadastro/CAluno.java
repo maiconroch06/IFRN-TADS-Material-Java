@@ -14,7 +14,7 @@ public class CAluno extends javax.swing.JDialog {
         jTable1.setRowSorter(new TableRowSorter(modelo));
         this.setLocationRelativeTo(null);
         
-        readJTable();
+        //readJTable();
     }
     
     public void readJTable() {
